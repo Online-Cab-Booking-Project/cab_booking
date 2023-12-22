@@ -1,0 +1,10 @@
+### Observations
+
+1) User shouldn't be popped for register or login on the home page instead he should directly 
+    enter location details, vehicle type and search cab, and after clicking the continue button 
+    he should be prompted for login or register.
+2) get the username of customer and check if he is a user or not, if not then directly display the 
+    register page else display the pages and info after the user is logged in.
+3) Fare should not be displayed until user doesnot signup/signin.
+4) 
+
