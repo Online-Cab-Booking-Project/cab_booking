@@ -1,0 +1,6 @@
+npx create-react-app <folder name>
+
+npm install
+npm i bootstrap
+npm i axios
+npm i react-router-dom@6.11.1

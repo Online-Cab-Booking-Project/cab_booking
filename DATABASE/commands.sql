@@ -11,6 +11,7 @@ CREATE TABLE passengers (
 	p_name_first VARCHAR(20) NOT NULL,
 	p_name_last VARCHAR(20) NOT NULL,
 	p_email VARCHAR(255) NOT NULL UNIQUE,
+	p_password VARCHAR(255) NOT NULL,
 	p_address TEXT(255),
 	p_dob DATE,
 	p_gender CHAR(1),
