@@ -1,0 +1,8 @@
+{
+    "server": "localhost",
+    "db": "cab_booking",
+    "user": "root",
+    "pwd": "manager",
+    "PORT": 9999,
+    "jwtkey": "Sunbeam98989898989898989898989898989898Sunbeam"
+}

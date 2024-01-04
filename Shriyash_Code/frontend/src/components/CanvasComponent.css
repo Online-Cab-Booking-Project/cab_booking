@@ -1,0 +1,27 @@
+/* Add the following styles to your CanvasComponent.css file or use inline styles */
+
+.scrollable-container {
+    overflow: auto;
+    margin: 0 auto; /* Center the container horizontally */
+    width: 80%; /* Set the desired width */
+  }
+  
+  /* Set different max-height for xs and sm devices */
+  @media (max-width: 767.98px) {
+    .scrollable-container.scrollable-container-xs-sm {
+      max-height: 50vh; /* Set max-height for xs and sm devices */
+    }
+  }
+  
+  /* Set different max-height for md and lg devices */
+  @media (min-width: 768px) {
+    .scrollable-container {
+      max-height: 80vh; /* Set max-height for md and lg devices */
+    }
+  }
+  
+  canvas {
+    display: block;
+    margin: 0 auto; /* Center the canvas horizontally within the container */
+  }
+  

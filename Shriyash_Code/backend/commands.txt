@@ -1,0 +1,10 @@
+create table users(
+                id int auto_increment primary key,
+                username varchar(30),
+                 email char(30),
+                 password varchar(30),
+                 address varchar(30),
+                mobile int(10),
+                dob date,
+                gender char(1)
+                 );
