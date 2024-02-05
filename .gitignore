@@ -25,3 +25,6 @@ replay_pid*
 
 #REACT
 node_modules/
+
+#JavaSpring
+/.metadata
