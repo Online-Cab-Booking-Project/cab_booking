@@ -17,7 +17,7 @@ public abstract class User {
 	@Column(length = 50)
 	private String email;
 
-	@Column(length = 255) // Adjust length according to your needs
+	@Column(length = 255)
 	private String address;
 
 	@Column(name = "mobile_no", length = 12)

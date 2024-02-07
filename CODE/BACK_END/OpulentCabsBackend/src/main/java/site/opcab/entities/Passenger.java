@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public class Passenger extends User {
-	@OneToOne
-	@JoinColumn(name = "wallet_id")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn
 	private Wallet wallet;
 
 	public Wallet getWallet() {
@@ -20,9 +20,14 @@ public class Passenger extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Passenger(Wallet wallet) {
-		super();
+	public Passenger(int id, String firstName, String lastName, String email, String address, String mobileNo,
+			Wallet wallet) {
+		super(id, firstName, lastName, email, address, mobileNo);
 		this.wallet = wallet;
 	}
 
+	public void addWallet(Wallet wallet) {
+		this.wallet = wallet;
+		wallet.setUser(this);
+	}
 }
