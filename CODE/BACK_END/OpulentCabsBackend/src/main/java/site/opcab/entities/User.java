@@ -1,6 +1,10 @@
 package site.opcab.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @MappedSuperclass
 public abstract class User {
@@ -23,11 +27,18 @@ public abstract class User {
 	@Column(name = "mobile_no", length = 12)
 	private String mobileNo;
 
+	@Enumerated
+	private EGender gender;
+
+	@Column(name = "date_of_birth")
+	private LocalDate dob;
+
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String firstName, String lastName, String email, String address, String mobileNo) {
+	public User(int id, String firstName, String lastName, String email, String address, String mobileNo,
+			EGender gender, LocalDate dob) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -35,6 +46,24 @@ public abstract class User {
 		this.email = email;
 		this.address = address;
 		this.mobileNo = mobileNo;
+		this.gender = gender;
+		this.dob = dob;
+	}
+
+	public EGender getGender() {
+		return gender;
+	}
+
+	public void setGender(EGender gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 
 	public int getId() {

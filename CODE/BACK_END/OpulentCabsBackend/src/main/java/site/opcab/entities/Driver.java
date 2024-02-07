@@ -1,5 +1,7 @@
 package site.opcab.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Enumerated;
@@ -9,7 +11,6 @@ import javax.persistence.OneToOne;
 public class Driver extends User {
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn
 	private Wallet wallet;
 
 	@Column(length = 10)
@@ -32,8 +33,9 @@ public class Driver extends User {
 	}
 
 	public Driver(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			Wallet wallet, String vehno, String vehcolor, String vehname, String vehtype, EAvailability availability) {
-		super(id, firstName, lastName, email, address, mobileNo);
+			EGender gender, LocalDate dob, Wallet wallet, String vehno, String vehcolor, String vehname, String vehtype,
+			EAvailability availability) {
+		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
 		this.wallet = wallet;
 		this.vehno = vehno;
 		this.vehcolor = vehcolor;
