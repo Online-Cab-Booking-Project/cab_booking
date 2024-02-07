@@ -1,5 +1,7 @@
 package site.opcab.entities;
 
 public enum EAvailability {
-	A, N, D
+	A,// Available
+	N, // Not Available
+	D // Driving / Busy on ride
 }

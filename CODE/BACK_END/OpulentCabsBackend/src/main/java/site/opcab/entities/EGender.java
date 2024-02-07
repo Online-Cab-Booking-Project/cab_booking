@@ -1,5 +1,7 @@
 package site.opcab.entities;
 
 public enum EGender {
-	M, F, O
-}
+	M, //Male
+	F, // Female
+	O // Other
+ }
