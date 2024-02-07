@@ -1,11 +1,12 @@
 package site.opcab.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 @Entity
 public class Passenger extends User {
-	@OneToOne
-	@JoinColumn(name = "wallet_id")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Wallet wallet;
 
 	public Wallet getWallet() {
@@ -20,9 +21,14 @@ public class Passenger extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Passenger(Wallet wallet) {
-		super();
+	public Passenger(int id, String firstName, String lastName, String email, String address, String mobileNo,
+			EGender gender, LocalDate dob, Wallet wallet) {
+		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
 		this.wallet = wallet;
 	}
 
+	public void addWallet(Wallet wallet) {
+		this.wallet = wallet;
+		wallet.setUser(this);
+	}
 }
