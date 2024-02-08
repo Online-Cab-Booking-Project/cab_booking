@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 public class Passenger extends User {
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Wallet wallet;
+	@OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL, orphanRemoval = true)
+	private PassengerWallet wallet;
 
-	public Wallet getWallet() {
+	public PassengerWallet getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(Wallet wallet) {
+	public void setWallet(PassengerWallet wallet) {
 		this.wallet = wallet;
 	}
 
@@ -22,13 +22,14 @@ public class Passenger extends User {
 	}
 
 	public Passenger(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			EGender gender, LocalDate dob, Wallet wallet) {
+			EGender gender, LocalDate dob, PassengerWallet wallet) {
 		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
 		this.wallet = wallet;
 	}
 
-	public void addWallet(Wallet wallet) {
+	public void addWallet(PassengerWallet wallet) {
 		this.wallet = wallet;
-		wallet.setUser(this);
+		wallet.setPassenger(this);
 	}
+
 }

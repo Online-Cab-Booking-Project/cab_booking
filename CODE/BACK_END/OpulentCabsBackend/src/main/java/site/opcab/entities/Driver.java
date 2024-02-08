@@ -4,14 +4,15 @@ import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+@Entity
 public class Driver extends User {
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Wallet wallet;
+	@OneToOne(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+	private DriverWallet wallet;
 
 	@Column(length = 10)
 	private String vehno;
@@ -33,8 +34,8 @@ public class Driver extends User {
 	}
 
 	public Driver(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			EGender gender, LocalDate dob, Wallet wallet, String vehno, String vehcolor, String vehname, String vehtype,
-			EAvailability availability) {
+			EGender gender, LocalDate dob, DriverWallet wallet, String vehno, String vehcolor, String vehname,
+			String vehtype, EAvailability availability) {
 		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
 		this.wallet = wallet;
 		this.vehno = vehno;
@@ -44,11 +45,11 @@ public class Driver extends User {
 		this.availability = availability;
 	}
 
-	public Wallet getWallet() {
+	public DriverWallet getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(Wallet wallet) {
+	public void setWallet(DriverWallet wallet) {
 		this.wallet = wallet;
 	}
 
@@ -92,8 +93,8 @@ public class Driver extends User {
 		this.availability = availability;
 	}
 
-	public void addWallet(Wallet wallet) {
+	public void addWallet(DriverWallet wallet) {
 		this.wallet = wallet;
-		wallet.setUser(this);
+		wallet.setDriver(this);
 	}
 }

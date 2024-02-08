@@ -1,16 +1,15 @@
 package site.opcab.entities;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.*;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @MappedSuperclass
 public abstract class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "first_name", length = 20)
 	private String firstName;
@@ -27,7 +26,7 @@ public abstract class User {
 	@Column(name = "mobile_no", length = 12)
 	private String mobileNo;
 
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private EGender gender;
 
 	@Column(name = "date_of_birth")
@@ -39,7 +38,6 @@ public abstract class User {
 
 	public User(int id, String firstName, String lastName, String email, String address, String mobileNo,
 			EGender gender, LocalDate dob) {
-		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -112,6 +110,33 @@ public abstract class User {
 
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof User)) {
+			return false;
+		}
+		User other = (User) obj;
+		return Objects.equals(email, other.email);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=")
+				.append(lastName).append(", email=").append(email).append(", address=").append(address)
+				.append(", mobileNo=").append(mobileNo).append(", gender=").append(gender).append(", dob=").append(dob)
+				.append("]");
+		return builder.toString();
 	}
 
 }
