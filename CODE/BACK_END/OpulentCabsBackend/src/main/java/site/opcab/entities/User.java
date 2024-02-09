@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
+import site.opcab.entities.enums.EGender;
+
 @MappedSuperclass
 public abstract class User {
 	@Id

@@ -8,6 +8,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import site.opcab.entities.enums.EDriverAnswer;
+
 @Entity
 @IdClass(BookingCallsPK.class)
 public class BookingCalls {

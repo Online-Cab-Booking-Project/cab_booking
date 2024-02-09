@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 
+import site.opcab.entities.enums.EAvailability;
+import site.opcab.entities.enums.EGender;
+
 @Entity
 public class Driver extends User {
 

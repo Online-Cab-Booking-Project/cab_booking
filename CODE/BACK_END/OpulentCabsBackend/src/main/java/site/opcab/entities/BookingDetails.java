@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import site.opcab.entities.enums.EBookingStatus;
+
 @Entity
 public class BookingDetails {
 	@Id

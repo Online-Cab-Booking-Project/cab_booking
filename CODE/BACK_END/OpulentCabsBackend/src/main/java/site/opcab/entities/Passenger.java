@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import site.opcab.entities.enums.EGender;
+
 @Entity
 public class Passenger extends User {
 	@OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -30,6 +32,10 @@ public class Passenger extends User {
 	public void addWallet(PassengerWallet wallet) {
 		this.wallet = wallet;
 		wallet.setPassenger(this);
+	}
+
+	public void updateBalance(double balance) {
+		this.wallet.setBalance(this.wallet.getBalance() + balance);
 	}
 
 }

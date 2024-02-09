@@ -15,16 +15,17 @@ public class AdminController {
 		return "Welcome to Admin Dashboard!";
 	}
 
+	@GetMapping("/getAll")
 	public ApiResponse getAllDrivers() {
-
+		return null;
 	}
 
 	public ApiResponse getAllPassenger() {
-
+		return null;
 	}
 
 	public ApiResponse ride() {
-
+		return null;
 	}
 
 }
