@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import site.opcab.entities.enums.EBookingStatus;
 
@@ -51,13 +53,17 @@ public class BookingDetails {
 	@Column(name = "driver_feedback")
 	private String driverFeedBack;
 
+	@OneToOne(mappedBy = "bookingId", cascade = CascadeType.ALL)
+	private Complaint complaint;
+
 	public BookingDetails() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public BookingDetails(Integer id, Passenger passenger, Driver driver, LocalDate bookingDate, LocalTime bookingTime,
 			String pickupAddress, String dropoffAddress, EBookingStatus status, String passengerFeedBack,
-			String driverFeedBack) {
+			String driverFeedBack, Complaint complaint) {
+		super();
 		this.id = id;
 		this.passenger = passenger;
 		this.driver = driver;
@@ -68,6 +74,7 @@ public class BookingDetails {
 		this.status = status;
 		this.passengerFeedBack = passengerFeedBack;
 		this.driverFeedBack = driverFeedBack;
+		this.complaint = complaint;
 	}
 
 	public Integer getId() {
@@ -148,6 +155,14 @@ public class BookingDetails {
 
 	public void setDriverFeedBack(String driverFeedBack) {
 		this.driverFeedBack = driverFeedBack;
+	}
+
+	public Complaint getComplaint() {
+		return complaint;
+	}
+
+	public void setComplaint(Complaint complaint) {
+		this.complaint = complaint;
 	}
 
 	@Override

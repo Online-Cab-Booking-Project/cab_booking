@@ -31,7 +31,7 @@ public interface PassengerService {
 
 	public ComplaintDTO getComplaintById(Integer id);
 
-	public void addComplaint(Integer id, ComplaintDTO complaint);
+	public void addComplaint(Integer booking_id, Integer id, ComplaintDTO complaint);
 
 	public void resolveComplaint(Integer id);
 

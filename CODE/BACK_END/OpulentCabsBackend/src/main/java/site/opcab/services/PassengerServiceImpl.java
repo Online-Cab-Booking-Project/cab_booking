@@ -40,6 +40,9 @@ public class PassengerServiceImpl implements PassengerService {
 	private PassengerDao pdao;
 
 	@Autowired
+	private ComplaintService cservice;
+
+	@Autowired
 	private ModelMapper mapper;
 
 	@Autowired
@@ -119,8 +122,7 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public void addComplaint(Integer id, ComplaintDTO complaint) {
-		// TODO Auto-generated method stub
+	public void addComplaint(Integer booking_id, Integer id, ComplaintDTO complaint) {
 
 	}
 

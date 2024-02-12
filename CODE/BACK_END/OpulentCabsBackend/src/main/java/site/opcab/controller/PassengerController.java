@@ -21,6 +21,7 @@ import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
 import site.opcab.security.JwtUtils;
+import site.opcab.services.ComplaintService;
 import site.opcab.services.PassengerService;
 
 @RestController
@@ -119,9 +120,10 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.getComplaintById(id));
 	}
 
-	@PostMapping("/complaints/addComplaint/{id}")
-	public ResponseEntity<?> addComplaint(@PathVariable Integer id, @RequestBody ComplaintDTO complaint) {
-		pservice.addComplaint(id, complaint);
+	@PostMapping("/complaints/ride/{booking_id}/addComplaint/{id}")
+	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @PathVariable Integer id,
+			@RequestBody ComplaintDTO complaint) {
+		pservice.addComplaint(booking_id, id, complaint);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

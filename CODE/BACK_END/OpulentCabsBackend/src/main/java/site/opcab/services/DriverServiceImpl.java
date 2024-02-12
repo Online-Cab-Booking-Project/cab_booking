@@ -2,8 +2,13 @@ package site.opcab.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import site.opcab.dto.DriverDTO;
 
+@Service
+@Transactional
 public class DriverServiceImpl implements DriverService {
 
 	@Override
