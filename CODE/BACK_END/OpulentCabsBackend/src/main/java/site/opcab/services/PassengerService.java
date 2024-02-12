@@ -15,7 +15,7 @@ public interface PassengerService {
 
 	public PassengerDTO login(String email, String password);
 
-	public PassengerDTO getAllPassenger();
+	public List<PassengerDTO> getAllPassenger();
 
 	public PassengerDTO getAccountDetails(Integer id);
 

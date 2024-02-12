@@ -10,9 +10,14 @@ import javax.persistence.OneToOne;
 
 import site.opcab.entities.enums.EAvailability;
 import site.opcab.entities.enums.EGender;
+import site.opcab.entities.enums.ERole;
 
 @Entity
 public class Driver extends User {
+
+	{
+		this.setRole(ERole.D);
+	}
 
 	@OneToOne(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
 	private DriverWallet wallet;
@@ -36,10 +41,8 @@ public class Driver extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Driver(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			EGender gender, LocalDate dob, DriverWallet wallet, String vehno, String vehcolor, String vehname,
-			String vehtype, EAvailability availability) {
-		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
+	public Driver(DriverWallet wallet, String vehno, String vehcolor, String vehname, String vehtype,
+			EAvailability availability) {
 		this.wallet = wallet;
 		this.vehno = vehno;
 		this.vehcolor = vehcolor;

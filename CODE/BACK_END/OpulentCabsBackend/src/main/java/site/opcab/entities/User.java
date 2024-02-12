@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 import site.opcab.entities.enums.EGender;
+import site.opcab.entities.enums.ERole;
 
 @MappedSuperclass
 public abstract class User {
@@ -34,12 +35,18 @@ public abstract class User {
 	@Column(name = "date_of_birth")
 	private LocalDate dob;
 
+	@Column(name = "password")
+	private String password;
+
+	@Transient
+	private ERole role;
+
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			EGender gender, LocalDate dob) {
+	public User(Integer id, String firstName, String lastName, String email, String address, String mobileNo,
+			EGender gender, LocalDate dob, String password, ERole role) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -48,29 +55,23 @@ public abstract class User {
 		this.mobileNo = mobileNo;
 		this.gender = gender;
 		this.dob = dob;
+		this.password = password;
+		this.role = role;
 	}
 
-	public EGender getGender() {
-		return gender;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setGender(EGender gender) {
-		this.gender = gender;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public LocalDate getDob() {
-		return dob;
-	}
-
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -114,6 +115,30 @@ public abstract class User {
 		this.mobileNo = mobileNo;
 	}
 
+	public EGender getGender() {
+		return gender;
+	}
+
+	public void setGender(EGender gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public ERole getRole() {
+		return role;
+	}
+
+	public void setRole(ERole role) {
+		this.role = role;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(email);
@@ -137,7 +162,7 @@ public abstract class User {
 		builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=")
 				.append(lastName).append(", email=").append(email).append(", address=").append(address)
 				.append(", mobileNo=").append(mobileNo).append(", gender=").append(gender).append(", dob=").append(dob)
-				.append("]");
+				.append(", role=").append(role).append("]");
 		return builder.toString();
 	}
 

@@ -5,11 +5,16 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 import site.opcab.entities.enums.EGender;
+import site.opcab.entities.enums.ERole;
 
 @Entity
 public class Passenger extends User {
 	@OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL, orphanRemoval = true)
 	private PassengerWallet wallet;
+
+	{
+		this.setRole(ERole.P);
+	}
 
 	public PassengerWallet getWallet() {
 		return wallet;
@@ -23,9 +28,8 @@ public class Passenger extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Passenger(int id, String firstName, String lastName, String email, String address, String mobileNo,
-			EGender gender, LocalDate dob, PassengerWallet wallet) {
-		super(id, firstName, lastName, email, address, mobileNo, gender, dob);
+	public Passenger(PassengerWallet wallet) {
+		super();
 		this.wallet = wallet;
 	}
 
