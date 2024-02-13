@@ -6,10 +6,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
-import org.springframework.data.annotation.Id;
 
 import site.opcab.entities.enums.EComplaintStatus;
 
@@ -22,8 +21,7 @@ public class Complaint {
 	private Integer complaintId;
 
 	@OneToOne
-	@JoinColumn(name = "id")
-	@Column(name = "booking_id")
+	@JoinColumn(name = "booking_id")
 	private BookingDetails bookingId;
 
 	@Enumerated(EnumType.STRING)

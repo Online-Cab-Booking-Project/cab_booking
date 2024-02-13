@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import site.opcab.service.*;
 import site.opcab.dao.*;
 import site.opcab.dto.InputCoordinateDto;
+import site.opcab.dto.PathOutputDTO;
+import site.opcab.dto.Point;
 import site.opcab.enitites.*;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class GraphController {
 	private GraphService graphService;
 
 	@PostMapping("/getpath")
-	public List<Double[]> getShortestPath(@RequestBody InputCoordinateDto input) {
+	public PathOutputDTO getShortestPath(@RequestBody InputCoordinateDto input) {
 
 		List<Double> sourceCoordinates = new ArrayList<Double>();
 		List<Double> destCoordinates = new ArrayList<Double>();
@@ -31,6 +33,8 @@ public class GraphController {
 		Vertex source = graphService.findNearestVertex(sourceCoordinates);
 		Vertex dest = graphService.findNearestVertex(destCoordinates);
 
-		return graphService.findShortestPath(source, dest);
+		PathOutputDTO path = graphService.findShortestPath(source, dest);
+
+		return path;
 	}
 }

@@ -1,4 +1,4 @@
-package site.opcab.services;
+package site.opcab.services.impl;
 
 import java.util.List;
 
@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import site.opcab.daos.ComplaintDao;
 import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
+import site.opcab.entities.enums.EComplaintStatus;
+import site.opcab.services.ComplaintService;
 
 @Service
 @Transactional
@@ -31,14 +33,8 @@ public class ComplaintServiceImpl implements ComplaintService {
 	}
 
 	@Override
-	public void addComplaint(BookingDetails bd, Complaint c) {
-		c.setBookingId(bd);
-		bd.setComplaint(c);
-	}
-
-	@Override
-	public void resolveComplaint(BookingDetails bd, Complaint c) {
-
+	public void resolveComplaint(Integer complaintId) {
+		getComplaintById(complaintId).setComplaintStatus(EComplaintStatus.R); // resolved
 	}
 
 }

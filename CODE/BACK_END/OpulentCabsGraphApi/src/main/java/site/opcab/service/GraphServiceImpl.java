@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import site.opcab.enitites.*;
 import site.opcab.dao.*;
+import site.opcab.dto.PathOutputDTO;
+import site.opcab.dto.Point;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -37,9 +39,10 @@ public class GraphServiceImpl implements GraphService {
 	}
 
 	@Override
-	public List<Double[]> findShortestPath(Vertex source, Vertex destination) {
+	public PathOutputDTO findShortestPath(Vertex source, Vertex destination) {
 		Map<Vertex, Double> distanceMap = new HashMap<>();
 		Map<Vertex, Vertex> predecessorMap = new HashMap<>();
+		Double cost = 0.0;
 
 		PriorityQueue<Node> minHeap = new PriorityQueue<>(
 				Comparator.comparingDouble(node -> distanceMap.get(node.vertex)));
@@ -61,7 +64,9 @@ public class GraphServiceImpl implements GraphService {
 			}
 		}
 
-		return getPathWithCoordinates(source, destination, predecessorMap);
+		cost = distanceMap.get(destination) * 10;
+
+		return getPathWithCoordinates(source, destination, predecessorMap, cost);
 	}
 
 	@Override
@@ -88,16 +93,21 @@ public class GraphServiceImpl implements GraphService {
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 
-	private List<Double[]> getPathWithCoordinates(Vertex source, Vertex destination,
-			Map<Vertex, Vertex> predecessorMap) {
-		List<Double[]> pathWithCoordinates = new ArrayList<>();
+	private PathOutputDTO getPathWithCoordinates(Vertex source, Vertex destination, Map<Vertex, Vertex> predecessorMap,
+			Double cost) {
+		PathOutputDTO pathOutput = new PathOutputDTO();
+		List<Point> points = new ArrayList<>();
+
 		for (Vertex currentVertex = destination; currentVertex != null; currentVertex = predecessorMap
 				.get(currentVertex)) {
-			pathWithCoordinates.add(new Double[] { currentVertex.getXCoordinates(), currentVertex.getYCoordinates() });
+			points.add(new Point(currentVertex.getXCoordinates(), currentVertex.getYCoordinates()));
 		}
-		Collections.reverse(pathWithCoordinates);
+		Collections.reverse(points);
 
-		return pathWithCoordinates;
+		pathOutput.setPath(points);
+		pathOutput.setCost(cost);
+
+		return pathOutput;
 	}
 
 	private Map<Vertex, List<Edge>> getDirectedGraphFromDatabase() {

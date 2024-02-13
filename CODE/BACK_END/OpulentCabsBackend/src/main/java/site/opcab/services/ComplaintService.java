@@ -11,8 +11,6 @@ public interface ComplaintService {
 
 	public Complaint getComplaintById(Integer id);
 
-	public void addComplaint(BookingDetails bd, Complaint c);
-
-	public void resolveComplaint(BookingDetails bd, Complaint c);
+	public void resolveComplaint(Integer complaintId);
 
 }

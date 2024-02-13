@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.ComplaintDTO;
+import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
+import site.opcab.dto.PathDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
+import site.opcab.entities.BookingDetails;
 import site.opcab.security.JwtUtils;
 import site.opcab.services.ComplaintService;
 import site.opcab.services.PassengerService;
@@ -94,14 +98,13 @@ public class PassengerController {
 	}
 
 	@PostMapping("/bookRide")
-	public ResponseEntity<?> bookRide(@RequestParam Integer id) {
-		// booking logic
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+	public ResponseEntity<?> bookRide(@RequestBody InputCoordinateDto path) {
+		return ResponseEntity.status(HttpStatus.OK).body(pservice.computePath(path));
 	}
 
 	@PostMapping("/bookRide/confirm")
-	public ResponseEntity<?> confirmRide(@RequestParam Integer id) {
-		// booking logic
+	public ResponseEntity<?> confirmRide(@RequestBody BookingInputDTO inputDetails) {
+		pservice.confirmBooking(inputDetails);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

@@ -1,4 +1,4 @@
-package site.opcab.services;
+package site.opcab.services.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,15 +25,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import site.opcab.daos.PassengerDao;
 import site.opcab.dto.ComplaintDTO;
+import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
+import site.opcab.dto.PathDTO;
+import site.opcab.dto.PathInputFromGraph;
+import site.opcab.dto.Point;
 import site.opcab.dto.RideDTO;
 import site.opcab.dto.WalletDTO;
 import site.opcab.entities.Passenger;
+import site.opcab.entities.enums.EDriverAnswer;
 //import org.springframework.boot.context.config.*;
 //import org.springframework.core.io.Resource;
+import site.opcab.services.ComplaintService;
+import site.opcab.services.PassengerService;
+import site.opcab.utility.RandomEnumGenerator;
 
 @Service
 @Transactional
@@ -47,6 +59,9 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Autowired
 	private PasswordEncoder enc;
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@Override
 	public PassengerDTO register(PassengerDTO passenger) {
@@ -129,6 +144,24 @@ public class PassengerServiceImpl implements PassengerService {
 	@Override
 	public void resolveComplaint(Integer id) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public PathInputFromGraph computePath(InputCoordinateDto path) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<InputCoordinateDto> request = new HttpEntity<>(path, headers);
+		PathInputFromGraph response = restTemplate
+				.postForEntity("http://localhost:7070/graph/getpath", request, PathInputFromGraph.class).getBody();
+
+		return response;
+	}
+
+	@Override
+	public void confirmBooking() {
+		double[] probabilities = { 0.4, 0.4, 0.2 };
+		RandomEnumGenerator<EDriverAnswer> generator = new RandomEnumGenerator<>(EDriverAnswer.class, probabilities);
 
 	}
 

@@ -43,6 +43,7 @@ public class JwtUtils {
 	// authentication
 	public String generateJwtToken(Authentication authentication) {
 		log.info("generate jwt token " + authentication);
+		System.out.println("Generate JWT for : " + authentication);
 		CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 //JWT : userName,issued at ,exp date,digital signature(does not typically contain password , can contain authorities
 		return Jwts.builder() // JWTs : a Factory class , used to create JWT tokens
