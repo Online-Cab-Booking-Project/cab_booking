@@ -23,6 +23,7 @@ import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.PathDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
+import site.opcab.dto.SourceInputDto;
 import site.opcab.entities.BookingDetails;
 import site.opcab.security.JwtUtils;
 import site.opcab.services.ComplaintService;
@@ -103,8 +104,9 @@ public class PassengerController {
 	}
 
 	@PostMapping("/bookRide/confirm")
-	public ResponseEntity<?> confirmRide(@RequestBody BookingInputDTO inputDetails) {
-		pservice.confirmBooking(inputDetails);
+	public ResponseEntity<?> confirmRide(@RequestBody BookingInputDTO inputDetails,
+			@RequestBody SourceInputDto source) {
+		pservice.confirmBooking(inputDetails, source);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

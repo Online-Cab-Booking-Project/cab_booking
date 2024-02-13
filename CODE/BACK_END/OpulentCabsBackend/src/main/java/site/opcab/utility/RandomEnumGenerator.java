@@ -30,14 +30,4 @@ public class RandomEnumGenerator<T extends Enum<?>> {
 		// This shouldn't happen, but just in case
 		return values[random.nextInt(values.length)];
 	}
-
-	public static void main(String[] args) {
-		double[] probabilities = { 0.4, 0.4, 0.2 };
-		RandomEnumGenerator<EDriverAnswer> generator = new RandomEnumGenerator<>(EDriverAnswer.class, probabilities);
-
-		// Generating random values
-		for (int i = 0; i < 10; i++) {
-			System.out.println(generator.getRandom());
-		}
-	}
 }

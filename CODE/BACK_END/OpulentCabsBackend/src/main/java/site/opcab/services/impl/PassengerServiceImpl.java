@@ -1,5 +1,6 @@
 package site.opcab.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +28,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import site.opcab.custom_exceptions.ResourceNotFoundException;
+import site.opcab.daos.BookingCallsDao;
+import site.opcab.daos.BookingDetailsDao;
+import site.opcab.daos.DriverDao;
 import site.opcab.daos.PassengerDao;
+import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.ComplaintDTO;
+import site.opcab.dto.DriverGraphAPICallDTO;
+import site.opcab.dto.DriverGraphInputDTO;
+import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.PathDTO;
 import site.opcab.dto.PathInputFromGraph;
 import site.opcab.dto.Point;
 import site.opcab.dto.RideDTO;
+import site.opcab.dto.SourceInputDto;
 import site.opcab.dto.WalletDTO;
+import site.opcab.entities.BookingCalls;
+import site.opcab.entities.BookingDetails;
+import site.opcab.entities.Driver;
 import site.opcab.entities.Passenger;
 import site.opcab.entities.enums.EDriverAnswer;
 //import org.springframework.boot.context.config.*;
@@ -50,6 +63,12 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Autowired
 	private PassengerDao pdao;
+	@Autowired
+	private DriverDao ddao;
+	@Autowired
+	private BookingCallsDao bcdao;
+	@Autowired
+	private BookingDetailsDao bddao;
 
 	@Autowired
 	private ComplaintService cservice;
@@ -159,10 +178,50 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public void confirmBooking() {
+	public void confirmBooking(BookingInputDTO inputDetails, SourceInputDto source) {
 		double[] probabilities = { 0.4, 0.4, 0.2 };
 		RandomEnumGenerator<EDriverAnswer> generator = new RandomEnumGenerator<>(EDriverAnswer.class, probabilities);
 
-	}
+		Passenger passenger = pdao.findById(inputDetails.getPassengerId())
+				.orElseThrow(() -> new EntityNotFoundException());
 
+		BookingDetails booking = new BookingDetails();
+		booking = mapper.map(inputDetails, BookingDetails.class);
+		booking.setPassenger(passenger);
+		booking = bddao.save(booking);
+
+		List<Driver> driverList = ddao.findAll();
+		List<DriverGraphInputDTO> driverGraphinput = new ArrayList<>();
+		driverList.forEach((driver) -> {
+			driverGraphinput
+					.add(new DriverGraphInputDTO(driver.getId(), driver.getxCoordinates(), driver.getyCoordinates()));
+		});
+
+		DriverGraphAPICallDTO graphCall = new DriverGraphAPICallDTO(driverGraphinput, source);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<DriverGraphAPICallDTO> request = new HttpEntity<>(graphCall, headers);
+
+		List<DriverGraphOutputDTO> driverDistances = restTemplate
+				.postForEntity("http://localhost:7070/graph/getdrivers", request, List.class).getBody();
+
+		driverDistances.sort((x, y) -> {
+			return Double.compare(y.getDistance(), x.getDistance());
+		});
+
+		for (DriverGraphOutputDTO driver : driverDistances) {
+			Driver d = ddao.findById(driver.getId()).orElseThrow(() -> new EntityNotFoundException());
+			BookingCalls call = new BookingCalls();
+			call.setDriver(d);
+			EDriverAnswer answer = generator.getRandom();
+			call.setDriverAnswer(answer);
+			call.setBooking(booking);
+			bcdao.save(call);
+			if (answer == EDriverAnswer.A) {
+				booking.setDriver(d);
+				break;
+			}
+		}
+	}
 }

@@ -22,6 +22,12 @@ public class Driver extends User {
 	@OneToOne(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
 	private DriverWallet wallet;
 
+	@Column(name = "x_coordinates")
+	private Double xCoordinates;
+
+	@Column(name = "y_coordinates")
+	private Double yCoordinates;
+
 	@Column(length = 10)
 	private String vehno;
 
@@ -41,9 +47,11 @@ public class Driver extends User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Driver(DriverWallet wallet, String vehno, String vehcolor, String vehname, String vehtype,
-			EAvailability availability) {
+	public Driver(DriverWallet wallet, Double xCoordinates, Double yCoordinates, String vehno, String vehcolor,
+			String vehname, String vehtype, EAvailability availability) {
 		this.wallet = wallet;
+		this.xCoordinates = xCoordinates;
+		this.yCoordinates = yCoordinates;
 		this.vehno = vehno;
 		this.vehcolor = vehcolor;
 		this.vehname = vehname;
@@ -103,4 +111,21 @@ public class Driver extends User {
 		this.wallet = wallet;
 		wallet.setDriver(this);
 	}
+
+	public Double getxCoordinates() {
+		return xCoordinates;
+	}
+
+	public void setxCoordinates(Double xCoordinates) {
+		this.xCoordinates = xCoordinates;
+	}
+
+	public Double getyCoordinates() {
+		return yCoordinates;
+	}
+
+	public void setyCoordinates(Double yCoordinates) {
+		this.yCoordinates = yCoordinates;
+	}
+
 }

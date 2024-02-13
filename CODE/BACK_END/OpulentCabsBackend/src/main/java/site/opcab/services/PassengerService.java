@@ -13,6 +13,7 @@ import site.opcab.dto.PathDTO;
 import site.opcab.dto.PathInputFromGraph;
 import site.opcab.dto.Point;
 import site.opcab.dto.RideDTO;
+import site.opcab.dto.SourceInputDto;
 import site.opcab.dto.WalletDTO;
 
 public interface PassengerService {
@@ -43,6 +44,6 @@ public interface PassengerService {
 
 	public PathInputFromGraph computePath(InputCoordinateDto path);
 
-	public void confirmBooking(BookingInputDTO inputDetails);
+	public void confirmBooking(BookingInputDTO inputDetails, SourceInputDto source);
 
 }

@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 
 import site.opcab.service.*;
 import site.opcab.dao.*;
+import site.opcab.dto.DriverGraphInputDTO;
+import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PathOutputDTO;
 import site.opcab.dto.Point;
@@ -36,5 +38,16 @@ public class GraphController {
 		PathOutputDTO path = graphService.findShortestPath(source, dest);
 
 		return path;
+	}
+
+	@PostMapping("/getdrivers")
+	public List<DriverGraphOutputDTO> getDriverDistances(@RequestBody List<DriverGraphInputDTO> driverList,
+			@RequestBody InputCoordinateDto input) {
+		List<Double> sourceCoordinates = new ArrayList<Double>();
+		sourceCoordinates.add(input.getSourceX());
+		sourceCoordinates.add(input.getSourceY());
+		Vertex source = graphService.findNearestVertex(sourceCoordinates);
+
+		return graphService.getDriverDistances(source, driverList);
 	}
 }

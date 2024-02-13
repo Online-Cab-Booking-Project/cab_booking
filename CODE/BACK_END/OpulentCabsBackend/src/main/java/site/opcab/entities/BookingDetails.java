@@ -65,7 +65,6 @@ public class BookingDetails {
 	public BookingDetails(Integer id, Passenger passenger, Driver driver, LocalDate bookingDate, LocalTime bookingTime,
 			String pickupAddress, String dropoffAddress, EBookingStatus status, String passengerFeedBack,
 			String driverFeedBack, List<Complaint> complaints) {
-		super();
 		this.id = id;
 		this.passenger = passenger;
 		this.driver = driver;
@@ -195,12 +194,12 @@ public class BookingDetails {
 				.append(passengerFeedBack).append(", driverFeedBack=").append(driverFeedBack).append("]");
 		return builder.toString();
 	}
-	
+
 	public void addComplaint(Complaint complaint) {
 		this.complaints.add(complaint);
 		complaint.setBookingId(this);
 	}
-	
+
 	public void removeComplaint(Complaint complaint) {
 		this.complaints.remove(complaint);
 		complaint.setBookingId(null);
