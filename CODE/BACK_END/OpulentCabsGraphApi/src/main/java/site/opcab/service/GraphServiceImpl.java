@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 
 import site.opcab.enitites.*;
 import site.opcab.dao.*;
+import site.opcab.dto.DriverGraphInputDTO;
+import site.opcab.dto.DriverGraphOutputDTO;
+import site.opcab.dto.PathOutputDTO;
+import site.opcab.dto.Point;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -36,11 +40,40 @@ public class GraphServiceImpl implements GraphService {
 		System.out.println("DirectedGraph created");
 	}
 
+	// =======================================================================================================================================
 	@Override
-	public List<Double[]> findShortestPath(Vertex source, Vertex destination) {
+	public PathOutputDTO findShortestPath(Vertex source, Vertex destination) {
 		Map<Vertex, Double> distanceMap = new HashMap<>();
 		Map<Vertex, Vertex> predecessorMap = new HashMap<>();
+		Double cost = 0.0;
+		djikstraAlgorithm(source, distanceMap, predecessorMap);
+		cost = distanceMap.get(destination) * 10;
 
+		return getPathWithCoordinates(source, destination, predecessorMap, cost);
+	}
+
+	@Override
+	public List<DriverGraphOutputDTO> getDriverDistances(Vertex source, List<DriverGraphInputDTO> driverList) {
+		List<DriverGraphOutputDTO> driverMap = new ArrayList<>();
+		Map<Vertex, Double> distanceMap = new HashMap<>();
+		Map<Vertex, Vertex> predecessorMap = new HashMap<>();
+		djikstraAlgorithm(source, distanceMap, predecessorMap);
+
+		for (DriverGraphInputDTO driver : driverList) {
+			List<Double> coords = new ArrayList<>();
+			DriverGraphOutputDTO driverEntry = new DriverGraphOutputDTO();
+
+			coords.add(driver.getxCoordinates());
+			coords.add(driver.getyCoordinates());
+			Vertex driverPosition = findNearestVertex(coords);
+			driverEntry.setDistance(distanceMap.get(driverPosition));
+			driverEntry.setId(driver.getId());
+			driverMap.add(driverEntry);
+		}
+		return driverMap;
+	}
+
+	public void djikstraAlgorithm(Vertex source, Map<Vertex, Double> distanceMap, Map<Vertex, Vertex> predecessorMap) {
 		PriorityQueue<Node> minHeap = new PriorityQueue<>(
 				Comparator.comparingDouble(node -> distanceMap.get(node.vertex)));
 		distanceMap.put(source, 0.0);
@@ -60,8 +93,6 @@ public class GraphServiceImpl implements GraphService {
 				}
 			}
 		}
-
-		return getPathWithCoordinates(source, destination, predecessorMap);
 	}
 
 	@Override
@@ -88,17 +119,24 @@ public class GraphServiceImpl implements GraphService {
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 
-	private List<Double[]> getPathWithCoordinates(Vertex source, Vertex destination,
-			Map<Vertex, Vertex> predecessorMap) {
-		List<Double[]> pathWithCoordinates = new ArrayList<>();
+	private PathOutputDTO getPathWithCoordinates(Vertex source, Vertex destination, Map<Vertex, Vertex> predecessorMap,
+			Double cost) {
+		PathOutputDTO pathOutput = new PathOutputDTO();
+		List<Point> points = new ArrayList<>();
+
 		for (Vertex currentVertex = destination; currentVertex != null; currentVertex = predecessorMap
 				.get(currentVertex)) {
-			pathWithCoordinates.add(new Double[] { currentVertex.getXCoordinates(), currentVertex.getYCoordinates() });
+			points.add(new Point(currentVertex.getXCoordinates(), currentVertex.getYCoordinates()));
 		}
-		Collections.reverse(pathWithCoordinates);
+		Collections.reverse(points);
 
-		return pathWithCoordinates;
+		pathOutput.setPath(points);
+		pathOutput.setCost(cost);
+
+		return pathOutput;
 	}
+
+	// =====================================================================================================================================
 
 	private Map<Vertex, List<Edge>> getDirectedGraphFromDatabase() {
 		List<Edge> edgeEntities = edgeDao.findAll();

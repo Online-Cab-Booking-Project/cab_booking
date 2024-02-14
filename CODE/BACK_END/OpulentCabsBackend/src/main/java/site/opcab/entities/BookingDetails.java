@@ -2,8 +2,10 @@ package site.opcab.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import site.opcab.entities.enums.EBookingStatus;
 
@@ -51,13 +55,16 @@ public class BookingDetails {
 	@Column(name = "driver_feedback")
 	private String driverFeedBack;
 
+	@OneToMany(mappedBy = "bookingId", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Complaint> complaints;
+
 	public BookingDetails() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public BookingDetails(Integer id, Passenger passenger, Driver driver, LocalDate bookingDate, LocalTime bookingTime,
 			String pickupAddress, String dropoffAddress, EBookingStatus status, String passengerFeedBack,
-			String driverFeedBack) {
+			String driverFeedBack, List<Complaint> complaints) {
 		this.id = id;
 		this.passenger = passenger;
 		this.driver = driver;
@@ -68,6 +75,7 @@ public class BookingDetails {
 		this.status = status;
 		this.passengerFeedBack = passengerFeedBack;
 		this.driverFeedBack = driverFeedBack;
+		this.complaints = complaints;
 	}
 
 	public Integer getId() {
@@ -150,6 +158,14 @@ public class BookingDetails {
 		this.driverFeedBack = driverFeedBack;
 	}
 
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(bookingTime, driver, passenger, status);
@@ -177,6 +193,16 @@ public class BookingDetails {
 				.append(dropoffAddress).append(", status=").append(status).append(", passengerFeedBack=")
 				.append(passengerFeedBack).append(", driverFeedBack=").append(driverFeedBack).append("]");
 		return builder.toString();
+	}
+
+	public void addComplaint(Complaint complaint) {
+		this.complaints.add(complaint);
+		complaint.setBookingId(this);
+	}
+
+	public void removeComplaint(Complaint complaint) {
+		this.complaints.remove(complaint);
+		complaint.setBookingId(null);
 	}
 
 }
