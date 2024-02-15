@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import profileImg from '../assets/profile.png'
 import { useHistory } from 'react-router-dom';
 import '../components/login.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function Login() {
@@ -37,11 +38,13 @@ function Login() {
             if (replyReceived.message === "success") {
                 var tokenReceived = replyReceived.loginToken;
                 window.sessionStorage.setItem("loginToken", tokenReceived);
+                toast.success("successfull login")
                 history.push('/');
             }
         })
             .catch((error) => {
-                setMsg("Credentials are invalid!");
+                // setMsg("Credentials are invalid!");
+                toast.error("Credentials are invalid!");
                 resetCredentials();
             })
 
@@ -56,6 +59,7 @@ function Login() {
 
     return (
         <div className="container" >
+            <ToastContainer/>
             <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <div className="card my-5" style={{ 'background': '#FAF5E6' }} >

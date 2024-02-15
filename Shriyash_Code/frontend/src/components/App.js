@@ -4,17 +4,18 @@ import Login from './Login';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import Signup from './Signup';
 import Main from './Main';
+import Complaint from './Complaint';
 
 
 function App() {
 
     return <BrowserRouter>
         <Switch >
-            <Route path='/Login' exact component={Login}/>
+            <Route path='/login' exact component={Login} />
 
-            <Route path='/Signup' exact component={Signup}/>
+            <Route path='/register' exact component={Signup} />
 
-            <Route path='/' component={Main}/>
+            <Route path='/' component={Main} />
         </Switch>
     </BrowserRouter>
 

@@ -3,6 +3,13 @@ import person_square from '../assets/person-square.svg'
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// Set default headers for all Axios requests
+
+let accessToken = sessionStorage.getItem('loginToken');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+
 function Signup() {
     const history = useHistory();
     const url = "http://127.0.0.1:9999/passenger/";
@@ -38,7 +45,8 @@ function Signup() {
     }
 
     const setMsg = (msg) => {
-        setMessage(msg);
+        // setMessage(msg);
+        toast.success(msg);
         setTimeout(() => {
             setMessage("");
         }, 2000);
@@ -61,22 +69,26 @@ function Signup() {
                     if (reply.message === "success") {
                         var tokenReceived = reply.loginToken;
                         window.sessionStorage.setItem("loginToken", tokenReceived);
+                        setMsg("success")
                         history.push('/');
+
                     }
                     else {
-                        setMsg("Credentials are invalid!");
+                        toast.error("Credentials are invalid!")
+                        // setMsg("Credentials are invalid!");
                         resetCredentials();
                     }
                 }
                 )
                 .catch((error) => {
-
-                    setMsg('Internal server error ' + error);
+                    toast.error('Internal server error ' + error)
+                    // setMsg('Internal server error ' + error);
                 }
                 )
         }
         else {
-            setMsg('Please enter correct details');
+            toast.warn('Please enter correct details');
+            // setMsg('Please enter correct details');
             return;
         }
 
@@ -141,7 +153,7 @@ function Signup() {
                                                 style={{ "marginLeft": "2px", "paddingLeft": "8px", "paddingRight": "15px", "marginRight": "-1px", "marginTop": "55px" }}>Sign
                                                 Up</button></div>
 
-                                            <div className='d-flex justify-content-center ' name="errorbox" id="errorbox" >{message}</div>
+                                            <div className='d-flex justify-content-center ' name="errorbox" id="errorbox" >{message}<ToastContainer /></div>
                                         </form>
                                     </div>
                                 </div>
