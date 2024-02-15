@@ -42,4 +42,12 @@ public class Passenger extends User {
 		this.wallet.setBalance(this.wallet.getBalance() + balance);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Passenger [wallet=").append(wallet).append("]");
+		return builder.toString();
+	}
+
+	
 }
