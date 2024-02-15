@@ -61,7 +61,7 @@ function Main() {
                 })
                 .catch((error) => {
 
-                    setIsLogin(false);
+                    setIsLogin(true);
                     resetCredentials();
                 })
         }

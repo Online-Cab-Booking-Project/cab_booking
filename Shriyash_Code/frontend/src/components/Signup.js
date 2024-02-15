@@ -7,19 +7,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Set default headers for all Axios requests
 
-let accessToken = sessionStorage.getItem('loginToken');
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-
 function Signup() {
     const history = useHistory();
-    const url = "http://127.0.0.1:9999/passenger/";
+    const url = "http://192.168.1.6:8080/passenger/register";
     const [message, setMessage] = useState();
     const [credentials, setCredentials] = useState({
-        'username': '',
+        'firstName':'',
+        'lastName':'',
         'email': '',
         'password': '',
         're_password': "",
-        'mobile': '',
+        'mobileNo': '',
         'dob': '',
         'gender': '',
         'address': ''
@@ -27,11 +25,12 @@ function Signup() {
 
     const resetCredentials = () => {
         setCredentials({
-            'username': '',
+            'firstName':'',
+            'lastName':'',
             'email': '',
             'password': '',
             're_password': "",
-            'mobile': '',
+            'mobileNo': '',
             'dob': '',
             'gender': '',
             'address': ''
@@ -120,9 +119,18 @@ function Signup() {
                                 <div className="card border-0 ">
                                     <div className="card-body">
                                         <form className="text-center" method="post">
-                                            <div className="mb-3"><input className="border rounded-pill form-control" type="text"
-                                                name="username" onChange={OnTextChanged} value={credentials.username} placeholder="username" autoFocus="" required="" /></div>
-                                            <div className="mb-3"><input
+                                            <div className="mb-3">
+                                            <input className="border rounded-pill form-control" type="text"
+                                                name="firstName" onChange={OnTextChanged} value={credentials.firstName} placeholder="First Name" autoFocus="" required="" />
+                                                </div>
+                                                <div className="mb-3">
+                                            <input className="border rounded-pill form-control" type="text"
+                                                name="lastName" onChange={OnTextChanged} value={credentials.lastName} placeholder="Last Name" autoFocus="" required="" />
+                                                </div>
+                                            <div className="mb-3">
+                                                <div className="mb-3"><input className="border rounded-pill form-control" type="email"
+                                                    name="email" onChange={OnTextChanged} value={credentials.email} placeholder="Email" required="" /></div>
+                                            <input
                                                 className="border rounded-pill form-control d-lg-flex justify-content-lg-center align-items-lg-center"
                                                 type="password" name="password" onChange={OnTextChanged} value={credentials.password} placeholder="Password" required="" />
                                             </div>
@@ -130,19 +138,17 @@ function Signup() {
                                                 className="border rounded-pill form-control d-lg-flex justify-content-lg-center align-items-lg-center"
                                                 type="password" onChange={OnTextChanged} value={credentials.re_password} name="re_password" placeholder="Re-Enter Password"
                                                 required="" /></div>
-                                            <div className="mb-3"><input className="border rounded-pill form-control" type="email"
-                                                name="email" onChange={OnTextChanged} value={credentials.email} placeholder="email" required="" /></div>
                                             <div className="mb-3"><input
                                                 className="border rounded-pill form-control d-lg-flex justify-content-lg-center align-items-lg-center"
-                                                type="number" onChange={OnTextChanged} value={credentials.mobile} name="mobile" placeholder="Mobile No" required="" /></div>
+                                                type="number" onChange={OnTextChanged} value={credentials.mobileNo} name="mobileNo" placeholder="Mobile No" required="" /></div>
                                             <div className="mb-3"><textarea name="address" onChange={OnTextChanged} value={credentials.address}
                                                 className="border rounded form-control d-lg-flex justify-content-lg-center align-items-lg-center"
                                                 placeholder="Address " autoFocus="" required=""></textarea></div>
                                             <div className="mb-3"><select className="border rounded-pill form-select" name="gender" value={credentials.gender}
                                                 required="" onChange={OnTextChanged}>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Other</option>
+                                                <option value="M">Male</option>
+                                                <option value="F">Female</option>
+                                                <option value="O">Other</option>
                                             </select></div>
                                             <div className="mb-3"><input className="border rounded-pill form-control" type="date"
                                                 name="dob" onChange={OnTextChanged} value={credentials.dob} required="" /></div>
