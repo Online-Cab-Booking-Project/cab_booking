@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import site.opcab.daos.ComplaintDao;
-import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.entities.enums.EComplaintStatus;
 import site.opcab.services.ComplaintService;

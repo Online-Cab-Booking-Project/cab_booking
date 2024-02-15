@@ -1,11 +1,14 @@
 package site.opcab.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,20 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import site.opcab.dto.BookingInputDTO;
-import site.opcab.dto.ComplaintDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
-import site.opcab.dto.PathDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
 import site.opcab.dto.SourceInputDto;
-import site.opcab.entities.BookingDetails;
+import site.opcab.entities.Complaint;
 import site.opcab.security.JwtUtils;
-import site.opcab.services.ComplaintService;
 import site.opcab.services.PassengerService;
 
 @RestController
 @RequestMapping("/passenger")
+@Validated
 public class PassengerController {
 
 	@Autowired
@@ -49,13 +50,13 @@ public class PassengerController {
 	}
 
 	/*
-	 * request payload : Auth req DTO : email n password resp payload : In case of
-	 * success : Auth Resp DTO : mesg + JWT token + SC 200 IN case of failure : SC
-	 * 401
+	 * request payload : Auth req DTO : email n password response payload : In case
+	 * of success : Auth Resp DTO : mesg + JWT token + SC 200 IN case of failure :
+	 * SC 401
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody SigninRequest reqDTO) {
-		// simply invoke authentucate(...) on AuthMgr
+		// simply invoke authenticate(...) on AuthMgr
 		// i/p : Authentication => un verifed credentials
 		// i/f --> Authentication --> imple by UsernamePasswordAuthToken
 		// throws exc OR rets : verified credentials (UserDetails i.pl class: custom
@@ -66,7 +67,6 @@ public class PassengerController {
 		System.out.println(verifiedAuth.getClass());// Custom user details
 		// => auth success
 
-//		return ResponseEntity.status(HttpStatus.OK).body(pservice.login(email, password));
 		return ResponseEntity
 				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
 	}
@@ -82,9 +82,10 @@ public class PassengerController {
 	}
 
 	@PutMapping("/account/update/{id}")
-	public ResponseEntity<?> updateAccountDetails(@PathVariable Integer id, @RequestBody PassengerDTO passenger) {
+	public ResponseEntity<?> updateAccountDetails(@PathVariable Integer id,
+			@Valid @RequestBody PassengerDTO passenger) {
 		pservice.updateAccountDetails(id, passenger);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAccountDetails(id));
 	}
 
 	@GetMapping("/account/wallet/{id}")
@@ -125,10 +126,9 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.getComplaintById(id));
 	}
 
-	@PostMapping("/complaints/ride/{booking_id}/addComplaint/{id}")
-	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @PathVariable Integer id,
-			@RequestBody ComplaintDTO complaint) {
-		pservice.addComplaint(booking_id, id, complaint);
+	@PostMapping("/complaints/addComplaint/{booking_id}")
+	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @RequestBody Complaint complaint) {
+		pservice.addComplaint(booking_id, complaint);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

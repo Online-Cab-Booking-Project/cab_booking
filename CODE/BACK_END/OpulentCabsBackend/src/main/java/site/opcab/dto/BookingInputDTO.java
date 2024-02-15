@@ -31,6 +31,8 @@ public class BookingInputDTO {
 	@JsonProperty(access = Access.READ_ONLY)
 	private EBookingStatus status;
 
+	private Double fare;
+
 	{
 		this.status = EBookingStatus.P;
 	}
@@ -40,12 +42,21 @@ public class BookingInputDTO {
 	}
 
 	public BookingInputDTO(@NotBlank Integer passengerId, LocalDate bookingDate, LocalTime bookingTime,
-			@NotBlank String pickupAddress, @NotBlank String dropoffAddress) {
+			@NotBlank String pickupAddress, @NotBlank String dropoffAddress, Double fare) {
 		this.passengerId = passengerId;
 		this.bookingDate = bookingDate;
 		this.bookingTime = bookingTime;
 		this.pickupAddress = pickupAddress;
 		this.dropoffAddress = dropoffAddress;
+		this.fare = fare;
+	}
+
+	public Double getFare() {
+		return fare;
+	}
+
+	public void setFare(Double fare) {
+		this.fare = fare;
 	}
 
 	public Integer getPassengerId() {

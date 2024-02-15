@@ -1,9 +1,10 @@
 package site.opcab.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Point implements Serializable {
+
+	private static final long serialVersionUID = 249388244652703313L;
 
 	private Double x;
 	private Double y;

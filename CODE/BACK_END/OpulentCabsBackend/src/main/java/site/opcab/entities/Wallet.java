@@ -20,11 +20,11 @@ public class Wallet {
 		this.balance = balance;
 	}
 
-	public int getWalletId() {
+	public Integer getWalletId() {
 		return walletId;
 	}
 
-	public void setWalletId(int walletId) {
+	public void setWalletId(Integer walletId) {
 		this.walletId = walletId;
 	}
 

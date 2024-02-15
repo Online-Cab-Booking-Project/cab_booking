@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import site.opcab.entities.enums.EComplaintStatus;
 
@@ -20,7 +20,7 @@ public class Complaint {
 	@Column(name = "id")
 	private Integer complaintId;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "booking_id")
 	private BookingDetails bookingId;
 

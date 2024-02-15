@@ -6,54 +6,45 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import site.opcab.custom_exceptions.ResourceNotFoundException;
 import site.opcab.daos.BookingCallsDao;
 import site.opcab.daos.BookingDetailsDao;
+import site.opcab.daos.ComplaintDao;
 import site.opcab.daos.DriverDao;
 import site.opcab.daos.PassengerDao;
+import site.opcab.daos.PassengerWalletDao;
+import site.opcab.daos.WalletDao;
 import site.opcab.dto.BookingInputDTO;
-import site.opcab.dto.ComplaintDTO;
 import site.opcab.dto.DriverGraphAPICallDTO;
 import site.opcab.dto.DriverGraphInputDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
-import site.opcab.dto.PathDTO;
 import site.opcab.dto.PathInputFromGraph;
-import site.opcab.dto.Point;
 import site.opcab.dto.RideDTO;
 import site.opcab.dto.SourceInputDto;
-import site.opcab.dto.WalletDTO;
+import site.opcab.dto.PassengerWalletDTO;
 import site.opcab.entities.BookingCalls;
 import site.opcab.entities.BookingDetails;
+import site.opcab.entities.Complaint;
 import site.opcab.entities.Driver;
 import site.opcab.entities.Passenger;
+import site.opcab.entities.PassengerWallet;
+import site.opcab.entities.enums.EComplaintStatus;
 import site.opcab.entities.enums.EDriverAnswer;
-//import org.springframework.boot.context.config.*;
-//import org.springframework.core.io.Resource;
-import site.opcab.services.ComplaintService;
+import site.opcab.entities.enums.EGender;
 import site.opcab.services.PassengerService;
 import site.opcab.utility.RandomEnumGenerator;
 
@@ -69,23 +60,27 @@ public class PassengerServiceImpl implements PassengerService {
 	private BookingCallsDao bcdao;
 	@Autowired
 	private BookingDetailsDao bddao;
-
-	@Autowired
-	private ComplaintService cservice;
-
 	@Autowired
 	private ModelMapper mapper;
-
 	@Autowired
 	private PasswordEncoder enc;
-
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private PassengerWalletDao pwdao;
+	@Autowired
+	private ComplaintDao cdao;
+	@Autowired
+	private WalletDao wdao;
 
 	@Override
 	public PassengerDTO register(PassengerDTO passenger) {
 		Passenger p = mapper.map(passenger, Passenger.class);
 		p.setPassword(enc.encode(p.getPassword()));
+		p.setGender(EGender.valueOf(passenger.getGender()));
+
+		PassengerWallet wallet = new PassengerWallet(0.0, p);
+		wdao.save(wallet);
 
 		return mapper.map(pdao.save(p), PassengerDTO.class);
 	}
@@ -119,51 +114,55 @@ public class PassengerServiceImpl implements PassengerService {
 		p.setEmail(passenger.getEmail());
 		p.setFirstName(passenger.getFirstName());
 		p.setLastName(passenger.getLastName());
-		p.setMobileNo(passenger.getPhoneNumber());
-
-		return;
-
+		p.setMobileNo(passenger.getMobileNo());
+		p.setAddress(passenger.getAddress());
+		p.setGender(EGender.valueOf(passenger.getGender()));
+		p.setDob(passenger.getDob());
 	}
 
 	@Override
 	public List<RideDTO> getPreviousRideDetails(Integer id) {
-
-		return null;
+		List<BookingDetails> detailsList = bddao.findByPassengerId(id);
+		List<RideDTO> rides = detailsList.stream().map(detail -> mapper.map(detail, RideDTO.class))
+				.collect(Collectors.toList());
+		return rides;
 	}
 
 	@Override
-	public WalletDTO getWalletDetails(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public PassengerWalletDTO getWalletDetails(Integer id) {
+		PassengerWallet wallet = pwdao.findByPassengerId(id).orElseThrow(() -> new EntityNotFoundException());
+		return mapper.map(wallet, PassengerWalletDTO.class);
 	}
 
 	@Override
-	public void updateBalanceDetails(Integer id, double balance) {
-		// TODO Auto-generated method stub
+	public ResponseEntity<String> updateBalanceDetails(Integer id, double balance) {
+		PassengerWallet wallet = pwdao.findByPassengerId(id).orElseThrow(() -> new EntityNotFoundException());
+		wallet.setBalance(balance);
+		return new ResponseEntity<String>("Balance updated", HttpStatus.OK);
 
 	}
 
 	@Override
-	public List<ComplaintDTO> getAllComplaints(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Complaint> getAllComplaints(Integer id) {
+		return cdao.findByBookingIdPassengerId(id);
 	}
 
 	@Override
-	public ComplaintDTO getComplaintById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Complaint getComplaintById(Integer id) {
+		return cdao.findById(id).orElseThrow(() -> new EntityNotFoundException());
 	}
 
 	@Override
-	public void addComplaint(Integer booking_id, Integer id, ComplaintDTO complaint) {
-
+	public void addComplaint(Integer booking_id, Complaint complaint) {
+		BookingDetails booking = bddao.findById(booking_id).orElseThrow(() -> new EntityNotFoundException());
+		booking.addComplaint(complaint);
+		cdao.save(complaint);
 	}
 
 	@Override
 	public void resolveComplaint(Integer id) {
-		// TODO Auto-generated method stub
-
+		Complaint complaint = getComplaintById(id);
+		complaint.setComplaintStatus(EComplaintStatus.R);
 	}
 
 	@Override
@@ -203,6 +202,7 @@ public class PassengerServiceImpl implements PassengerService {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<DriverGraphAPICallDTO> request = new HttpEntity<>(graphCall, headers);
 
+		@SuppressWarnings("unchecked")
 		List<DriverGraphOutputDTO> driverDistances = restTemplate
 				.postForEntity("http://localhost:7070/graph/getdrivers", request, List.class).getBody();
 
@@ -223,5 +223,6 @@ public class PassengerServiceImpl implements PassengerService {
 				break;
 			}
 		}
+
 	}
 }

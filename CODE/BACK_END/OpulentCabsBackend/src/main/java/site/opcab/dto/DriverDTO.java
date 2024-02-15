@@ -1,31 +1,34 @@
 package site.opcab.dto;
 
+import java.time.LocalDate;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 public class DriverDTO {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	@Email
 	private String email;
-	private String phoneNumber;
+	@Size(min = 10, max = 10)
+	private String mobileNo;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Size(min = 8, message = "Password must be at least 8 characters long")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and no whitespace")
+	private String password;
+	private String address;
+	private String gender;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+	private LocalDate dob;
 	private String licenseNumber;
 	private String carModel;
 	private String carRegistrationNumber;
-
-	public DriverDTO(Long id, String firstName, String lastName, String email, String phoneNumber, String licenseNumber,
-			String carModel, String carRegistrationNumber) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.licenseNumber = licenseNumber;
-		this.carModel = carModel;
-		this.carRegistrationNumber = carRegistrationNumber;
-	}
-
-	public DriverDTO() {
-		super();
-	}
 
 	public Long getId() {
 		return id;
@@ -59,12 +62,44 @@ public class DriverDTO {
 		this.email = email;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getMobileNo() {
+		return mobileNo;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 
 	public String getLicenseNumber() {
@@ -94,7 +129,7 @@ public class DriverDTO {
 	@Override
 	public String toString() {
 		return "DriverDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", licenseNumber=" + licenseNumber + ", carModel=" + carModel
+				+ ", phoneNumber=" + mobileNo + ", licenseNumber=" + licenseNumber + ", carModel=" + carModel
 				+ ", carRegistrationNumber=" + carRegistrationNumber + "]";
 	}
 

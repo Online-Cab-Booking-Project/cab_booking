@@ -16,9 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import site.opcab.entities.enums.EBookingStatus;
+import site.opcab.entities.enums.EComplaintStatus;
 
 @Entity
 public class BookingDetails {
@@ -58,13 +58,15 @@ public class BookingDetails {
 	@OneToMany(mappedBy = "bookingId", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Complaint> complaints;
 
+	private Double fare;
+
 	public BookingDetails() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public BookingDetails(Integer id, Passenger passenger, Driver driver, LocalDate bookingDate, LocalTime bookingTime,
 			String pickupAddress, String dropoffAddress, EBookingStatus status, String passengerFeedBack,
-			String driverFeedBack, List<Complaint> complaints) {
+			String driverFeedBack, List<Complaint> complaints, Double fare) {
 		this.id = id;
 		this.passenger = passenger;
 		this.driver = driver;
@@ -76,6 +78,15 @@ public class BookingDetails {
 		this.passengerFeedBack = passengerFeedBack;
 		this.driverFeedBack = driverFeedBack;
 		this.complaints = complaints;
+		this.fare = fare;
+	}
+
+	public Double getFare() {
+		return fare;
+	}
+
+	public void setFare(Double fare) {
+		this.fare = fare;
 	}
 
 	public Integer getId() {
@@ -198,6 +209,7 @@ public class BookingDetails {
 	public void addComplaint(Complaint complaint) {
 		this.complaints.add(complaint);
 		complaint.setBookingId(this);
+		complaint.setComplaintStatus(EComplaintStatus.O);
 	}
 
 	public void removeComplaint(Complaint complaint) {

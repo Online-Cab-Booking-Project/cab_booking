@@ -2,9 +2,6 @@ package site.opcab.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 public class PathDTO {
 
 	private List<Point> finalPath;

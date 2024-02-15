@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class BookingCallsPK implements Serializable {
 
+	private static final long serialVersionUID = -14642207220822035L;
 	private BookingDetails booking;
 	private Driver driver;
 

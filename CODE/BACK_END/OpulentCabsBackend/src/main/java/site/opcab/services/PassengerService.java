@@ -3,18 +3,15 @@ package site.opcab.services;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import site.opcab.dto.BookingInputDTO;
-import site.opcab.dto.ComplaintDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
-import site.opcab.dto.PathDTO;
 import site.opcab.dto.PathInputFromGraph;
-import site.opcab.dto.Point;
 import site.opcab.dto.RideDTO;
 import site.opcab.dto.SourceInputDto;
-import site.opcab.dto.WalletDTO;
+import site.opcab.entities.Complaint;
+import site.opcab.dto.PassengerWalletDTO;
 
 public interface PassengerService {
 
@@ -30,15 +27,15 @@ public interface PassengerService {
 
 	public List<RideDTO> getPreviousRideDetails(Integer id);
 
-	public WalletDTO getWalletDetails(Integer id);
+	public PassengerWalletDTO getWalletDetails(Integer id);
 
-	public void updateBalanceDetails(Integer id, double balance);
+	public ResponseEntity<String> updateBalanceDetails(Integer id, double balance);
 
-	public List<ComplaintDTO> getAllComplaints(Integer id);
+	public List<Complaint> getAllComplaints(Integer id);
 
-	public ComplaintDTO getComplaintById(Integer id);
+	public Complaint getComplaintById(Integer id);
 
-	public void addComplaint(Integer booking_id, Integer id, ComplaintDTO complaint);
+	public void addComplaint(Integer booking_id, Complaint complaint);
 
 	public void resolveComplaint(Integer id);
 

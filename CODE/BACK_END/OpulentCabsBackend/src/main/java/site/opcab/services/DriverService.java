@@ -2,34 +2,37 @@ package site.opcab.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import site.opcab.dto.DriverDTO;
+import site.opcab.dto.DriverWalletDTO;
+import site.opcab.dto.RideDTO;
+import site.opcab.entities.Complaint;
 
-	public interface DriverService {
-		
-	    DriverDTO createDriver(DriverDTO driverDTO);
-	    
-	    DriverDTO updateDriver(Long id, DriverDTO driverDTO);
-	    
-	    void deleteDriver(Long id);
-	    
-	    DriverDTO getDriverById(Long id);
-	    
-	    List<DriverDTO> getAllDrivers();
+public interface DriverService {
 
-		void updateBalanceDetails(Integer id, double balance);
+	public DriverDTO register(DriverDTO driver);
 
-		Object getAlldriver();
+	public DriverDTO login(String email, String password);
 
-		Object getAccountDetails(Integer id);
+	public List<DriverDTO> getAllDrivers();
 
-		Object getWalletDetails(Integer id);
+	public DriverDTO getAccountDetails(Integer id);
 
-		Object getPreviousRideDetails(Integer id);
+	public void updateAccountDetails(Integer id, DriverDTO driver);
 
-		void updateAccountDetails(Integer id, DriverDTO driver);
+	public List<RideDTO> getPreviousRideDetails(Integer id);
 
-		Object register(DriverDTO driver);
-	    
-	}
+	public DriverWalletDTO getWalletDetails(Integer id);
 
+	public ResponseEntity<String> updateBalanceDetails(Integer id, double balance);
 
+	public List<Complaint> getAllComplaints(Integer id);
+
+	public Complaint getComplaintById(Integer id);
+
+	public void addComplaint(Integer booking_id, Complaint complaint);
+
+	public void resolveComplaint(Integer id);
+
+}

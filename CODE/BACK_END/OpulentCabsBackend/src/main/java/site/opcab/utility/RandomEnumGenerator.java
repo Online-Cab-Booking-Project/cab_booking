@@ -2,8 +2,6 @@ package site.opcab.utility;
 
 import java.util.Random;
 
-import site.opcab.entities.enums.EDriverAnswer;
-
 public class RandomEnumGenerator<T extends Enum<?>> {
 
 	private final Random random = new Random();

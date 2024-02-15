@@ -1,12 +1,55 @@
 package site.opcab.dto;
 
+import java.time.LocalDate;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 public class PassengerDTO {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	@Email
 	private String email;
-	private String phoneNumber;
+	@Size(min = 10, max = 10)
+	private String mobileNo;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Size(min = 8, message = "Password must be at least 8 characters long")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$", message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and no whitespace")
 	private String password;
+	private String address;
+	private String gender;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+	private LocalDate dob;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
 
 	public Long getId() {
 		return id;
@@ -40,12 +83,12 @@ public class PassengerDTO {
 		this.email = email;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getMobileNo() {
+		return mobileNo;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setMobileNo(String phoneNumber) {
+		this.mobileNo = phoneNumber;
 	}
 
 	public String getPassword() {
@@ -59,7 +102,7 @@ public class PassengerDTO {
 	@Override
 	public String toString() {
 		return "PassengerDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", password=" + password + "]";
+				+ ", phoneNumber=" + mobileNo + ", password=" + password + "]";
 	}
 
 }

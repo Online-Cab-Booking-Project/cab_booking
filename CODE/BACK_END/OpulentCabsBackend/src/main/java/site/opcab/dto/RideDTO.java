@@ -1,104 +1,109 @@
 package site.opcab.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalTime;
 
-
+import site.opcab.entities.Driver;
+import site.opcab.entities.Passenger;
 
 public class RideDTO {
-	private Long id;
-    private Long passengerId;
-    private Long driverId;
-    private String startLocation;
-    private String endLocation;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private Double fare;
-    private String status;
-    
-    
-    
-    
-    
-    
+	private Integer id;
+	private Driver driver;
+	private Passenger passenger;
+	private String pickupAddress;
+	private String dropoffAddress;
+	private LocalTime bookingTime;
+	private LocalDate bookingDate;
+	private Double fare;
+	private String status;
+
 	public RideDTO() {
-		super();
 	}
-	public RideDTO(Long id, Long passengerId, Long driverId, String startLocation, String endLocation,
-			LocalDateTime startTime, LocalDateTime endTime, Double fare, String status) {
-		super();
+
+	public RideDTO(Integer id, Driver driver, Passenger passenger, String pickupAddress, String dropoffAddress,
+			LocalTime bookingTime, LocalDate bookingDate, Double fare, String status) {
 		this.id = id;
-		this.passengerId = passengerId;
-		this.driverId = driverId;
-		this.startLocation = startLocation;
-		this.endLocation = endLocation;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.driver = driver;
+		this.passenger = passenger;
+		this.pickupAddress = pickupAddress;
+		this.dropoffAddress = dropoffAddress;
+		this.bookingTime = bookingTime;
+		this.bookingDate = bookingDate;
 		this.fare = fare;
 		this.status = status;
 	}
-	public Long getId() {
+
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Long getPassengerId() {
-		return passengerId;
+
+	public Driver getDriver() {
+		return driver;
 	}
-	public void setPassengerId(Long passengerId) {
-		this.passengerId = passengerId;
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
 	}
-	public Long getDriverId() {
-		return driverId;
+
+	public Passenger getPassenger() {
+		return passenger;
 	}
-	public void setDriverId(Long driverId) {
-		this.driverId = driverId;
+
+	public void setPassenger(Passenger passenger) {
+		this.passenger = passenger;
 	}
-	public String getStartLocation() {
-		return startLocation;
+
+	public String getPickupAddress() {
+		return pickupAddress;
 	}
-	public void setStartLocation(String startLocation) {
-		this.startLocation = startLocation;
+
+	public void setPickupAddress(String pickupAddress) {
+		this.pickupAddress = pickupAddress;
 	}
-	public String getEndLocation() {
-		return endLocation;
+
+	public String getDropoffAddress() {
+		return dropoffAddress;
 	}
-	public void setEndLocation(String endLocation) {
-		this.endLocation = endLocation;
+
+	public void setDropoffAddress(String dropoffAddress) {
+		this.dropoffAddress = dropoffAddress;
 	}
-	public LocalDateTime getStartTime() {
-		return startTime;
+
+	public LocalTime getBookingTime() {
+		return bookingTime;
 	}
-	public void setStartTime(LocalDateTime startTime) {
-		this.startTime = startTime;
+
+	public void setBookingTime(LocalTime bookingTime) {
+		this.bookingTime = bookingTime;
 	}
-	public LocalDateTime getEndTime() {
-		return endTime;
+
+	public LocalDate getBookingDate() {
+		return bookingDate;
 	}
-	public void setEndTime(LocalDateTime endTime) {
-		this.endTime = endTime;
+
+	public void setBookingDate(LocalDate bookingDate) {
+		this.bookingDate = bookingDate;
 	}
+
 	public Double getFare() {
 		return fare;
 	}
+
 	public void setFare(Double fare) {
 		this.fare = fare;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	@Override
-	public String toString() {
-		return "RideDTO [id=" + id + ", passengerId=" + passengerId + ", driverId=" + driverId + ", startLocation="
-				+ startLocation + ", endLocation=" + endLocation + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", fare=" + fare + ", status=" + status + "]";
-	}
-    
-    
-    
+
 }
