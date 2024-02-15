@@ -1,0 +1,242 @@
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Bhide Hospital', 93, 135);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Colony Nursing Home', 116, 248);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Karva Hospital', 200, 380);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Matoshri Ramabai Ambedkar Prasutigriha', 425, 265);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Vibhute Hospital', 530, 185);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Apollo Spectra Hospital', 540, 252);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Janata Hospital, Pune', 250, 471);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Shahade Hospital', 642, 567);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Harijivan Hospital', 675, 430);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Gokhale Hospital', 840, 300);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Parvati Mandir', 257, 585);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Sarasbaug', 590, 383);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Swargate', 915, 400);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 128, 126);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 244, 42);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 268, 187);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 168, 245);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 170, 360);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 8, 485);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 270, 367);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 300, 452);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 367, 465);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 383, 408);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 345, 570);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 383, 657);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 518, 9);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 459, 75);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 464, 170);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 620, 92);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 639, 94);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 636, 182);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 470, 370);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 446, 434);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 475, 480);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 526, 500);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 640, 465);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 635, 380);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 655, 355);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 435, 508);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 430, 530);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 408, 551);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 450, 540);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 450, 565);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 482, 565);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 500, 585);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 550, 595);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 585, 590);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 663, 600);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 693, 618);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 530, 690);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 485, 720);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 893, 28);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 739, 195);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 827, 190);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 950, 195);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 960, 150);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 700, 260);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 730, 245);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 775, 255);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 800, 307);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 770, 380);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 927, 295);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 938, 445);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 890, 492);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 965, 473);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 990, 470);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 888, 640);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 913, 715);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1075, 137);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES ('Chhajed Hospital', 1170, 158);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1152, 89);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1157, 131);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1130, 137);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1072, 206);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1113, 215);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1166, 230);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1103, 301);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1161, 372);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1114, 429);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1120, 648);
+
+INSERT INTO nodes (name, x_coordinates, y_coordinates) 
+VALUES (NULL, 1115, 745);
