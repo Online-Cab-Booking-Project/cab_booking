@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import logo from '../assets/Opulent_Hori.svg'
 import person from '../assets/person.png'
 import axios from 'axios';
+import toast from "react-toastify"
 
 function NavBar(props) {
 
@@ -45,7 +46,7 @@ function NavBar(props) {
                         </Link>
 
 
-                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Contact">
+                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/contact">
                             <li className="nav-item">
                                 <div className='nav-link'>
                                     Contact
@@ -54,7 +55,7 @@ function NavBar(props) {
                             </li>
                         </Link>
 
-                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/About">
+                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/about">
                             <li className="nav-item">
 
                                 <div className='nav-link'>
@@ -69,7 +70,7 @@ function NavBar(props) {
                                 (
                                     <>
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Dashboard">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/dashboard">
                                                 <div className='nav-link'>
                                                     Dashboard
                                                 </div>
@@ -77,7 +78,7 @@ function NavBar(props) {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/YourRides">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/yourRides">
                                                 <div className='nav-link'>
                                                     Your Rides
                                                 </div>
@@ -85,7 +86,7 @@ function NavBar(props) {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/BookRide">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookRide">
                                                 <div className='nav-link'>
                                                     Book Ride
                                                 </div>
@@ -93,7 +94,7 @@ function NavBar(props) {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Account">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/account">
                                                 <div className='nav-link'>
                                                     Account
                                                 </div>
@@ -107,14 +108,13 @@ function NavBar(props) {
                                 )
                                 :
                                 (<li className="nav-item">
-                                    <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Signup">
+                                    <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/register">
                                         <div className='nav-link'>
                                             Sign up
                                         </div>
                                     </Link>
                                 </li>)
                         }
-
 
                     </ul>
 

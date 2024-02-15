@@ -11,6 +11,9 @@ import About from './About';
 import Account from './Account';
 import YourRides from './YourRides';
 import axios from 'axios';
+import Complaint from './Complaint';
+import { ToastContainer } from 'react-toastify';
+import Complaints from './Complaints';
 
 
 function Main() {
@@ -58,7 +61,7 @@ function Main() {
                 })
                 .catch((error) => {
 
-                    setIsLogin(false);
+                    setIsLogin(true);
                     resetCredentials();
                 })
         }
@@ -82,6 +85,8 @@ function Main() {
 
     return (
         <>
+            <ToastContainer />
+
             <NavBar
                 isLogin={isLogin}
                 setIsLogin={setIsLogin}
@@ -128,6 +133,16 @@ function Main() {
                     isLogin={isLogin}
                     credentials={credentials}
                 />
+
+
+                <Complaints path='/Complaints' exact component={Complaints}
+
+                />
+
+                <Complaint path='/Complaints/:id' component={Complaint}
+
+                />
+
 
             </Switch>
 

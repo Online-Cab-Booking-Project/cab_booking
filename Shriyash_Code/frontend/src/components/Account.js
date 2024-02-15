@@ -18,15 +18,16 @@ function Account(props) {
                         <div className="card mb-5" style={{ 'width': '596px' }}>
                             <div className="card-body font-monospace flex-column align-items-center">
                                 <form className="text-center" method="post">
-                                    <div className="mb-3"><input className="form-control" type="text" name="username" value={props.credentials.username} disabled /></div>
+                                    <div className="mb-3"><input className="form-control" type="text" name="firstName" value={props.credentials.firstName} disabled /></div>
+                                    <div className="mb-3"><input className="form-control" type="text" name="lastName" value={props.credentials.lastName} disabled /></div>
                                     <div className="mb-3"><input className="form-control" type="email" name="email" value={props.credentials.email} disabled /></div>
-                                    <div className="mb-3"><input className="form-control" type="number" name="mobile" value={props.credentials.mobile} disabled /></div>
+                                    <div className="mb-3"><input className="form-control" type="number" name="mobileNo" value={props.credentials.mobileNo} disabled /></div>
                                     <div className="mb-3"><textarea className="form-control" name="address" value={props.credentials.address} disabled></textarea></div>
                                     <div className="mb-3"><input className="form-control" type="date" name="dob" value={props.credentials.dob} disabled /></div>
                                     <div className="mb-3"><select className="form-select" name="gender" value={props.credentials.gender} disabled>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="O">Other</option>
                                     </select></div>
                                     <div className="mb-3"></div>
                                 </form><button className="btn btn-primary" type="button">Edit</button>

@@ -4,10 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import profileImg from '../assets/profile.png'
 import { useHistory } from 'react-router-dom';
 import '../components/login.css';
+import { ToastContainer, toast } from 'react-toastify';
 
+// let accessToken = sessionStorage.getItem('loginToken');
+// axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
 
 function Login() {
-    const url = "http://127.0.0.1:9999/login";
+    const url = "http://192.168.1.6:8080/passenger/login";
     const [message, setMessage] = useState();
     const [credentials, setCredentials] = useState({
         'email': '',
@@ -34,14 +37,16 @@ function Login() {
         // check with db email and pass 
         axios.post(url, credentials).then((response) => {
             var replyReceived = response.data;
-            if (replyReceived.message === "success") {
-                var tokenReceived = replyReceived.loginToken;
+            if (replyReceived.mesg === "Successful Authentication!!!") {
+                var tokenReceived = replyReceived.jwt;
                 window.sessionStorage.setItem("loginToken", tokenReceived);
+                toast.success("successfull login")
                 history.push('/');
             }
         })
             .catch((error) => {
-                setMsg("Credentials are invalid!");
+                // setMsg("Credentials are invalid!");
+                toast.error("Credentials are invalid!");
                 resetCredentials();
             })
 
@@ -56,6 +61,7 @@ function Login() {
 
     return (
         <div className="container" >
+            <ToastContainer/>
             <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <div className="card my-5" style={{ 'background': '#FAF5E6' }} >

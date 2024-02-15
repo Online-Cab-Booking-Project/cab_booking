@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 function Footer() {
     return (
         <>
-            <footer className="text-white bg-dark">
+            <footer className="text-white bg-dark d-flex " >
                 <div className="container py-4 py-lg-5">
                     <div className="row justify-content-center">
                         <div className="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
@@ -33,7 +33,7 @@ function Footer() {
                         <p className="mb-0">Copyright © 2023 Opulent</p>
                     </div>
                 </div>
-            </footer>
+            </footer >
 
         </>
     );
