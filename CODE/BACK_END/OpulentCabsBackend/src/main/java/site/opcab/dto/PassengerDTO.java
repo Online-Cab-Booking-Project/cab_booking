@@ -101,8 +101,12 @@ public class PassengerDTO {
 
 	@Override
 	public String toString() {
-		return "PassengerDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + mobileNo + ", password=" + password + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("PassengerDTO [id=").append(id).append(", firstName=").append(firstName).append(", lastName=")
+				.append(lastName).append(", email=").append(email).append(", mobileNo=").append(mobileNo)
+				.append(", password=").append(password).append(", address=").append(address).append(", gender=")
+				.append(gender).append(", dob=").append(dob).append("]");
+		return builder.toString();
 	}
 
 }

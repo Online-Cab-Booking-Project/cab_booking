@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// => req header contains JWT
 			String jwt = authHeader.substring(7);
 			// validate JWT
+			System.out.println("Class : JWTAuthFIlter, method : doFileterInternal " + jwt);
 			Claims payloadClaims = utils.validateJwtToken(jwt);
 			// get user name from the claims
 			String email = utils.getUserNameFromJwtToken(payloadClaims);

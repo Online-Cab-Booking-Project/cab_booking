@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 
+// let accessToken = sessionStorage.getItem('loginToken');
+// axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
 
 function Login() {
     const isPassenger = useSelector((state) => state.credential.isPassenger);

@@ -10,20 +10,18 @@ import url from '../configs/urlConfig';
 import { useDispatch } from 'react-redux';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 
-// Set default headers for all Axios requests
-// let accessToken = sessionStorage.getItem('loginToken');
-// axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
 
 function Signup() {
     const history = useHistory();
     const [message, setMessage] = useState();
     const dispatch = useDispatch();
     const [credentials, setCredentials] = useState({
-        'username': '',
+        'firstName': '',
+        'lastName': '',
         'email': '',
         'password': '',
         're_password': "",
-        'mobile': '',
+        'mobileNo': '',
         'dob': '',
         'gender': '',
         'address': ''
@@ -31,11 +29,12 @@ function Signup() {
 
     const resetCredentials = () => {
         setCredentials({
-            'username': '',
+            'firstName': '',
+            'lastName': '',
             'email': '',
             'password': '',
             're_password': "",
-            'mobile': '',
+            'mobileNo': '',
             'dob': '',
             'gender': '',
             'address': ''

@@ -75,8 +75,10 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Override
 	public PassengerDTO register(PassengerDTO passenger) {
+		System.out.println(passenger);
 		Passenger p = mapper.map(passenger, Passenger.class);
 		p.setPassword(enc.encode(p.getPassword()));
+		System.out.println(EGender.valueOf(passenger.getGender()));
 		p.setGender(EGender.valueOf(passenger.getGender()));
 
 		PassengerWallet wallet = new PassengerWallet(0.0, p);
