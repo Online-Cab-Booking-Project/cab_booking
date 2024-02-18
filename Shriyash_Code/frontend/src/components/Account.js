@@ -1,7 +1,8 @@
 import React, { Component, useEffect } from 'react';
 import profile from '../assets/profile.png'
 
-function Account(props) {
+function Account() {
+
 
 
     return <section>

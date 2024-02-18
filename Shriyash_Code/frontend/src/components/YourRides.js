@@ -1,7 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 
 function YourRides() {
+    const isPassenger = useSelector((state) => state.credential.isPassenger);
+    const isDriver = useSelector((state) => state.credential.isDriver);
+    const history = useHistory();
+
+
+    useEffect(() => {
+        if (!(isPassenger || isDriver))
+            window.location.replace('/');
+    }, isPassenger, isDriver);
+
+
     return <section>
         <div className="container py-4 py-xl-5">
             <div style={{ 'marginTop': '10px' }}>

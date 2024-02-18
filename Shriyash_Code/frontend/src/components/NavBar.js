@@ -3,19 +3,21 @@ import reactRouterDom from 'react-router-dom';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import logo from '../assets/Opulent_Hori.svg'
 import person from '../assets/person.png'
-import axios from 'axios';
-import toast from "react-toastify"
+import { useDispatch, useSelector } from 'react-redux';
+import { credentialsActions } from '../react-redux-components/credentials-slice';
 
-function NavBar(props) {
+function NavBar() {
 
-    const tokenURL = 'http://127.0.0.1:9999/validateToken/';
-
+    const isPassenger = useSelector((state) => state.credential.isPassenger);
+    const isDriver = useSelector((state) => state.credential.isDriver);
+    const dispatch = useDispatch();
     const history = useHistory();
 
     var logout = () => {
         window.sessionStorage.clear();
-        props.resetCredentials();
-        props.setIsLogin(false);
+        dispatch(credentialsActions.setPassengerStatus(false));
+        dispatch(credentialsActions.setDriverStatus(false));
+        dispatch(credentialsActions.setCredentials({}));
         window.location.replace('/');
     }
 
@@ -66,7 +68,7 @@ function NavBar(props) {
                         </Link>
 
                         {
-                            props.isLogin ?
+                            isPassenger || isDriver ?
                                 (
                                     <>
                                         <li className="nav-item">
@@ -85,13 +87,17 @@ function NavBar(props) {
                                             </Link>
                                         </li>
 
-                                        <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookRide">
-                                                <div className='nav-link'>
-                                                    Book Ride
-                                                </div>
-                                            </Link>
-                                        </li>
+                                        {
+                                            isPassenger &&
+                                            <li className="nav-item">
+                                                <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookRide">
+                                                    <div className='nav-link'>
+                                                        Book Ride
+                                                    </div>
+                                                </Link>
+                                            </li>
+                                        }
+
 
                                         <li className="nav-item">
                                             <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/account">
@@ -119,17 +125,16 @@ function NavBar(props) {
                     </ul>
 
                     {
-                        props.isLogin ?
+                        isPassenger || isDriver ?
                             (
+                                <>
 
-
-
-                                <button type="button" className="btn btn-secondary me-2" onClick={logout}>
-                                    {/* <img src={person} className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                                    <button type="button" className="btn btn-secondary me-2" onClick={logout}>
+                                        {/* <img src={person} className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
                                           /> */}
-                                    Logout
-                                </button>
-
+                                        Logout
+                                    </button>
+                                </>
 
                             )
                             :

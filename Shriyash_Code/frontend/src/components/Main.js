@@ -14,135 +14,109 @@ import axios from 'axios';
 import Complaint from './Complaint';
 import { ToastContainer } from 'react-toastify';
 import Complaints from './Complaints';
+import { useSelector } from 'react-redux';
+import UserProtectedRoutes from './UserProtectedRoutes';
+import Login from './Login';
+import Signup from './Signup';
 
 
 function Main() {
-
-    const tokenURL = 'http://127.0.0.1:9999/validateToken/';
-    const [isLogin, setIsLogin] = useState();
-    const [credentials, setCredentials] = useState({
-        'username': '',
-        'email': '',
-        'password': '',
-        'mobile': '',
-        'dob': '',
-        'gender': '',
-        'address': ''
-    });
-
-    const history = useHistory();
-
-    useEffect(() => {
-
-        var loginToken = window.sessionStorage.getItem('loginToken');
-
-        // axios request to check token validity
-        if (loginToken != null && loginToken != undefined) {
+    // const tokenURL = 'http://127.0.0.1:9999/validateToken/';
 
 
-            axios.get(tokenURL,
-                {
-                    headers:
-                    {
-                        'authorization':
-                            "bearer " + loginToken
-                    }
-                })
-                .then((result) => {
-                    console.log(result.data);
-                    if (result.data.message == "success") {
-                        setCredentials(result.data.credentials);
-                        setIsLogin(true);
-                    }
-                    else {
-                        setIsLogin(false);
-                        resetCredentials();
-                    }
-                })
-                .catch((error) => {
 
-                    setIsLogin(false);
-                    resetCredentials();
-                })
-        }
-        else {
-            setIsLogin(false);
-            resetCredentials();
-        }
-    }, []);
+    // const [credentials, setCredentials] = useState({
+    //     'username': '',
+    //     'email': '',
+    //     'password': '',
+    //     'mobile': '',
+    //     'dob': '',
+    //     'gender': '',
+    //     'address': ''
+    // });
 
-    var resetCredentials = () => {
-        setCredentials({
-            'username': '',
-            'email': '',
-            'password': '',
-            'mobile': '',
-            'dob': '',
-            'gender': '',
-            'address': ''
-        })
-    }
+    // const history = useHistory();
+
+    // useEffect(() => {
+
+    //     var loginToken = window.sessionStorage.getItem('loginToken');
+
+    //     // axios request to check token validity
+    //     if (loginToken != null && loginToken != undefined) {
+
+
+    //         axios.get(tokenURL,
+    //             {
+    //                 headers:
+    //                 {
+    //                     'authorization':
+    //                         "bearer " + loginToken
+    //                 }
+    //             })
+    //             .then((result) => {
+    //                 console.log(result.data);
+    //                 if (result.data.message == "success") {
+    //                     setCredentials(result.data.credentials);
+    //                     setIsLogin(true);
+    //                 }
+    //                 else {
+    //                     setIsLogin(false);
+    //                     resetCredentials();
+    //                 }
+    //             })
+    //             .catch((error) => {
+
+    //                 setIsLogin(false);
+    //                 resetCredentials();
+    //             })
+    //     }
+    //     else {
+    //         setIsLogin(false);
+    //         resetCredentials();
+    //     }
+    // }, []);
+
+    // var resetCredentials = () => {
+    //     setCredentials({
+    //         'username': '',
+    //         'email': '',
+    //         'password': '',
+    //         'mobile': '',
+    //         'dob': '',
+    //         'gender': '',
+    //         'address': ''
+    //     })
+    // }
+
+    // useEffect(() => {
+
+    // }, isPassenger)
 
     return (
         <>
-            <ToastContainer />
-
-            <NavBar
-                isLogin={isLogin}
-                setIsLogin={setIsLogin}
-                credentials={credentials}
-                setCredentials={setCredentials}
-                resetCredentials={resetCredentials}
-            />
-
-
+            <NavBar />
 
             <Switch>
 
-                <Home path="/" exact component={Home}
-                    isLogin={isLogin}
-                    credentials={credentials}
+                <Home path="/" exact component={Home} />
 
-                />
+                <Route path='/login' exact component={Login} />
 
-                <DashBoard path='/Dashboard' exact component={DashBoard}
-                    isLogin={isLogin}
-                    credentials={credentials}
-                />
+                <Route path='/register' exact component={Signup} />
 
-                <YourRides path='/YourRides' exact component={YourRides}
+                <Contact path='/Contact' exact component={Contact} />
 
-                    isLogin={isLogin}
-                    credentials={credentials}
-                />
+                <About path='/About' exact component={About} />
 
-                <Contact path='/Contact' exact component={Contact}
+                <UserProtectedRoutes path="/Account" exact component={Account} />
 
-                    isLogin={isLogin}
-                    credentials={credentials}
-                />
+                <UserProtectedRoutes path="/YourRides" exact component={YourRides} />
 
-                <About path='/About' exact component={About}
+                <UserProtectedRoutes path="/Complaints" exact component={Complaints} />
 
-                    isLogin={isLogin}
-                    credentials={credentials}
-                />
+                <UserProtectedRoutes path='/Complaints/:id' exact component={Complaint} />
 
-                <Account path='/Account' exact component={Account}
-
-                    isLogin={isLogin}
-                    credentials={credentials}
-                />
-
-
-                <Complaints path='/Complaints' exact component={Complaints}
-
-                />
-
-                <Complaint path='/Complaints/:id' component={Complaint}
-
-                />
-
+                <UserProtectedRoutes path='/Dashboard' exact component={DashBoard} />
 
             </Switch>
 
