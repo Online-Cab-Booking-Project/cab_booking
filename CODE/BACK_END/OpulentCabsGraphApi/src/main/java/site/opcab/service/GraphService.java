@@ -14,4 +14,6 @@ public interface GraphService {
 	Vertex findNearestVertex(List<Double> coordinates);
 
 	List<DriverGraphOutputDTO> getDriverDistances(Vertex source, List<DriverGraphInputDTO> driverList);
+
+	List<Vertex> getNamedNodes();
 }
