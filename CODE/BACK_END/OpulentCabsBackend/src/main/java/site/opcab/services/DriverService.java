@@ -17,9 +17,9 @@ public interface DriverService {
 
 	public List<DriverDTO> getAllDrivers();
 
-	public DriverDTO getAccountDetails(Integer id);
+	public DriverDTO getAccountDetails(String email);
 
-	public void updateAccountDetails(Integer id, DriverDTO driver);
+	public void updateAccountDetails(String email, DriverDTO driver);
 
 	public List<RideDTO> getPreviousRideDetails(Integer id);
 

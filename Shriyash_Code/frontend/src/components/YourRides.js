@@ -16,10 +16,10 @@ function YourRides() {
 
 
 
-    var getRides = (user) => {
-
+    var getRides = () => {
+        let passengerOrDriver = isDriver ? "driver" : "passenger";
         let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.get(url + `/${user}/complaints`,
+        axios.get(url + `/${passengerOrDriver}/yourRides`,
             {
                 headers:
                 {

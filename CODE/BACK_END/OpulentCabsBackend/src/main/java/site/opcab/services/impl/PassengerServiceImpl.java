@@ -128,8 +128,9 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public List<RideDTO> getPreviousRideDetails(Integer id) {
-		List<BookingDetails> detailsList = bddao.findByPassengerId(id);
+	public List<RideDTO> getPreviousRideDetails(String email) {
+		Passenger passenger = pdao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException());
+		List<BookingDetails> detailsList = bddao.findByPassengerId(passenger.getId());
 		List<RideDTO> rides = detailsList.stream().map(detail -> mapper.map(detail, RideDTO.class))
 				.collect(Collectors.toList());
 		return rides;

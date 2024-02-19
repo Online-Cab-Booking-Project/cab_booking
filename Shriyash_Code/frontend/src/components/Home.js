@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import CanvasComponent from './CanvasComponent';
 import { useEffect, useState, useContext } from 'react';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
+import Carousel from './Carousel';
 
 function Home(props) {
 
@@ -10,6 +11,7 @@ function Home(props) {
     return (
         <>
             <div>
+                {/* <Carousel/> */}
                 <CanvasComponent />
                 <section className="py-4 py-xl-5">
                     <div className="container"></div>

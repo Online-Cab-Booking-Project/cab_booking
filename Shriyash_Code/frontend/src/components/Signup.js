@@ -213,7 +213,7 @@ function Signup() {
                                             <label htmlFor="vehname">Vehicle Name</label>
 
                                             <input className="border form-control" type="text"
-                                                name="vehName" id="vehname" onChange={OnTextChanged} value={credentials.vehName} placeholder="Ex. Dzire" autoFocus="" required="" />
+                                                name="vehname" id="vehname" onChange={OnTextChanged} value={credentials.vehname} placeholder="Ex. Dzire" autoFocus="" required="" />
 
                                         </div>
 
