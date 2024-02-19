@@ -7,19 +7,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import site.opcab.entities.Driver;
 import site.opcab.entities.Passenger;
 import site.opcab.entities.User;
 
 public class CustomUserDetails implements UserDetails {
 
-	private Passenger user;
-
-//	public CustomUserDetails() {
-//		super();
-//	}
+	private User user;
 
 	public CustomUserDetails(Passenger user) {
-		System.out.println("Inside custum user details" + user);
+		System.out.println(" for passenger" + user);
+
+		this.user = user;
+	}
+
+	public CustomUserDetails(Driver user) {
+		System.out.println("Inside custum user details driver" + user);
 
 		this.user = user;
 	}

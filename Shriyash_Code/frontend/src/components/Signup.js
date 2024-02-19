@@ -102,7 +102,7 @@ function Signup() {
         // check validation
         if (!validation()) return;
 
-        if (credentials.role === "ROLE_PASSENGER") {
+        if (credentials.role.match("ROLE_PASSENGER")) {
             // passenger regiter call
             register("passenger");
         }

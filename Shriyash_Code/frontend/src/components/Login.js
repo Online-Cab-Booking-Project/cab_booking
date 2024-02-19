@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import profileImg from '../assets/profile.png'
@@ -53,19 +53,23 @@ function Login() {
         return true;
     }
 
-    var validateLogin= (user)=>{
-        
+    var validateLogin = (user) => {
+
         // check with db email and pass 
         axios.post(url + `/${user}/login`, credentials).then((response) => {
             var replyReceived = response.data;
-            if (replyReceived.message === "Successful Authentication!!!") {
+            if (replyReceived.message.match("Successful Authentication!!!")) {
                 var tokenReceived = replyReceived.JWT_TOKEN;
                 window.sessionStorage.setItem("JWT_TOKEN", tokenReceived);
 
-                if (credentials.role === 'ROLE_PASSENGER')
+                if (user.match('passenger')){
                     dispatch(credentialsActions.setPassengerStatus(true));
-                else
+                    dispatch(credentialsActions.setDriverStatus(false));
+                }
+                else{
+                    dispatch(credentialsActions.setPassengerStatus(false));
                     dispatch(credentialsActions.setDriverStatus(true));
+                }
 
 
                 toast.success("Login Success")
@@ -73,7 +77,7 @@ function Login() {
             }
         })
             .catch((error) => {
-                if (error.message === "Bad credentials")
+                if (error.message.match("Bad credentials"))
                     toast.error(error.message);
                 else
                     toast.error("Internal Error Please Try Again");
@@ -87,8 +91,8 @@ function Login() {
     var Login = () => {
 
         if (!validateInput()) return;
-
-        if(credentials.role==="ROLE_PASSENGER")
+        debugger;
+        if (credentials.role.match("ROLE_PASSENGER"))
             validateLogin("passenger");
         else
             validateLogin("driver");

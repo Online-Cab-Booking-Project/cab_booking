@@ -10,13 +10,13 @@ function Account() {
     const credentials = useSelector((state) => state.credential.credentials)
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
-    const [disableState, setDisableState] = useState(false);
+    const [disableState, setDisableState] = useState(true);
     const dispatch = useDispatch();
 
-    var getAccountDetails = () => {
+    var getAccountDetails = (user) => {
 
         let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.get(url + "/passenger/account/",
+        axios.get(url + `/${user}/account/`,
             {
                 headers:
                 {
@@ -24,7 +24,8 @@ function Account() {
                 }
             })
             .then((res) => {
-                dispatch(credentialsActions.setCredentials(res.data))
+                dispatch(credentialsActions.setCredentials(res.data));
+                toast.success("User details fetched");
             })
             .catch((err) => {
                 console.log(err);
@@ -70,25 +71,11 @@ function Account() {
 
 
     useEffect(() => {
-        //clear credentials
-        dispatch(credentialsActions.setCredentials({
-            'firstName': '',
-            'lastName': '',
-            'email': '',
-            'mobileNo': '',
-            'dob': '',
-            'gender': '',
-            'address': '',
-            'wallet': {
-                'walletId': '',
-                "balance": ''
-            }
-        }));
-        // set disable true
-        setDisableState(true);
-
-        getAccountDetails();
-        toast.success("User details fetched")
+        debugger
+        console.log(isPassenger);
+        console.log(isDriver)
+        isPassenger && getAccountDetails("passenger");
+        isDriver && getAccountDetails("driver");
     }, [])
 
 
@@ -121,6 +108,52 @@ function Account() {
                                         <option value="O">Other</option>
                                     </select></div>
                                     <div className="mb-3"></div>
+
+                                    {isDriver &&
+
+                                        <div>
+                                            <div className="mb-3">
+                                                <label htmlFor="vehname">Vehicle Name</label>
+
+                                                <input className="border form-control" type="text"
+                                                    name="vehName" id="vehname" onChange={OnTextChanged} value={credentials.vehName} disabled={disableState} placeholder="Ex. Dzire" autoFocus="" required="" />
+
+                                            </div>
+
+
+                                            <div className="mb-3">
+                                                <label htmlFor="vehColor">Vehicle Color</label>
+
+                                                <input className="border form-control" type="text"
+                                                    name="vehcolor" id="vehColor" onChange={OnTextChanged} value={credentials.vehcolor} disabled={disableState} placeholder="Ex. White" autoFocus="" required="" />
+
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label htmlFor="vehNo">Vehicle No</label>
+
+                                                <input className="border form-control" type="text"
+                                                    name="vehno" id="vehNo" onChange={OnTextChanged} value={credentials.vehno} disabled={disableState} placeholder="Ex. MH12UC5896" autoFocus="" required="" />
+
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label htmlFor="vehType">Vehicle Type</label>
+
+                                                <input className="border form-control" type="text"
+                                                    name="vehtype" id="vehType" onChange={OnTextChanged} value={credentials.vehtype} disabled={disableState} placeholder="Ex. Sedan" autoFocus="" required="" />
+
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label htmlFor="ava">Availability</label>
+                                                <select className=" form-select" name="availability" value={credentials.availability} disabled={disableState} onChange={OnTextChanged}>
+                                                    <option value="A">Available</option>
+                                                    <option value="N">Not Available</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    }
                                 </form>
                                 <button className="btn btn-primary" type="button" onClick={Edit} disabled={!disableState} hidden={!disableState}>Edit</button>
                                 <button className="btn btn-warning me-2" type="button" onClick={Update} disabled={disableState} hidden={disableState}>Update</button>
@@ -136,8 +169,8 @@ function Account() {
             <p className="text-center"><strong>Wallet Information</strong></p>
             <picture className="text-end d-lg-flex justify-content-lg-center"><img className="d-lg-flex align-items-lg-center" /></picture>
             <div>
-                <p className="d-lg-flex justify-content-lg-center">Customer Wallet ID# {credentials.wallet.walletId}</p>
-                <p className="d-lg-flex justify-content-lg-center">Your Balance is {credentials.wallet.balance}₹  &nbsp;</p>
+                <p className="d-lg-flex justify-content-lg-center">Customer Wallet ID# {credentials.wallet && credentials.wallet["walletId"]}</p>
+                <p className="d-lg-flex justify-content-lg-center">Your Balance is {credentials.wallet && credentials.wallet["balance"]}₹  &nbsp;</p>
             </div>
         </div>
     </section>
