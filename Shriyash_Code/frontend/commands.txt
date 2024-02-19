@@ -4,3 +4,5 @@ npm install
 npm i bootstrap
 npm i axios
 npm i react-router-dom@6.11.1
+
+insert into booking_details values (default,"2009-05-14","15:06:01","very polite customer","katraj","safe driver", "hinjewadi phase 2", "D",5,13,700.0)
