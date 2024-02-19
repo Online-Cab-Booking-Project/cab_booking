@@ -13,10 +13,10 @@ function Account() {
     const [disableState, setDisableState] = useState(true);
     const dispatch = useDispatch();
 
-    var getAccountDetails = (user) => {
-
+    var getAccountDetails = () => {
+        let passengerOrDriver = isDriver ? "driver" : "passenger";
         let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.get(url + `/${user}/account/`,
+        axios.get(url + `/${passengerOrDriver}/account/`,
             {
                 headers:
                 {
@@ -47,8 +47,10 @@ function Account() {
 
     var Update = () => {
 
+        let passengerOrDriver = isDriver ? "driver" : "passenger";
+
         let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.put(url + "/passenger/account/update/",
+        axios.put(url + `/${passengerOrDriver}/account/update/`,
             credentials,
             {
                 headers:
@@ -71,11 +73,10 @@ function Account() {
 
 
     useEffect(() => {
-        debugger
-        console.log(isPassenger);
-        console.log(isDriver)
-        isPassenger && getAccountDetails("passenger");
-        isDriver && getAccountDetails("driver");
+
+        setDisableState(true);
+
+        getAccountDetails();
     }, [])
 
 
@@ -116,7 +117,7 @@ function Account() {
                                                 <label htmlFor="vehname">Vehicle Name</label>
 
                                                 <input className="border form-control" type="text"
-                                                    name="vehName" id="vehname" onChange={OnTextChanged} value={credentials.vehName} disabled={disableState} placeholder="Ex. Dzire" autoFocus="" required="" />
+                                                    name="vehname" id="vehname" onChange={OnTextChanged} value={credentials.vehName} disabled={disableState} placeholder="Ex. Dzire" autoFocus="" required="" />
 
                                             </div>
 

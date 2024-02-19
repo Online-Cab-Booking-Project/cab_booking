@@ -7,6 +7,8 @@ import { credentialsActions } from "../react-redux-components/credentials-slice"
 
 function UserProtectedRoutes(props) {
     const isPassenger = useSelector((state) => state.credential.isPassenger);
+    const isDriver = useSelector((state) => state.credential.isDriver);
+
     const dispatch = useDispatch();
     var token = window.sessionStorage.getItem("JWT_TOKEN");
 
@@ -15,8 +17,7 @@ function UserProtectedRoutes(props) {
     }
 
 
-    if (token !== null && token !== undefined) {
-        dispatch(credentialsActions.setPassengerStatus(true));
+    if (token !== null && token !== undefined && (isPassenger || isDriver)) {
         return <Route path={props.path} exact
             component={props.component} />
     }

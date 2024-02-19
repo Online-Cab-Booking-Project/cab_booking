@@ -79,13 +79,14 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public DriverDTO getAccountDetails(Integer id) {
-		return mapper.map(ddao.findById(id).orElseThrow(() -> new EntityNotFoundException()), DriverDTO.class);
+	public DriverDTO getAccountDetails(String email) {
+		return mapper.map(ddao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException()), DriverDTO.class);
 	}
 
 	@Override
-	public void updateAccountDetails(Integer id, DriverDTO driver) {
-		Driver d = ddao.findById(id).orElseThrow(() -> new EntityNotFoundException());
+	public void updateAccountDetails(String email, DriverDTO driver) {
+		Driver d = ddao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException());
+
 		d.setEmail(driver.getEmail());
 		d.setFirstName(driver.getFirstName());
 		d.setLastName(driver.getLastName());
@@ -93,6 +94,7 @@ public class DriverServiceImpl implements DriverService {
 		d.setAddress(driver.getAddress());
 		d.setGender(EGender.valueOf(driver.getGender()));
 		d.setDob(driver.getDob());
+		ddao.save(d);
 	}
 
 	@Override

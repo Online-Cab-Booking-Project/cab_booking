@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -79,15 +80,19 @@ public class DriverController {
 		return ResponseEntity.status(HttpStatus.OK).body(dservice.getAllDrivers());
 	}
 
-	@GetMapping("/account/{id}")
-	public ResponseEntity<?> getAccountDetails(@PathVariable Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(dservice.getAccountDetails(id));
+	@GetMapping("/account/")
+	public ResponseEntity<?> getAccountDetails() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(dservice.getAccountDetails(authentication.getPrincipal().toString()));
 	}
 
-	@PutMapping("/account/update/{id}")
-	public ResponseEntity<?> updateAccountDetails(@PathVariable Integer id, @Valid @RequestBody DriverDTO driver) {
-		dservice.updateAccountDetails(id, driver);
-		return ResponseEntity.status(HttpStatus.OK).body(dservice.getAccountDetails(id));
+	@PutMapping("/account/update/")
+	public ResponseEntity<?> updateAccountDetails(@Valid @RequestBody DriverDTO driver) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		dservice.updateAccountDetails(authentication.getPrincipal().toString(), driver);
+		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
 
 	@GetMapping("/account/wallet/{id}")

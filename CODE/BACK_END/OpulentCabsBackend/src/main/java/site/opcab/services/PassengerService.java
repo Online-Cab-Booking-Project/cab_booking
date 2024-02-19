@@ -25,7 +25,7 @@ public interface PassengerService {
 
 	public void updateAccountDetails(String email, PassengerDTO passenger);
 
-	public List<RideDTO> getPreviousRideDetails(Integer id);
+	public List<RideDTO> getPreviousRideDetails(String email);
 
 	public PassengerWalletDTO getWalletDetails(Integer id);
 
