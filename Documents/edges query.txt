@@ -56,10 +56,10 @@ INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (154, 31, 30);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
-VALUES (30, 30, 20);
+VALUES (30, 23, 20);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
-VALUES (396, 20, 26);
+VALUES (396, 30, 26);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (127, 5, 6);
@@ -259,19 +259,17 @@ VALUES (180, 41, 24);
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (185, 24, 11);
 
-
+INSERT INTO edges (weight, source_vertex_id, destination_vertex_id)
+VALUES (50, 14, 1);
 
 INSERT INTO edges (weight, source_vertex_id, destination_vertex_id)
-VALUES (50, 1, 14);
+VALUES (210, 17, 14);
 
 INSERT INTO edges (weight, source_vertex_id, destination_vertex_id)
-VALUES (210, 14, 17);
+VALUES (50, 2, 17);
 
 INSERT INTO edges (weight, source_vertex_id, destination_vertex_id)
-VALUES (50, 17, 2);
-
-INSERT INTO edges (weight, source_vertex_id, destination_vertex_id)
-VALUES (80, 17, 16);
+VALUES (80, 16, 17);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (130, 15, 16);
@@ -319,10 +317,10 @@ INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (154, 30, 31);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
-VALUES (30, 20, 30);
+VALUES (30, 20, 23);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
-VALUES (396, 26, 20);
+VALUES (396, 26, 30);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (127, 6, 5);
@@ -458,8 +456,6 @@ VALUES (36, 66, 65);
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (423, 80, 67);
-
-
 
 INSERT INTO edges (weight, destination_vertex_id, source_vertex_id)
 VALUES (174, 81, 80);

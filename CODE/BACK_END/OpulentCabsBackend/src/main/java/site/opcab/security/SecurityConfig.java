@@ -33,9 +33,10 @@ public class SecurityConfig {
 		http.
 		// disable CSRF token generation n verification
 				csrf().disable().cors().and().authorizeRequests()
-				.antMatchers("/passenger/register", "/passenger/login", "/driver/register", "/driver/login").permitAll()
-				.antMatchers("/passenger").hasRole("P").antMatchers("/driver").hasRole("D").anyRequest().authenticated()
-				.and().httpBasic().and()
+				.antMatchers("/passenger/register", "/passenger/login", "/driver/register", "/driver/login",
+						"/passenger/bookRide")
+				.permitAll().antMatchers("/passenger").hasRole("P").antMatchers("/driver").hasRole("D").anyRequest()
+				.authenticated().and().httpBasic().and()
 
 				// to tell spring sec : not to use HttpSession to store user's auth details
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
