@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import site.opcab.service.*;
-import site.opcab.dao.*;
+import site.opcab.custom_exceptions.ApiException;
 import site.opcab.dto.DriverGraphInputDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PathOutputDTO;
-import site.opcab.dto.Point;
 import site.opcab.enitites.*;
 
 import java.util.ArrayList;
@@ -17,6 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/graph")
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+		RequestMethod.DELETE })
 public class GraphController {
 
 	@Autowired
@@ -49,5 +50,13 @@ public class GraphController {
 		Vertex source = graphService.findNearestVertex(sourceCoordinates);
 
 		return graphService.getDriverDistances(source, driverList);
+	}
+
+	@GetMapping("/getnamednodes")
+	public List<Vertex> getNamedNodes() {
+		List<Vertex> nodeList = graphService.getNamedNodes();
+		if (nodeList == null)
+			throw new ApiException("Something went wrong..");
+		return nodeList;
 	}
 }

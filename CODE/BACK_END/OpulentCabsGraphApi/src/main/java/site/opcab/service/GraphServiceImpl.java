@@ -28,7 +28,6 @@ public class GraphServiceImpl implements GraphService {
 
 	@Autowired
 	private EdgeDao edgeDao;
-
 	@Autowired
 	private VertexDao vertexDao;
 
@@ -47,7 +46,7 @@ public class GraphServiceImpl implements GraphService {
 		Map<Vertex, Vertex> predecessorMap = new HashMap<>();
 		Double cost = 0.0;
 		djikstraAlgorithm(source, distanceMap, predecessorMap);
-		cost = distanceMap.get(destination) * 10;
+		cost = distanceMap.get(destination) * 0.1;
 
 		return getPathWithCoordinates(source, destination, predecessorMap, cost);
 	}
@@ -82,8 +81,8 @@ public class GraphServiceImpl implements GraphService {
 		while (!minHeap.isEmpty()) {
 			Node current = minHeap.poll();
 			Vertex currentVertex = current.vertex;
-
-			for (Edge neighbor : directedGraph.get(currentVertex)) {
+			List<Edge> edgeList = directedGraph.get(currentVertex);
+			for (Edge neighbor : edgeList) {
 				double newDistance = distanceMap.get(currentVertex) + neighbor.getWeight();
 				if (!distanceMap.containsKey(neighbor.getDestinationVertex())
 						|| newDistance < distanceMap.get(neighbor.getDestinationVertex())) {
@@ -153,4 +152,11 @@ public class GraphServiceImpl implements GraphService {
 
 		return directedGraph;
 	}
+
+	@Override
+	public List<Vertex> getNamedNodes() {
+		return vertexDao.getByNameIsNotNull();
+
+	}
+
 }
