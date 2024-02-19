@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import site.opcab.entities.enums.EAvailability;
+
 public class DriverDTO {
 	private Long id;
 	private String firstName;
@@ -26,9 +28,12 @@ public class DriverDTO {
 	private String gender;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	private LocalDate dob;
-	private String licenseNumber;
-	private String carModel;
-	private String carRegistrationNumber;
+//	private String licenseNumber;
+	private String vehname;
+	private String vehtype;
+	private String vehcolor;
+	private String availability;
+	private String vehno;
 
 	public Long getId() {
 		return id;
@@ -102,35 +107,50 @@ public class DriverDTO {
 		this.dob = dob;
 	}
 
-	public String getLicenseNumber() {
-		return licenseNumber;
+	public String getVehname() {
+		return vehname;
 	}
 
-	public void setLicenseNumber(String licenseNumber) {
-		this.licenseNumber = licenseNumber;
+	public void setVehname(String vehname) {
+		this.vehname = vehname;
 	}
 
-	public String getCarModel() {
-		return carModel;
+	public String getVehtype() {
+		return vehtype;
 	}
 
-	public void setCarModel(String carModel) {
-		this.carModel = carModel;
+	public void setVehtype(String vehtype) {
+		this.vehtype = vehtype;
 	}
 
-	public String getCarRegistrationNumber() {
-		return carRegistrationNumber;
+	public String getVehcolor() {
+		return vehcolor;
 	}
 
-	public void setCarRegistrationNumber(String carRegistrationNumber) {
-		this.carRegistrationNumber = carRegistrationNumber;
+	public void setVehcolor(String vehcolor) {
+		this.vehcolor = vehcolor;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public String getVehno() {
+		return vehno;
+	}
+
+	public void setVehno(String vehno) {
+		this.vehno = vehno;
 	}
 
 	@Override
 	public String toString() {
 		return "DriverDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + mobileNo + ", licenseNumber=" + licenseNumber + ", carModel=" + carModel
-				+ ", carRegistrationNumber=" + carRegistrationNumber + "]";
+				+ ", phoneNumber=" + mobileNo + ", carModel=" + vehtype + ", carRegistrationNumber=" + vehno + "]";
 	}
 
 }

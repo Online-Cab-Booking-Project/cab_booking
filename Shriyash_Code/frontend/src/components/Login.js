@@ -58,10 +58,10 @@ function Login() {
         if (!validateInput()) return;
 
         // check with db email and pass 
-        axios.post(url + "/login", credentials).then((response) => {
+        axios.post(url + "/passenger/login", credentials).then((response) => {
             var replyReceived = response.data;
-            if (replyReceived.message === "success") {
-                var tokenReceived = replyReceived.loginToken;
+            if (replyReceived.message === "Successful Authentication!!!") {
+                var tokenReceived = replyReceived.JWT_TOKEN;
                 window.sessionStorage.setItem("JWT_TOKEN", tokenReceived);
 
                 if (credentials.role === 'ROLE_PASSENGER')
@@ -69,12 +69,16 @@ function Login() {
                 else
                     dispatch(credentialsActions.setDriverStatus(true));
 
+
                 toast.success("Login Success")
                 history.push('/');
             }
         })
             .catch((error) => {
-                toast.error("Internal Error Please Try Again");
+                if (error.message === "Bad credentials")
+                    toast.error(error.message);
+                else
+                    toast.error("Internal Error Please Try Again");
                 console.log(error);
                 resetCredentials();
                 dispatch(credentialsActions.setPassengerStatus(false));
@@ -106,7 +110,7 @@ function Login() {
                             <div className="mb-3">
                                 <label htmlFor="role">Role</label>
                                 <select className=" form-select" name="role" value={credentials.role} onChange={OnTextChanged}>
-                                    <option selected value="ROLE_PASSENGER">Passenger</option>
+                                    <option value="ROLE_PASSENGER">Passenger</option>
                                     <option value="ROLE_DRIVER">Driver</option>
                                 </select>
                             </div>
@@ -118,7 +122,7 @@ function Login() {
                             <div id="emailHelp" className="form-text text-center mb-5 text-dark">
                                 Not Registered?
                                 <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/register">
-                                    <a className="text-dark fw-bold"> Create an Account</a>
+                                    <span className="text-dark fw-bold"> Create an Account</span>
                                 </Link>
                             </div>
                         </form>

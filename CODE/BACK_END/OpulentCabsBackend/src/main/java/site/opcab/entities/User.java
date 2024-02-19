@@ -20,7 +20,7 @@ public abstract class User {
 	@Column(name = "last_name", length = 20)
 	private String lastName;
 
-	@Column(length = 50)
+	@Column(length = 50, unique = true, nullable = false)
 	private String email;
 
 	@Column(length = 255)

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import site.opcab.dto.ApiResponse;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
@@ -28,6 +30,7 @@ import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
 import site.opcab.dto.SourceInputDto;
 import site.opcab.entities.Complaint;
+import site.opcab.security.CustomUserDetails;
 import site.opcab.security.JwtUtils;
 import site.opcab.services.PassengerService;
 
@@ -49,8 +52,8 @@ public class PassengerController {
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody PassengerDTO passenger) {
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(pservice.register(passenger));
+		pservice.register(passenger);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("success"));
 	}
 
 	/*
@@ -80,16 +83,19 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAllPassenger());
 	}
 
-	@GetMapping("/account/{id}")
-	public ResponseEntity<?> getAccountDetails(@PathVariable Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAccountDetails(id));
+	@GetMapping("/account/")
+	public ResponseEntity<?> getAccountDetails() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(pservice.getAccountDetails(authentication.getPrincipal().toString()));
 	}
 
-	@PutMapping("/account/update/{id}")
-	public ResponseEntity<?> updateAccountDetails(@PathVariable Integer id,
-			@Valid @RequestBody PassengerDTO passenger) {
-		pservice.updateAccountDetails(id, passenger);
-		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAccountDetails(id));
+	@PutMapping("/account/update/")
+	public ResponseEntity<?> updateAccountDetails(@Valid @RequestBody PassengerDTO passenger) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		pservice.updateAccountDetails(authentication.getPrincipal().toString(), passenger);
+
+		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 
 	@GetMapping("/account/wallet/{id}")

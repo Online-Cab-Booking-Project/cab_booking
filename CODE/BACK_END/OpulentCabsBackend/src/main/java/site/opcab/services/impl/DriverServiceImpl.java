@@ -25,6 +25,7 @@ import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.entities.Driver;
 import site.opcab.entities.DriverWallet;
+import site.opcab.entities.enums.EAvailability;
 import site.opcab.entities.enums.EComplaintStatus;
 import site.opcab.entities.enums.EGender;
 import site.opcab.services.DriverService;
@@ -53,6 +54,7 @@ public class DriverServiceImpl implements DriverService {
 		Driver d = mapper.map(driver, Driver.class);
 		d.setPassword(enc.encode(d.getPassword()));
 		d.setGender(EGender.valueOf(driver.getGender()));
+		d.setAvailability(EAvailability.valueOf(driver.getAvailability()));
 
 		DriverWallet wallet = new DriverWallet(0.0, d);
 		wdao.save(wallet);

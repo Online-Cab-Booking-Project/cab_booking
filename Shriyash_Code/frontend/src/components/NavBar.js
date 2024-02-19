@@ -5,6 +5,7 @@ import logo from '../assets/Opulent_Hori.svg'
 import person from '../assets/person.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
+import { toast } from 'react-toastify';
 
 function NavBar() {
 
@@ -14,11 +15,12 @@ function NavBar() {
     const history = useHistory();
 
     var logout = () => {
+        history.push('/');
         window.sessionStorage.clear();
         dispatch(credentialsActions.setPassengerStatus(false));
         dispatch(credentialsActions.setDriverStatus(false));
         dispatch(credentialsActions.setCredentials({}));
-        window.location.replace('/');
+        toast.success("Logged Out");
     }
 
 
@@ -82,7 +84,7 @@ function NavBar() {
                                         <li className="nav-item">
                                             <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/yourRides">
                                                 <div className='nav-link'>
-                                                    Your Rides
+                                                    Rides
                                                 </div>
                                             </Link>
                                         </li>

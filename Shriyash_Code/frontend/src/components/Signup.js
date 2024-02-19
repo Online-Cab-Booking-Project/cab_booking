@@ -7,14 +7,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import url from '../configs/urlConfig';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 
 
 function Signup() {
     const history = useHistory();
-    const [message, setMessage] = useState();
     const dispatch = useDispatch();
+    const isPassenger = useSelector((state) => state.credential.isPassenger);
+    const isDriver = useSelector((state) => state.credential.isDriver);
     const [credentials, setCredentials] = useState({
         'firstName': '',
         'lastName': '',
@@ -23,8 +24,15 @@ function Signup() {
         're_password': "",
         'mobileNo': '',
         'dob': '',
-        'gender': '',
-        'address': ''
+        'gender': 'M',
+        'address': '',
+        'role': 'ROLE_PASSENGER',
+        "vehcolor": "",
+        "vehname": "",
+        "vehno": "",
+        "vehtype": "",
+        "x_coordinates": '',
+        "y_coordinates": ''
     });
 
     const resetCredentials = () => {
@@ -36,8 +44,15 @@ function Signup() {
             're_password': "",
             'mobileNo': '',
             'dob': '',
-            'gender': '',
-            'address': ''
+            'gender': 'M',
+            'address': '',
+            'role': 'ROLE_PASSENGER',
+            "vehcolor": "",
+            "vehname": "",
+            "vehno": "",
+            "vehtype": "",
+            "x_coordinates": '',
+            "y_coordinates": ''
         })
     }
 
@@ -47,24 +62,12 @@ function Signup() {
         setCredentials(copyOfCredentials);
     }
 
-    const setMsg = (msg) => {
-        // setMessage(msg);
-        toast.success(msg);
-        setTimeout(() => {
-            setMessage("");
-        }, 2000);
-    }
-
     var validation = () => {
 
         return true;
     }
 
-    var onSignUp = (args) => {
-        console.log(credentials);
-        // check validation
-        if (!validation()) return;
-
+    var registerPassenger = () => {
         // post method insert axios call 
         axios.post(url + "/passenger/register", credentials)
             .then((response) => {
@@ -72,11 +75,10 @@ function Signup() {
                 // receive token as response
                 var reply = response.data;
                 if (reply.message === "success") {
-                    var tokenReceived = reply.loginToken;
-                    window.sessionStorage.setItem("JWT_TOKEN", tokenReceived);
                     toast.success("Registeration Success");
+                    toast.success("Please Login");
                     dispatch(credentialsActions.setPassengerStatus(true));
-                    history.push('/');
+                    history.push('/login');
 
                 }
                 else {
@@ -86,9 +88,27 @@ function Signup() {
             }
             )
             .catch((error) => {
-                toast.error('Internal server error ' + error)
+                toast.error('Internal server error')
+                console.log(error);
             }
             )
+    }
+
+    var onSignUp = (args) => {
+        console.log(credentials);
+        // check validation
+        if (!validation()) return;
+
+        if(credentials.role==="ROLE_PASSENGER"){
+            // passenger regiter call
+            register();
+        }
+        else{
+            // register driver 
+            register();
+
+        }
+
     }
 
 
@@ -108,11 +128,24 @@ function Signup() {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
+                                    <label htmlFor="firstName">First Name</label>
 
                                     <input className="border form-control" type="text"
-                                        name="username" id="username" onChange={OnTextChanged} value={credentials.username} placeholder="Ex. Manish Shkla" autoFocus="" required="" />
+                                        name="firstName" id="firstName" onChange={OnTextChanged} value={credentials.firstName} placeholder="Eg. Manish Shkla" autoFocus="" required="" />
 
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="lastName">Last Name</label>
+
+                                    <input className="border form-control" type="text"
+                                        name="lastName" id="lastName" onChange={OnTextChanged} value={credentials.lastName} placeholder="Ex. Manish Shkla" autoFocus="" required="" />
+
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="email">Email</label>
+                                    <input className="border  form-control" type="email" id="email"
+                                        name="email" onChange={OnTextChanged} value={credentials.email} placeholder="email" required="" />
                                 </div>
 
                                 <div className="mb-3">
@@ -121,36 +154,94 @@ function Signup() {
                                         className="border  form-control d-lg-flex justify-content-lg-center align-items-lg-center"
                                         type="password" name="password" onChange={OnTextChanged} value={credentials.password} placeholder="Password" required="" />
                                 </div>
+
                                 <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
+                                    <label htmlFor="re_password">Re-Enter Password</label>
                                     <input
-                                        className="border  form-control d-lg-flex justify-content-lg-center align-items-lg-center"
+                                        className="border  form-control d-lg-flex justify-content-lg-center align-items-lg-center" id="re_password"
                                         type="password" onChange={OnTextChanged} value={credentials.re_password} name="re_password" placeholder="Re-Enter Password"
-                                        required="" /></div>
+                                        required="" />
+                                </div>
+
+
                                 <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
-                                    <input className="border  form-control" type="email"
-                                        name="email" onChange={OnTextChanged} value={credentials.email} placeholder="email" required="" /></div>
-                                <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
+                                    <label htmlFor="mb">Mobile No</label>
                                     <input
-                                        className="border  form-control d-lg-flex justify-content-lg-center align-items-lg-center"
-                                        type="number" onChange={OnTextChanged} value={credentials.mobile} name="mobile" placeholder="Mobile No" required="" /></div>
+                                        className="border  form-control d-lg-flex justify-content-lg-center align-items-lg-center" id="mb"
+                                        type="number" onChange={OnTextChanged} value={credentials.mobileNo} name="mobileNo" placeholder="Mobile No" required="" />
+                                </div>
+
                                 <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
-                                    <textarea name="address" onChange={OnTextChanged} value={credentials.address}
+                                    <label htmlFor="address">Address</label>
+                                    <textarea name="address" onChange={OnTextChanged} value={credentials.address} id="address"
                                         className="border rounded form-control d-lg-flex justify-content-lg-center align-items-lg-center"
-                                        placeholder="Address " autoFocus="" required=""></textarea></div>
+                                        placeholder="Address " autoFocus="" required="">
+                                    </textarea>
+                                </div>
+
                                 <div className="mb-3">
-                                    <label htmlFor="email">Username</label>
-                                    <select className="border  form-select" name="gender" value={credentials.gender}
+                                    <label htmlFor="gender">Gender</label>
+                                    <select className="border  form-select" name="gender" value={credentials.gender} id="gender"
                                         required="" onChange={OnTextChanged}>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
-                                    </select></div>
-                                <div className="mb-3"><input className="border  form-control" type="date"
-                                    name="dob" onChange={OnTextChanged} value={credentials.dob} required="" /></div>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="O">Other</option>
+                                    </select>
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="date">Date Of Birth</label>
+                                    <input className="border  form-control" type="date" id="date"
+                                        name="dob" onChange={OnTextChanged} value={credentials.dob} required="" />
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="role">Role</label>
+                                    <select className=" form-select" name="role" value={credentials.role} onChange={OnTextChanged}>
+                                        <option value="ROLE_PASSENGER">Passenger</option>
+                                        <option value="ROLE_DRIVER">Driver</option>
+                                    </select>
+                                </div>
+
+                                {credentials.role && credentials.role !== undefined && credentials.role === "ROLE_DRIVER" &&
+
+                                    <div>
+                                        <div className="mb-3">
+                                            <label htmlFor="vehname">Vehicle Name</label>
+
+                                            <input className="border form-control" type="text"
+                                                name="vehName" id="vehname" onChange={OnTextChanged} value={credentials.vehName} placeholder="Ex. Dzire" autoFocus="" required="" />
+
+                                        </div>
+
+
+                                        <div className="mb-3">
+                                            <label htmlFor="vehColor">Vehicle Color</label>
+
+                                            <input className="border form-control" type="text"
+                                                name="vehcolor" id="vehColor" onChange={OnTextChanged} value={credentials.vehcolor} placeholder="Ex. White" autoFocus="" required="" />
+
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label htmlFor="vehNo">Vehicle No</label>
+
+                                            <input className="border form-control" type="text"
+                                                name="vehno" id="vehNo" onChange={OnTextChanged} value={credentials.vehno} placeholder="Ex. MH12UC5896" autoFocus="" required="" />
+
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <label htmlFor="vehType">Vehicle Type</label>
+
+                                            <input className="border form-control" type="text"
+                                                name="vehtype" id="vehType" onChange={OnTextChanged} value={credentials.vehtype} placeholder="Ex. Sedan" autoFocus="" required="" />
+
+                                        </div>
+                                    </div>
+                                }
+
+
                                 <div className="mb-3">
                                     <div className="text-center">
 

@@ -4,14 +4,25 @@ const credentialsSlice = createSlice({
     name: "credential",
     initialState:
     {
-        credentials: {},
+        credentials: {
+        'firstName': '',
+        'lastName': '',
+        'email': '',
+        'mobileNo': '',
+        'dob': '',
+        'gender': '',
+        'address': '',
+        'wallet': {
+            'walletId': '',
+            "balance": ''
+        }},
         isPassenger: false,
         isDriver: false
     },
 
     reducers: {
         setCredentials(state, action) {
-            state.credentials = action.payload;
+            state.credentials = { ...action.payload };
         },
 
         setPassengerStatus(state, action) {

@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import site.opcab.entities.PassengerWallet;
+
 public class PassengerDTO {
 	private Long id;
 	private String firstName;
@@ -26,6 +28,8 @@ public class PassengerDTO {
 	private String gender;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	private LocalDate dob;
+
+	private PassengerWalletDTO wallet;
 
 	public String getAddress() {
 		return address;
@@ -97,6 +101,14 @@ public class PassengerDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public PassengerWalletDTO getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(PassengerWalletDTO wallet) {
+		this.wallet = wallet;
 	}
 
 	@Override

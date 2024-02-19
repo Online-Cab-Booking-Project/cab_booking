@@ -77,6 +77,7 @@ public class PassengerServiceImpl implements PassengerService {
 	public PassengerDTO register(PassengerDTO passenger) {
 		System.out.println(passenger);
 		Passenger p = mapper.map(passenger, Passenger.class);
+		System.out.println(p);
 		p.setPassword(enc.encode(p.getPassword()));
 		System.out.println(EGender.valueOf(passenger.getGender()));
 		p.setGender(EGender.valueOf(passenger.getGender()));
@@ -105,14 +106,17 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public PassengerDTO getAccountDetails(Integer id) {
+	public PassengerDTO getAccountDetails(String email) {
+		Passenger passenger = pdao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException());
+		PassengerDTO passengerDto = mapper.map(passenger, PassengerDTO.class);
+		passengerDto.setWallet(mapper.map(passenger.getWallet(), PassengerWalletDTO.class));
 
-		return mapper.map(pdao.findById(id).orElseThrow(() -> new EntityNotFoundException()), PassengerDTO.class);
+		return passengerDto;
 	}
 
 	@Override
-	public void updateAccountDetails(Integer id, PassengerDTO passenger) {
-		Passenger p = pdao.findById(id).orElseThrow(() -> new EntityNotFoundException());
+	public void updateAccountDetails(String email, PassengerDTO passenger) {
+		Passenger p = pdao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException());
 		p.setEmail(passenger.getEmail());
 		p.setFirstName(passenger.getFirstName());
 		p.setLastName(passenger.getLastName());
@@ -120,6 +124,7 @@ public class PassengerServiceImpl implements PassengerService {
 		p.setAddress(passenger.getAddress());
 		p.setGender(EGender.valueOf(passenger.getGender()));
 		p.setDob(passenger.getDob());
+		pdao.save(p);
 	}
 
 	@Override
