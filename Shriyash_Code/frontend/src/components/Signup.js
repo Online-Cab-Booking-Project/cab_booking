@@ -13,9 +13,6 @@ import { credentialsActions } from '../react-redux-components/credentials-slice'
 
 function Signup() {
     const history = useHistory();
-    const dispatch = useDispatch();
-    const isPassenger = useSelector((state) => state.credential.isPassenger);
-    const isDriver = useSelector((state) => state.credential.isDriver);
     const [credentials, setCredentials] = useState({
         'firstName': '',
         'lastName': '',
@@ -31,6 +28,7 @@ function Signup() {
         "vehname": "",
         "vehno": "",
         "vehtype": "",
+        "availability": 'A',
         "x_coordinates": '',
         "y_coordinates": ''
     });
@@ -51,6 +49,7 @@ function Signup() {
             "vehname": "",
             "vehno": "",
             "vehtype": "",
+            "availability": 'A',
             "x_coordinates": '',
             "y_coordinates": ''
         })
@@ -67,9 +66,14 @@ function Signup() {
         return true;
     }
 
-    var registerPassenger = () => {
+    var driverValidation = () => {
+
+        return true;
+    }
+
+    var register = (user) => {
         // post method insert axios call 
-        axios.post(url + "/passenger/register", credentials)
+        axios.post(url + `/${user}/register`, credentials)
             .then((response) => {
                 console.log(response.data);
                 // receive token as response
@@ -77,7 +81,6 @@ function Signup() {
                 if (reply.message === "success") {
                     toast.success("Registeration Success");
                     toast.success("Please Login");
-                    dispatch(credentialsActions.setPassengerStatus(true));
                     history.push('/login');
 
                 }
@@ -99,16 +102,16 @@ function Signup() {
         // check validation
         if (!validation()) return;
 
-        if(credentials.role==="ROLE_PASSENGER"){
+        if (credentials.role === "ROLE_PASSENGER") {
             // passenger regiter call
-            register();
+            register("passenger");
         }
-        else{
+        else {
+            if (!driverValidation()) return;
             // register driver 
-            register();
+            register("driver");
 
         }
-
     }
 
 
@@ -238,6 +241,15 @@ function Signup() {
                                                 name="vehtype" id="vehType" onChange={OnTextChanged} value={credentials.vehtype} placeholder="Ex. Sedan" autoFocus="" required="" />
 
                                         </div>
+
+                                        <div className="mb-3">
+                                            <label htmlFor="ava">Availability</label>
+                                            <select className=" form-select" name="availability" value={credentials.availability} onChange={OnTextChanged}>
+                                                <option value="A">Available</option>
+                                                <option value="N">Not Available</option>
+                                            </select>
+                                        </div>
+
                                     </div>
                                 }
 

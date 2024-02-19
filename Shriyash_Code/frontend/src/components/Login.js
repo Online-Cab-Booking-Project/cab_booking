@@ -53,12 +53,10 @@ function Login() {
         return true;
     }
 
-    var passengerLogin = () => {
-
-        if (!validateInput()) return;
-
+    var validateLogin= (user)=>{
+        
         // check with db email and pass 
-        axios.post(url + "/passenger/login", credentials).then((response) => {
+        axios.post(url + `/${user}/login`, credentials).then((response) => {
             var replyReceived = response.data;
             if (replyReceived.message === "Successful Authentication!!!") {
                 var tokenReceived = replyReceived.JWT_TOKEN;
@@ -84,6 +82,16 @@ function Login() {
                 dispatch(credentialsActions.setPassengerStatus(false));
                 dispatch(credentialsActions.setDriverStatus(false));
             })
+    }
+
+    var Login = () => {
+
+        if (!validateInput()) return;
+
+        if(credentials.role==="ROLE_PASSENGER")
+            validateLogin("passenger");
+        else
+            validateLogin("driver");
 
     }
 
@@ -117,7 +125,7 @@ function Login() {
 
                             <div className="text-center">
 
-                                <button type="button" className="btn btn-primary btn-block mb-4 col-sm-6" onClick={passengerLogin}>Login</button>
+                                <button type="button" className="btn btn-primary btn-block mb-4 col-sm-6" onClick={Login}>Login</button>
                             </div>
                             <div id="emailHelp" className="form-text text-center mb-5 text-dark">
                                 Not Registered?
