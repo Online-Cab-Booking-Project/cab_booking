@@ -1,0 +1,8 @@
+{
+  "firstName": "Kshitij",
+  "lastName": "Vanarase",
+  "email": "ktest@test",
+  "mobileNo": "9564875698",
+  "password": "Kpass@123",
+  "gender":"M"
+}

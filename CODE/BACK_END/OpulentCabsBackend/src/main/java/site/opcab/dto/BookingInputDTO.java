@@ -34,21 +34,7 @@ public class BookingInputDTO {
 	private Double fare;
 
 	{
-		this.status = EBookingStatus.P;
-	}
-
-	public BookingInputDTO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public BookingInputDTO(@NotBlank Integer passengerId, LocalDate bookingDate, LocalTime bookingTime,
-			@NotBlank String pickupAddress, @NotBlank String dropoffAddress, Double fare) {
-		this.passengerId = passengerId;
-		this.bookingDate = bookingDate;
-		this.bookingTime = bookingTime;
-		this.pickupAddress = pickupAddress;
-		this.dropoffAddress = dropoffAddress;
-		this.fare = fare;
+		this.status = EBookingStatus.P; // pending
 	}
 
 	public Double getFare() {

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import site.opcab.dto.ApiResponse;
+import site.opcab.dto.BookingAndSourceDTO;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
@@ -109,16 +110,16 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
-	@PostMapping("/bookRide")
+	@PostMapping("/bookride")
 	public ResponseEntity<?> bookRide(@RequestBody InputCoordinateDto path) {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.computePath(path));
 	}
 
-	@PostMapping("/bookRide/confirm")
-	public ResponseEntity<?> confirmRide(@RequestBody BookingInputDTO inputDetails,
-			@RequestBody SourceInputDto source) {
-		pservice.confirmBooking(inputDetails, source);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+	@PostMapping("/bookride/getdrivers")
+	public ResponseEntity<?> getDrivers(@RequestBody BookingAndSourceDTO input) {
+		System.out.println("Inside controller method");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(pservice.getDriversList(input.getInputDetails(), input.getSource()));
 	}
 
 	@GetMapping("/yourRides")

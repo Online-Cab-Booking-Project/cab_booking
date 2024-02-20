@@ -42,6 +42,8 @@ import site.opcab.entities.Complaint;
 import site.opcab.entities.Driver;
 import site.opcab.entities.Passenger;
 import site.opcab.entities.PassengerWallet;
+import site.opcab.entities.enums.EAvailability;
+import site.opcab.entities.enums.EBookingStatus;
 import site.opcab.entities.enums.EComplaintStatus;
 import site.opcab.entities.enums.EDriverAnswer;
 import site.opcab.entities.enums.EGender;
@@ -79,7 +81,8 @@ public class PassengerServiceImpl implements PassengerService {
 		Passenger p = mapper.map(passenger, Passenger.class);
 		System.out.println(p);
 		p.setPassword(enc.encode(p.getPassword()));
-		System.out.println(EGender.valueOf(passenger.getGender()));
+		System.out.println("Password set");
+//		System.out.println(EGender.valueOf(passenger.getGender()).toString());
 		p.setGender(EGender.valueOf(passenger.getGender()));
 
 		PassengerWallet wallet = new PassengerWallet(0.0, p);
@@ -185,7 +188,7 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public void confirmBooking(BookingInputDTO inputDetails, SourceInputDto source) {
+	public List<DriverGraphOutputDTO> getDriversList(BookingInputDTO inputDetails, SourceInputDto source) {
 		double[] probabilities = { 0.4, 0.4, 0.2 };
 		RandomEnumGenerator<EDriverAnswer> generator = new RandomEnumGenerator<>(EDriverAnswer.class, probabilities);
 
@@ -197,40 +200,41 @@ public class PassengerServiceImpl implements PassengerService {
 		booking.setPassenger(passenger);
 		booking = bddao.save(booking);
 
-		List<Driver> driverList = ddao.findAll();
-		List<DriverGraphInputDTO> driverGraphinput = new ArrayList<>();
+		List<Driver> driverList = ddao.findByAvailability(EAvailability.A);
+		System.out.println("Booking details populated..");
+		List<DriverGraphInputDTO> driverGraphinput = new ArrayList<DriverGraphInputDTO>();
 		driverList.forEach((driver) -> {
 			driverGraphinput
 					.add(new DriverGraphInputDTO(driver.getId(), driver.getxCoordinates(), driver.getyCoordinates()));
 		});
-
+		System.out.println("Making the GraphAPICallDTO object..");
 		DriverGraphAPICallDTO graphCall = new DriverGraphAPICallDTO(driverGraphinput, source);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<DriverGraphAPICallDTO> request = new HttpEntity<>(graphCall, headers);
 
-		@SuppressWarnings("unchecked")
-		List<DriverGraphOutputDTO> driverDistances = restTemplate
-				.postForEntity("http://localhost:7070/graph/getdrivers", request, List.class).getBody();
+		System.out.println("Sending Request for graph API");
 
-		driverDistances.sort((x, y) -> {
-			return Double.compare(y.getDistance(), x.getDistance());
-		});
+		List driverDistances = restTemplate.postForEntity("http://localhost:7070/graph/getdrivers", request, List.class)
+				.getBody();
 
-		for (DriverGraphOutputDTO driver : driverDistances) {
-			Driver d = ddao.findById(driver.getId()).orElseThrow(() -> new EntityNotFoundException());
-			BookingCalls call = new BookingCalls();
-			call.setDriver(d);
-			EDriverAnswer answer = generator.getRandom();
-			call.setDriverAnswer(answer);
-			call.setBooking(booking);
-			bcdao.save(call);
-			if (answer == EDriverAnswer.A) {
-				booking.setDriver(d);
-				break;
-			}
-		}
+		System.out.println("API call successful");
+
+		return driverDistances;
+//		for (DriverGraphOutputDTO driver : driverDistances) {
+//			Driver d = ddao.getReferenceById(driver.getId());
+//			BookingCalls call = new BookingCalls();
+//			call.setDriver(d);
+//			EDriverAnswer answer = generator.getRandom();
+//			call.setDriverAnswer(answer);
+//			call.setBooking(booking);
+//			bcdao.save(call);
+//			if (answer == EDriverAnswer.A) {
+//				booking.setDriver(d);
+//				break;
+//			}
+//		}
 
 	}
 }

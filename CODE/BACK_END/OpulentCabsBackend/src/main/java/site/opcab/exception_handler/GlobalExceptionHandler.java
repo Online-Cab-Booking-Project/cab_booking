@@ -25,19 +25,16 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		System.out.println("in method arg invalid " + e);
 		List<FieldError> fieldErrors = e.getFieldErrors();// list of fiels having validation errs
-		Map<String, String> map = fieldErrors.stream() //Stream<FieldError>
-				.collect(Collectors.toMap
-						(FieldError::getField, FieldError::getDefaultMessage));
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(map);
+		Map<String, String> map = fieldErrors.stream() // Stream<FieldError>
+				.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
 	}
 
 	// method level anno to tell SC , following is an exc handling method : to
 	// handle : ResourceNotFoundException
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ApiResponse handleResourceNotFoundException(
-			ResourceNotFoundException e) {
+	public ApiResponse handleResourceNotFoundException(ResourceNotFoundException e) {
 		System.out.println("in res not found " + e);
 		return new ApiResponse(e.getMessage());
 	}
@@ -48,6 +45,7 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse handleAnyException(RuntimeException e) {
 		System.out.println("in catch-all " + e);
+		e.printStackTrace();
 		return new ApiResponse(e.getMessage());
 	}
 }

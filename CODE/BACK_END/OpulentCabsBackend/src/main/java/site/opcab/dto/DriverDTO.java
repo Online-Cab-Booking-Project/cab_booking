@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import site.opcab.entities.enums.EAvailability;
 
 public class DriverDTO {
+	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -35,15 +36,7 @@ public class DriverDTO {
 	private String availability;
 	private String vehno;
 
-	private DriverWalletDTO wallet;
-
-	public DriverWalletDTO getWallet() {
-		return wallet;
-	}
-
-	public void setWallet(DriverWalletDTO wallet) {
-		this.wallet = wallet;
-	}
+//	private DriverWalletDTO wallet;
 
 	public Long getId() {
 		return id;
