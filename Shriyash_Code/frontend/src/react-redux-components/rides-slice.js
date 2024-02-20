@@ -24,7 +24,7 @@ const ridesSlice = createSlice({
 
     reducers: {
         addRides(state, action) {
-            state.rides = [...state.rides, action.payload];
+            state.rides = action.payload;
         },
 
         removeRide(state, action) {
