@@ -5,6 +5,7 @@ import axios from 'axios';
 import url from '../configs/urlConfig';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 import { toast } from 'react-toastify';
+import wallet from '../assets/wallet-icon.png'
 
 function Account() {
     const credentials = useSelector((state) => state.credential.credentials)
@@ -83,7 +84,7 @@ function Account() {
     return <section>
         <hr />
         <div>
-            <p className="d-lg-flex justify-content-lg-center"><strong>Account Information</strong></p>
+            <h2 className="d-lg-flex justify-content-lg-center"><strong>Account Information</strong></h2>
         </div>
         <hr className="d-lg-flex justify-content-lg-center" />
         <div className="text-center">
@@ -165,13 +166,20 @@ function Account() {
                 </div>
             </div>
         </section>
-        <hr />
+        {/* <hr /> */}
         <div>
-            <p className="text-center"><strong>Wallet Information</strong></p>
-            <picture className="text-end d-lg-flex justify-content-lg-center"><img className="d-lg-flex align-items-lg-center" /></picture>
+            <h2 className="text-center"><strong>Wallet Information</strong></h2>
+
+            <div className="text-center">
+                <img src={wallet} className="img-fluid profile-image   my-3"
+                    width="200px" alt="profile" />
+            </div>
             <div>
-                <p className="d-lg-flex justify-content-lg-center">Customer Wallet ID# {credentials.wallet && credentials.wallet["walletId"]}</p>
-                <p className="d-lg-flex justify-content-lg-center">Your Balance is {credentials.wallet && credentials.wallet["balance"]}₹  &nbsp;</p>
+                {/* <p className="d-lg-flex justify-content-lg-center">Customer Wallet ID# {credentials.wallet && credentials.wallet["walletId"]}</p> */}
+                <h3 className="d-lg-flex justify-content-lg-center">Your Balance is {credentials.wallet && credentials.wallet["balance"]}₹  &nbsp;</h3>
+                <button className="btn btn-primary" type="button" onClick={Edit} disabled={!disableState} hidden={!disableState}>Edit</button>
+                <button className="btn btn-warning me-2" type="button" onClick={Update} disabled={disableState} hidden={disableState}>Update</button>
+                <button className="btn btn-danger" type="button" onClick={Edit} disabled={disableState} hidden={disableState}>Cancel</button>
             </div>
         </div>
     </section>
