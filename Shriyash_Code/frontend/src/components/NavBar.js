@@ -74,9 +74,9 @@ function NavBar() {
                                 (
                                     <>
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/dashboard">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Complaint">
                                                 <div className='nav-link'>
-                                                    Dashboard
+                                                    Complaints
                                                 </div>
                                             </Link>
                                         </li>
