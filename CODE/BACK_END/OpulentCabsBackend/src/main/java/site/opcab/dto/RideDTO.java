@@ -4,13 +4,17 @@ import java.time.LocalDate;
 
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import site.opcab.entities.Driver;
 import site.opcab.entities.Passenger;
 
 public class RideDTO {
 	private Integer id;
-	private Driver driver;
-	private Passenger passenger;
+	private DriverDTO driver;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private PassengerDTO passenger;
 	private String pickupAddress;
 	private String dropoffAddress;
 	private LocalTime bookingTime;
@@ -21,7 +25,7 @@ public class RideDTO {
 	public RideDTO() {
 	}
 
-	public RideDTO(Integer id, Driver driver, Passenger passenger, String pickupAddress, String dropoffAddress,
+	public RideDTO(Integer id, DriverDTO driver, PassengerDTO passenger, String pickupAddress, String dropoffAddress,
 			LocalTime bookingTime, LocalDate bookingDate, Double fare, String status) {
 		this.id = id;
 		this.driver = driver;
@@ -42,19 +46,19 @@ public class RideDTO {
 		this.id = id;
 	}
 
-	public Driver getDriver() {
+	public DriverDTO getDriver() {
 		return driver;
 	}
 
-	public void setDriver(Driver driver) {
+	public void setDriver(DriverDTO driver) {
 		this.driver = driver;
 	}
 
-	public Passenger getPassenger() {
+	public PassengerDTO getPassenger() {
 		return passenger;
 	}
 
-	public void setPassenger(Passenger passenger) {
+	public void setPassenger(PassengerDTO passenger) {
 		this.passenger = passenger;
 	}
 

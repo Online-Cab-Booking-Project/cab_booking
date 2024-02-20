@@ -35,6 +35,16 @@ public class DriverDTO {
 	private String availability;
 	private String vehno;
 
+	private DriverWalletDTO wallet;
+
+	public DriverWalletDTO getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(DriverWalletDTO wallet) {
+		this.wallet = wallet;
+	}
+
 	public Long getId() {
 		return id;
 	}
