@@ -37,14 +37,9 @@ const CanvasComponent = () => {
       //   // Add more points as needed
       // ];
 
-      axios.post("http://192.168.1.6:8080/passenger/bookRide",
-        {
-          sourceX: "93",
-          sourceY: "135",
-          destX: "915",
-          destY: "400"
-        }
-        // coordinates
+      console.log(coordinates);
+      axios.post(url + "/passenger/bookRide",
+        coordinates
         ,
         {
           headers: {
@@ -75,12 +70,13 @@ const CanvasComponent = () => {
             containerRef.current.scrollTo(lineBoundingBox.x - 50, lineBoundingBox.y - 50);
             setScrollToMax(false);
           }
+          window.scrollTo(0, 0);
         })
         .catch((err) => {
           toast.error("Error fetching coordinates");
         })
     };
-  }, [scrollToMax]);
+  }, [scrollToMax, coordinates]);
 
   const getLineBoundingBox = (lineCoordinates) => {
     let minX = Infinity;

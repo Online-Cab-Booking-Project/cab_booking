@@ -8,16 +8,22 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { sourceDestActions } from '../react-redux-components/sourceDest-slice';
+import { graphURL } from '../configs/urlConfig';
 
 function Home(props) {
 
     const dispatch = useDispatch();
     const [namedNodes, setNamedNodes] = useState([]);
-    const [cords, setCords] = useState({});
+    const [cords, setCords] = useState({
+        source: "",
+        destination: ""
+    });
+
     const coordinates = useSelector(state => state.coordinate.coordinates)
 
     var getNamedCoordinate = () => {
-        axios.get("http://192.168.1.6:7070/graph/getnamednodes")
+
+        axios.get(graphURL + "/graph/getnamednodes")
             .then((res) => {
                 setNamedNodes(res.data);
             })
@@ -36,14 +42,19 @@ function Home(props) {
         let source = {};
         let dest = {};
 
+        debugger;
         namedNodes.forEach(node => {
-            if (node.id === cords.source) {
-                source.X = node.sourceX;
-                source.Y = node.sourceY;
+            if (node.id == cords.source) {
+                source = {
+                    X: node.xcoordinates,
+                    Y: node.ycoordinates
+                }
             }
-            if (node.id === cords.dest) {
-                dest.X = node.destX;
-                dest.Y = node.destY;
+            if (node.id == cords.destination) {
+                dest = {
+                    X: node.xcoordinates,
+                    Y: node.ycoordinates
+                }
             }
         })
         dispatch(sourceDestActions.addsourceDest({
@@ -52,8 +63,6 @@ function Home(props) {
             destX: dest.X,
             destY: dest.Y
         }))
-        console.log(source);
-        console.log(dest);
     }
 
     useEffect(() => {
@@ -84,7 +93,7 @@ function Home(props) {
                                                         }
                                                     </optgroup>
                                                 </select></div>
-                                                <div className="mb-3"><select className="form-select" name='destination' value={cords.dest} onChange={OnTextChanged}>
+                                                <div className="mb-3"><select className="form-select" name='destination' value={cords.destination} onChange={OnTextChanged}>
                                                     <optgroup label="Select Drop Location">
                                                         {
                                                             namedNodes.map((node) => {
