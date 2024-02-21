@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import site.opcab.dto.BookingCallsDTO;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
@@ -11,6 +12,8 @@ import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.PathInputFromGraph;
 import site.opcab.dto.RideDTO;
 import site.opcab.dto.SourceInputDto;
+import site.opcab.entities.BookingCalls;
+import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.dto.PassengerWalletDTO;
 
@@ -38,10 +41,14 @@ public interface PassengerService {
 
 	public void addComplaint(Integer booking_id, Complaint complaint);
 
-	public void resolveComplaint(Integer id);
-
 	public PathInputFromGraph computePath(InputCoordinateDto path);
 
-	public List<DriverGraphOutputDTO> getDriversList(BookingInputDTO inputDetails, SourceInputDto source);
+	public List<DriverGraphOutputDTO> getDriversList(SourceInputDto source);
+
+	public BookingDetails addBookingDetails(String email, BookingInputDTO inputDetails);
+
+	public BookingCalls addCall(BookingCallsDTO callDetails);
+
+	public BookingCallsDTO getDriverAnswer(Integer bookingId, Integer driverId);
 
 }

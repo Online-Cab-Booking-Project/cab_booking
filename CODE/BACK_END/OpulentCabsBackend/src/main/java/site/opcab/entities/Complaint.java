@@ -28,6 +28,9 @@ public class Complaint {
 	@Column(name = "complaint_status")
 	private EComplaintStatus complaintStatus;
 
+	@Column(name = "admin_comment")
+	private String adminComment;
+
 	private String description;
 
 	public Complaint() {
@@ -35,12 +38,20 @@ public class Complaint {
 	}
 
 	public Complaint(Integer complaintId, BookingDetails bookingId, EComplaintStatus complaintStatus,
-			String description) {
-		super();
+			String adminComment, String description) {
 		this.complaintId = complaintId;
 		this.bookingId = bookingId;
 		this.complaintStatus = complaintStatus;
+		this.adminComment = adminComment;
 		this.description = description;
+	}
+
+	public String getAdminComment() {
+		return adminComment;
+	}
+
+	public void setAdminComment(String adminComment) {
+		this.adminComment = adminComment;
 	}
 
 	public Integer getComplaintId() {
