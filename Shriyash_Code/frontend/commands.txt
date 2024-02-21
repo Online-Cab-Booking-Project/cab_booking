@@ -6,3 +6,11 @@ npm i axios
 npm i react-router-dom@6.11.1
 
 insert into booking_details values (default,"2009-05-14","15:06:01","very polite customer","katraj",700.0,"safe driver", "hinjewadi phase 2", "D",5,6)
+
+passenger 
+ktest@test
+Kpass@123
+
+driver 
+mahesh@gmail.com
+Maheshpass@123

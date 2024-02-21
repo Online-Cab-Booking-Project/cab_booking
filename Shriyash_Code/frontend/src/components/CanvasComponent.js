@@ -40,7 +40,7 @@ const CanvasComponent = () => {
         .then((res) => {
           toast.success("Coordinates fetched");
 
-          dispath(sourceDestActions.updateFare(res.data.cost));
+          dispath(sourceDestActions.updateFare(Math.round(res.data.cost)));
           const lineCoordinates = res.data.path;
           // Draw the line passing through the points with shadow
           ctx.beginPath();

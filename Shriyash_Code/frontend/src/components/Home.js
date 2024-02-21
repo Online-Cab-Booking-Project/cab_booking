@@ -5,6 +5,9 @@ import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PassengerHome from './PassengerHome';
 import DriverHome from './DriverHome';
+import { credentialsActions } from '../react-redux-components/credentials-slice';
+import Booking from './Booking';
+import MyCarousel from './Carousel';
 
 function Home() {
 
@@ -14,10 +17,14 @@ function Home() {
 
     useEffect(() => {
 
+        // dispatch(credentialsActions.setPassengerStatus(true));
     }, [isPassenger, isDriver])
 
     return (
         <>
+            <Booking />
+            <MyCarousel />
+
             {isPassenger && <PassengerHome />}
             {isDriver && <DriverHome />}
         </>
