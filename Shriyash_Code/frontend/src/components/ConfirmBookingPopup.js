@@ -2,16 +2,21 @@
 import React from 'react';
 import './Popup.css';
 
-const Popup = ({ onClose }) => {
+const ConfirmBookingPopup = ({ onClose }) => {
 
     return (
-        <div className="popup-container">
-            <div className="popup">
-                <h2>Confirming Ride !!!</h2>
-                <p>Please wait till we find nearest ride for you</p>
-            </div>
-        </div>
+        <>
+            {
+                !onClose &&
+                <div className="popup-container">
+                    <div className="popup">
+                        <h2>Confirming Ride !!!</h2>
+                        <p>Please wait till we find nearest ride for you</p>
+                    </div>
+                </div>
+            }
+        </>
     );
 };
 
-export default Popup;
+export default ConfirmBookingPopup;

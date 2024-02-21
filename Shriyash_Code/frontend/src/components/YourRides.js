@@ -11,6 +11,7 @@ function YourRides() {
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
     const rides = useSelector((state) => state.ride.rides);
+    const onGoingRide = useSelector((state) => state.ride.onGoingRide);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -25,7 +26,6 @@ function YourRides() {
             return "Ongoing"
         else
             return "Cancelled"
-
     }
 
     var getRides = () => {
@@ -41,6 +41,12 @@ function YourRides() {
             .then((res) => {
                 toast.success("Ride details fetched")
                 dispatch(ridesActions.addRides(res.data));
+
+                rides.forEach(ride => {
+                    if (ride.status == 'O') {
+                        dispatch(ridesActions.addOnGoingRide(ride))
+                    }
+                });
 
             })
             .catch((err) => {
@@ -58,17 +64,43 @@ function YourRides() {
     return <section>
         <div className="container py-4 py-xl-5">
             <div style={{ 'marginTop': '10px' }}>
-                <h1 >Upcoming</h1>
+                <h1 >Ongoing</h1>
             </div>
-            <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px' }}>
-                <div className="col-md-12 col-lg-12 col-xl-12">
-                    <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
-                        <div className="card-body p-4">
-                            <h4 className="card-title">You have no upcoming rides</h4><a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)' }}><span style={{ 'color': 'rgb(255, 255, 255)' }}>Schedule a Ride</span></a>
+
+            {
+                onGoingRide != null || onGoingRide == undefined ?
+
+                    <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px' }}>
+                        <div className="col-md-12 col-lg-12 col-xl-12">
+                            <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
+                                <div className="card-body p-4">
+                                    <h4 className="card-title">You have no Ongoing rides</h4><a className="btn btn-light" role="button"
+                                        style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)' }}>
+                                        <span style={{ 'color': 'rgb(255, 255, 255)' }}>Schedule a Ride</span></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    :
+                    <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px', 'marginRight': '0px', 'background': 'rgb(255, 255, 255)' }}>
+                        <div className="col-md-12 col-lg-12 col-xl-12">
+                            <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
+                                <div className="card-body p-4" key={onGoingRide.id}>
+                                    <h4 className="card-title">{onGoingRide.bookingDate} {onGoingRide.bookingTime}&nbsp;</h4>
+                                    <p className="card-text">Pickup: {onGoingRide.pickupAddress}<br />Drop-off: {onGoingRide.dropoffAddress}</p>
+                                    <button className="btn  btn-success" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'marginRight': '5px' }}>
+                                        <span style={{ 'color': 'rgb(255, 255, 255)' }}>{parseStatus(onGoingRide.status)}</span></button>
+                                    <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
+                                        <span style={{ 'color': 'rgb(255, 255, 255)' }}>{onGoingRide.fare} ₹</span></a>
+                                    <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
+                                        <span style={{ 'color': 'rgb(255, 255, 255)' }}>Report an Issue</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+
+
         </div>
         <div className="container">
             <hr />
@@ -104,7 +136,7 @@ function YourRides() {
 
             }
 
-            <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px', 'marginRight': '0px' }}>
+            {/* <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px', 'marginRight': '0px' }}>
                 <div className="col-md-12 col-lg-12 col-xl-12">
                     <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
                         <div className="card-body p-4">
@@ -123,7 +155,7 @@ function YourRides() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     </section>;
 }

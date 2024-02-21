@@ -2,21 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const ridesSlice = createSlice({
-    name: "ride",
+    name: "booking",
     initialState:
     {
         rides: [],
-        ride: {
-
-            "id": 1,
-            "driver": '',
-            "passenger": '',
-            "pickupAddress": "123 Main St",
-            "dropoffAddress": "456 Oak St",
-            "bookingTime": '',
-            "bookingDate": '',
-            "fare": '',
-            "status": ""
+        rideDetails: {
+            "inputDetails": {
+                "bookingDate": '',
+                "bookingTime": {
+                    "hour": 0,
+                    "minute": 0,
+                    "second": 0,
+                    "nano": 0
+                },
+                "pickupAddress": "123 Main St",
+                "dropoffAddress": "456 Oak St",
+                "fare": 0,
+            },
+            "source": {
+                "sourceX": 0,
+                "sourceY": 0
+            }
         },
         onGoingRide: {}
     },
