@@ -5,6 +5,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PassengerHome from './PassengerHome';
 import DriverHome from './DriverHome';
+import MyCarousel from './Carousel';
 
 function Home() {
 
@@ -20,6 +21,7 @@ function Home() {
         <>
             {isPassenger && <PassengerHome />}
             {isDriver && <DriverHome />}
+            <MyCarousel/>
         </>
     );
 }
