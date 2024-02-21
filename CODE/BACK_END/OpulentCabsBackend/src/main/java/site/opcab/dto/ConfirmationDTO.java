@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import site.opcab.entities.enums.EBookingStatus;
 
 public class ConfirmationDTO {
-
+//	@JsonProperty(value = "bookingId")
 	private Integer id;
 
 	private LocalDate bookingDate;

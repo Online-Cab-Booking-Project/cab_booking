@@ -32,11 +32,16 @@ public class BookingCalls {
 	}
 
 	public BookingCalls(BookingDetails booking, Driver driver, EDriverAnswer driverAnswer) {
-		super();
 		this.booking = booking;
 		this.driver = driver;
 		this.driverAnswer = driverAnswer;
 	}
+
+//	public BookingCalls(BookingCallsPK compositeKey, EDriverAnswer driverAnswer) {
+//		this.booking = compositeKey.getBooking();
+//		this.driver = compositeKey.getDriver();
+//		this.driverAnswer = driverAnswer;
+//	}
 
 	public BookingDetails getBooking() {
 		return booking;

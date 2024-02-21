@@ -98,8 +98,8 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public List<RideDTO> getPreviousRideDetails(Integer id) {
-		List<BookingDetails> detailsList = bddao.findByDriverId(id);
+	public List<RideDTO> getPreviousRideDetails(String email) {
+		List<BookingDetails> detailsList = bddao.findByDriverEmail(email);
 		List<RideDTO> rides = detailsList.stream().map(detail -> mapper.map(detail, RideDTO.class))
 				.collect(Collectors.toList());
 		return rides;

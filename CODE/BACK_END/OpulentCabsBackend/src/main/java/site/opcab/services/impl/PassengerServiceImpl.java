@@ -27,6 +27,7 @@ import site.opcab.daos.PassengerDao;
 import site.opcab.daos.PassengerWalletDao;
 import site.opcab.daos.WalletDao;
 import site.opcab.dto.BookingCallsDTO;
+import site.opcab.dto.BookingDetailDTO;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.DriverGraphAPICallDTO;
 import site.opcab.dto.DriverGraphInputDTO;
@@ -38,6 +39,7 @@ import site.opcab.dto.RideDTO;
 import site.opcab.dto.SourceInputDto;
 import site.opcab.dto.PassengerWalletDTO;
 import site.opcab.entities.BookingCalls;
+import site.opcab.entities.BookingCallsPK;
 import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.entities.Driver;
@@ -241,19 +243,64 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Override
 	public BookingCalls addCall(BookingCallsDTO callDetails) {
-		BookingCalls call = new BookingCalls(bddao.getReferenceById(callDetails.getBookingId()),
-				ddao.getReferenceById(callDetails.getDriverId()), null);
+		System.out.println("inside addcall method in service");
 
+		// Retrieve BookingDetails and Driver entities
+		BookingDetails bookingDetails = bddao.findById(callDetails.getBookingId())
+				.orElseThrow(() -> new EntityNotFoundException());
+
+		Driver driver = ddao.findById(callDetails.getDriverId()).orElseThrow(() -> new EntityNotFoundException());
+
+		// Create composite key for BookingCalls
+		BookingCallsPK compositeKey = new BookingCallsPK(callDetails.getBookingId(), callDetails.getDriverId());
+
+		// Create BookingCalls entity with the composite key and fetched Driver
+		BookingCalls call = new BookingCalls();
+		call.setBooking(bookingDetails);
+		call.setDriver(driver);
+		call.setDriverAnswer(null);
+
+		// Save the BookingCalls entity
 		return bcdao.save(call);
-
 	}
 
 	@Override
 	public BookingCallsDTO getDriverAnswer(Integer bookingId, Integer driverId) {
-		BookingCalls call = bcdao
-				.findByBookingIdAndDriverId(bddao.getReferenceById(bookingId), ddao.getReferenceById(driverId))
-				.orElseThrow(() -> new EntityNotFoundException());
+		BookingDetails bookingDetails = bddao.getReferenceById(bookingId);
+		Driver driver = ddao.getReferenceById(driverId);
+
+		BookingCalls call = bcdao.findByBookingAndDriver(bookingDetails, driver)
+				.orElseThrow(() -> new EntityNotFoundException(
+						"BookingCalls not found for Booking ID: " + bookingId + " and Driver ID: " + driverId));
+
 		return new BookingCallsDTO(bookingId, driverId, call.getDriverAnswer());
+	}
+
+	@Override
+	public BookingCallsDTO updateBookingCallStatus(BookingCallsDTO call) {
+		BookingDetails bookingDetails = bddao.getReferenceById(call.getBookingId());
+		Driver driver = ddao.getReferenceById(call.getDriverId());
+
+		BookingCalls persistentCall = bcdao.findByBookingAndDriver(bookingDetails, driver)
+				.orElseThrow(() -> new EntityNotFoundException("BookingCalls not found for Booking ID: "
+						+ call.getBookingId() + " and Driver ID: " + call.getDriverId()));
+
+		persistentCall.setDriverAnswer(call.getDriverAnswer());
+
+		return new BookingCallsDTO(call.getBookingId(), call.getDriverId(), persistentCall.getDriverAnswer());
+	}
+
+	@Override
+	public boolean updateBookingStatus(BookingDetailDTO detail) {
+		System.out.println("Updating booking status to : " + detail.getStatus().toString());
+		BookingDetails bookingDetails = bddao.findById(detail.getBookingId())
+				.orElseThrow(() -> new EntityNotFoundException());
+		bookingDetails.setStatus(detail.getStatus());
+		if (detail.getStatus() == EBookingStatus.O) {
+			Driver driver = ddao.findById(detail.getDriverId()).orElseThrow(() -> new EntityNotFoundException());
+			bookingDetails.setDriver(driver);
+		}
+		return true;
 	}
 
 	// ====================================================================================================================================

@@ -106,8 +106,10 @@ public class DriverController {
 	}
 
 	@GetMapping("/yourRides")
-	public ResponseEntity<?> getPreviousRideDetails(@RequestParam Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(dservice.getPreviousRideDetails(id));
+	public ResponseEntity<?> getPreviousRideDetails() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(dservice.getPreviousRideDetails(authentication.getPrincipal().toString()));
 	}
 
 	@GetMapping("/complaints")

@@ -27,12 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 import site.opcab.dto.ApiResponse;
 import site.opcab.dto.BookingAndSourceDTO;
 import site.opcab.dto.BookingCallsDTO;
+import site.opcab.dto.BookingDetailDTO;
 import site.opcab.dto.ConfirmationDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
+import site.opcab.entities.BookingCalls;
 import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.security.JwtUtils;
@@ -163,13 +165,30 @@ public class PassengerController {
 
 	@PostMapping("/bookride/addcall")
 	public ResponseEntity<?> addCall(@RequestBody BookingCallsDTO callDetails) {
-		callDetails.setDriverAnswer(pservice.addCall(callDetails).getDriverAnswer());
+		BookingCalls call = pservice.addCall(callDetails);
+		callDetails.setDriverAnswer(call.getDriverAnswer());
 		return ResponseEntity.status(HttpStatus.OK).body(callDetails);
 	}
 
 	@GetMapping("/bookride/getanswer")
 	public BookingCallsDTO getDriverAnswer(@RequestParam Integer bookingId, @RequestParam Integer driverId) {
-		return pservice.getDriverAnswer(bookingId, driverId);
+		System.out.println("Inside controller method for getAnswer");
+		BookingCallsDTO answer = pservice.getDriverAnswer(bookingId, driverId);
+		return answer;
+	}
+
+	@PostMapping("/bookride/updatecallstatus")
+	public BookingCallsDTO updateCallStatus(@RequestBody BookingCallsDTO call) {
+		System.out.println("Inside controller method of update call status");
+		return pservice.updateBookingCallStatus(call);
+	}
+
+	@PostMapping("/bookride/updatebookingstatus")
+	public ResponseEntity<?> updatingBookingStatus(@RequestBody BookingDetailDTO detail) {
+		if (pservice.updateBookingStatus(detail)) {
+			return ResponseEntity.status(HttpStatus.OK).body("Booking details status updated");
+		} else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
 
 	// ==================================================================================================================================

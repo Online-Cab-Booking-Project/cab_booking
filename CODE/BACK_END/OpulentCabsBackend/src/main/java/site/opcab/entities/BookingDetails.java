@@ -1,5 +1,6 @@
 package site.opcab.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,7 +22,7 @@ import site.opcab.entities.enums.EBookingStatus;
 import site.opcab.entities.enums.EComplaintStatus;
 
 @Entity
-public class BookingDetails {
+public class BookingDetails implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
