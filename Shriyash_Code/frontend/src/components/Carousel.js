@@ -3,7 +3,9 @@ import React from 'react';
 function MyCarousel() {
   return (
     <section>
-      <div className="carousel slide" data-bs-ride="carousel" id="carousel-1" style={{ height: '600px' }}>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
+
+      <div className="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" id="carousel-1" style={{ height: '600px' }}>
         <div className="carousel-inner h-100">
           <div className="carousel-item active h-100">
             <img className="w-100 d-block position-absolute h-100 fit-cover" src="https://source.unsplash.com/1600x600/?cab" alt="Slide Image" style={{ zIndex: '-1' }} />
@@ -11,10 +13,6 @@ function MyCarousel() {
               <div className="row">
                 <div className="col-md-6 col-xl-4 offset-md-2">
                   <div style={{ maxWidth: '350px' }}>
-                    <h1 className="text-uppercase fw-bold">Biben dum<br />fringi dictum, augue purus</h1>
-                    <p className="my-3">Tincidunt laoreet leo, adipiscing taciti tempor. Primis senectus sapien, risus donec ad fusce augue interdum.</p>
-                    <a className="btn btn-primary btn-lg me-2" role="button" href="#">Button</a>
-                    <a className="btn btn-outline-primary btn-lg" role="button" href="#">Button</a>
                   </div>
                 </div>
               </div>
@@ -26,10 +24,6 @@ function MyCarousel() {
               <div className="row">
                 <div className="col-md-6 col-xl-4 offset-md-2">
                   <div style={{ maxWidth: '350px' }}>
-                    <h1 className="text-uppercase fw-bold">Biben dum<br />fringi dictum, augue purus</h1>
-                    <p className="my-3">Tincidunt laoreet leo, adipiscing taciti tempor. Primis senectus sapien, risus donec ad fusce augue interdum.</p>
-                    <a className="btn btn-primary btn-lg me-2" role="button" href="#">Button</a>
-                    <a className="btn btn-outline-primary btn-lg" role="button" href="#">Button</a>
                   </div>
                 </div>
               </div>
@@ -41,10 +35,6 @@ function MyCarousel() {
               <div className="row">
                 <div className="col-md-6 col-xl-4 offset-md-2">
                   <div style={{ maxWidth: '350px' }}>
-                    <h1 className="text-uppercase fw-bold">Biben dum<br />fringi dictum, augue purus</h1>
-                    <p className="my-3">Tincidunt laoreet leo, adipiscing taciti tempor. Primis senectus sapien, risus donec ad fusce augue interdum.</p>
-                    <a className="btn btn-primary btn-lg me-2" role="button" href="#">Button</a>
-                    <a className="btn btn-outline-primary btn-lg" role="button" href="#">Button</a>
                   </div>
                 </div>
               </div>
@@ -67,7 +57,10 @@ function MyCarousel() {
           <li data-bs-target="#carousel-1" data-bs-slide-to="2" />
         </ol>
       </div>
+
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     </section>
+  
   );
 }
 
