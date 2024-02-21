@@ -7,7 +7,7 @@ import PassengerHome from './PassengerHome';
 import DriverHome from './DriverHome';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 import Booking from './Booking';
-import Car from './Carousel';
+import MyCarousel from './Carousel';
 
 function Home() {
 
@@ -23,7 +23,8 @@ function Home() {
     return (
         <>
             <Booking />
-            <Car />
+            <MyCarousel />
+
             {isPassenger && <PassengerHome />}
             {isDriver && <DriverHome />}
         </>
