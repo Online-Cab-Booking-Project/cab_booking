@@ -11,4 +11,6 @@ public interface BookingDetailsDao extends JpaRepository<BookingDetails, Integer
 	List<BookingDetails> findByPassengerId(Integer id);
 
 	List<BookingDetails> findByDriverId(Integer id);
+
+	List<BookingDetails> findByDriverEmail(String email);
 }

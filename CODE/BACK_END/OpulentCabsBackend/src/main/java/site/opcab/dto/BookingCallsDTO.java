@@ -1,15 +1,11 @@
 package site.opcab.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import site.opcab.entities.enums.EDriverAnswer;
 
 public class BookingCallsDTO {
 
 	private Integer bookingId;
 	private Integer driverId;
-	@JsonProperty(access = Access.READ_ONLY)
 	private EDriverAnswer driverAnswer;
 
 	public BookingCallsDTO(Integer bookingId, Integer driverId, EDriverAnswer driverAnswer) {

@@ -1,5 +1,6 @@
 package site.opcab.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -13,7 +14,7 @@ import site.opcab.entities.enums.EGender;
 import site.opcab.entities.enums.ERole;
 
 @Entity
-public class Driver extends User {
+public class Driver extends User implements Serializable {
 
 	{
 		this.setRole(ERole.D);

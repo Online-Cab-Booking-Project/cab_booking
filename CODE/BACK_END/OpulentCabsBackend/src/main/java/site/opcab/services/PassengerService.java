@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import site.opcab.dto.BookingCallsDTO;
+import site.opcab.dto.BookingDetailDTO;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
@@ -50,5 +51,9 @@ public interface PassengerService {
 	public BookingCalls addCall(BookingCallsDTO callDetails);
 
 	public BookingCallsDTO getDriverAnswer(Integer bookingId, Integer driverId);
+
+	public BookingCallsDTO updateBookingCallStatus(BookingCallsDTO call);
+
+	public boolean updateBookingStatus(BookingDetailDTO detail);
 
 }
