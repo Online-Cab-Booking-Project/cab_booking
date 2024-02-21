@@ -2,44 +2,34 @@ package site.opcab.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.util.List;
 
 import site.opcab.entities.enums.EBookingStatus;
 
-public class BookingInputDTO {
+public class ConfirmationDTO {
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Integer id;
+
 	private LocalDate bookingDate;
 
-	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime bookingTime;
 
-	@NotBlank
 	private String pickupAddress;
 
-	@NotBlank
 	private String dropoffAddress;
 
-	@JsonProperty(access = Access.READ_ONLY)
 	private EBookingStatus status;
 
 	private Double fare;
 
-	{
-		this.status = EBookingStatus.P; // pending
+	private List<DriverGraphOutputDTO> driverList;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public Double getFare() {
-		return fare;
-	}
-
-	public void setFare(Double fare) {
-		this.fare = fare;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public LocalDate getBookingDate() {
@@ -80,6 +70,22 @@ public class BookingInputDTO {
 
 	public void setStatus(EBookingStatus status) {
 		this.status = status;
+	}
+
+	public Double getFare() {
+		return fare;
+	}
+
+	public void setFare(Double fare) {
+		this.fare = fare;
+	}
+
+	public List<DriverGraphOutputDTO> getDriverList() {
+		return driverList;
+	}
+
+	public void setDriverList(List<DriverGraphOutputDTO> driverList) {
+		this.driverList = driverList;
 	}
 
 }

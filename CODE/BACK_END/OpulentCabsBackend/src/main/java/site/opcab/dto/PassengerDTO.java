@@ -3,6 +3,7 @@ package site.opcab.dto;
 import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -27,6 +28,7 @@ public class PassengerDTO {
 	private String address;
 	private String gender;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+	@Past
 	private LocalDate dob;
 
 	private PassengerWalletDTO wallet;

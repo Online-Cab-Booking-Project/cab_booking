@@ -26,6 +26,7 @@ import site.opcab.daos.DriverDao;
 import site.opcab.daos.PassengerDao;
 import site.opcab.daos.PassengerWalletDao;
 import site.opcab.daos.WalletDao;
+import site.opcab.dto.BookingCallsDTO;
 import site.opcab.dto.BookingInputDTO;
 import site.opcab.dto.DriverGraphAPICallDTO;
 import site.opcab.dto.DriverGraphInputDTO;
@@ -170,11 +171,8 @@ public class PassengerServiceImpl implements PassengerService {
 		cdao.save(complaint);
 	}
 
-	@Override
-	public void resolveComplaint(Integer id) {
-		Complaint complaint = getComplaintById(id);
-		complaint.setComplaintStatus(EComplaintStatus.R);
-	}
+	// ====================================================================================================================================
+	// .................................................. Djikstra-related methods
 
 	@Override
 	public PathInputFromGraph computePath(InputCoordinateDto path) {
@@ -188,17 +186,7 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public List<DriverGraphOutputDTO> getDriversList(BookingInputDTO inputDetails, SourceInputDto source) {
-		double[] probabilities = { 0.4, 0.4, 0.2 };
-		RandomEnumGenerator<EDriverAnswer> generator = new RandomEnumGenerator<>(EDriverAnswer.class, probabilities);
-
-		Passenger passenger = pdao.findById(inputDetails.getPassengerId())
-				.orElseThrow(() -> new EntityNotFoundException());
-
-		BookingDetails booking = new BookingDetails();
-		booking = mapper.map(inputDetails, BookingDetails.class);
-		booking.setPassenger(passenger);
-		booking = bddao.save(booking);
+	public List<DriverGraphOutputDTO> getDriversList(SourceInputDto source) {
 
 		List<Driver> driverList = ddao.findByAvailability(EAvailability.A);
 		System.out.println("Booking details populated..");
@@ -235,6 +223,38 @@ public class PassengerServiceImpl implements PassengerService {
 //				break;
 //			}
 //		}
+	}
+
+	// ====================================================================================================================================
+	// .................................................... Booking-related methods
+
+	@Override
+	public BookingDetails addBookingDetails(String email, BookingInputDTO inputDetails) {
+		Passenger passenger = pdao.findByEmail(email).orElseThrow(() -> new EntityNotFoundException());
+
+		BookingDetails booking = new BookingDetails();
+		booking = mapper.map(inputDetails, BookingDetails.class);
+		booking.setPassenger(passenger);
+		return bddao.save(booking);
 
 	}
+
+	@Override
+	public BookingCalls addCall(BookingCallsDTO callDetails) {
+		BookingCalls call = new BookingCalls(bddao.getReferenceById(callDetails.getBookingId()),
+				ddao.getReferenceById(callDetails.getDriverId()), null);
+
+		return bcdao.save(call);
+
+	}
+
+	@Override
+	public BookingCallsDTO getDriverAnswer(Integer bookingId, Integer driverId) {
+		BookingCalls call = bcdao
+				.findByBookingIdAndDriverId(bddao.getReferenceById(bookingId), ddao.getReferenceById(driverId))
+				.orElseThrow(() -> new EntityNotFoundException());
+		return new BookingCallsDTO(bookingId, driverId, call.getDriverAnswer());
+	}
+
+	// ====================================================================================================================================
 }

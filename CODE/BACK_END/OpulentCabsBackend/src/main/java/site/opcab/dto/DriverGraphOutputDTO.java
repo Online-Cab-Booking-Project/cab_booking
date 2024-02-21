@@ -5,7 +5,6 @@ public class DriverGraphOutputDTO {
 	private Double distance;
 
 	public DriverGraphOutputDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DriverGraphOutputDTO(Integer id, Double distance) {

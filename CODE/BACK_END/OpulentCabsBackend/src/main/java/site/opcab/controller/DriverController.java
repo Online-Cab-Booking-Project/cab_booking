@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -124,12 +123,6 @@ public class DriverController {
 	@PostMapping("/complaints/addComplaint/{booking_id}")
 	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @RequestBody Complaint complaint) {
 		dservice.addComplaint(booking_id, complaint);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
-	}
-
-	@DeleteMapping("/complaints/resolveComplaint/{id}")
-	public ResponseEntity<?> resolveComplaint(@PathVariable Integer id) {
-		dservice.resolveComplaint(id);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

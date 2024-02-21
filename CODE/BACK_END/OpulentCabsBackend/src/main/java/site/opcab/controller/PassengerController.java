@@ -1,7 +1,10 @@
 package site.opcab.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import site.opcab.dto.ApiResponse;
 import site.opcab.dto.BookingAndSourceDTO;
-import site.opcab.dto.BookingInputDTO;
+import site.opcab.dto.BookingCallsDTO;
+import site.opcab.dto.ConfirmationDTO;
+import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
-import site.opcab.dto.SourceInputDto;
+import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
-import site.opcab.security.CustomUserDetails;
 import site.opcab.security.JwtUtils;
 import site.opcab.services.PassengerService;
 
@@ -44,12 +47,12 @@ public class PassengerController {
 
 	@Autowired
 	private PassengerService pservice;
-
 	@Autowired
 	private JwtUtils utils;
-
 	@Autowired
 	private AuthenticationManager mgr;
+	@Autowired
+	private ModelMapper mapper;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody PassengerDTO passenger) {
@@ -84,6 +87,32 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAllPassenger());
 	}
 
+	@GetMapping("/yourRides")
+	public ResponseEntity<?> getPreviousRideDetails() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(pservice.getPreviousRideDetails(authentication.getPrincipal().toString()));
+	}
+
+	@GetMapping("/complaints")
+	public ResponseEntity<?> getAllComplaints(@RequestParam Integer id) {
+		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAllComplaints(id));
+	}
+
+	@GetMapping("/complaints/{id}")
+	public ResponseEntity<?> getComplaintById(@PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.OK).body(pservice.getComplaintById(id));
+	}
+
+	@PostMapping("/complaints/addComplaint/{booking_id}")
+	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @RequestBody Complaint complaint) {
+		pservice.addComplaint(booking_id, complaint);
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
+	// ====================================================================================================================================
+	// ................................................. Account-related methods
+
 	@GetMapping("/account/")
 	public ResponseEntity<?> getAccountDetails() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -110,45 +139,39 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
+	// ====================================================================================================================================
+	// ................................................. Booking-related methods
+
 	@PostMapping("/bookride")
 	public ResponseEntity<?> bookRide(@RequestBody InputCoordinateDto path) {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.computePath(path));
 	}
 
-	@PostMapping("/bookride/getdrivers")
-	public ResponseEntity<?> getDrivers(@RequestBody BookingAndSourceDTO input) {
+	@PostMapping("/bookride/confirm")
+	public ResponseEntity<?> confirmRide(@RequestBody BookingAndSourceDTO input) {
 		System.out.println("Inside controller method");
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(pservice.getDriversList(input.getInputDetails(), input.getSource()));
-	}
-
-	@GetMapping("/yourRides")
-	public ResponseEntity<?> getPreviousRideDetails() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(pservice.getPreviousRideDetails(authentication.getPrincipal().toString()));
+		String email = authentication.getPrincipal().toString();
+		BookingDetails persistentBooking = pservice.addBookingDetails(email, input.getInputDetails());
+		List<DriverGraphOutputDTO> driverList = pservice.getDriversList(input.getSource());
+
+		ConfirmationDTO confirmationBody = mapper.map(persistentBooking, ConfirmationDTO.class);
+		confirmationBody.setDriverList(driverList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(confirmationBody);
 	}
 
-	@GetMapping("/complaints")
-	public ResponseEntity<?> getAllComplaints(@RequestParam Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(pservice.getAllComplaints(id));
+	@PostMapping("/bookride/addcall")
+	public ResponseEntity<?> addCall(@RequestBody BookingCallsDTO callDetails) {
+		callDetails.setDriverAnswer(pservice.addCall(callDetails).getDriverAnswer());
+		return ResponseEntity.status(HttpStatus.OK).body(callDetails);
 	}
 
-	@GetMapping("/complaints/{id}")
-	public ResponseEntity<?> getComplaintById(@PathVariable Integer id) {
-		return ResponseEntity.status(HttpStatus.OK).body(pservice.getComplaintById(id));
+	@GetMapping("/bookride/getanswer")
+	public BookingCallsDTO getDriverAnswer(@RequestParam Integer bookingId, @RequestParam Integer driverId) {
+		return pservice.getDriverAnswer(bookingId, driverId);
 	}
 
-	@PostMapping("/complaints/addComplaint/{booking_id}")
-	public ResponseEntity<?> addComplaint(@PathVariable Integer booking_id, @RequestBody Complaint complaint) {
-		pservice.addComplaint(booking_id, complaint);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
-	}
-
-	@DeleteMapping("/complaints/resolveComplaint/{id}")
-	public ResponseEntity<?> resolveComplaint(@PathVariable Integer id) {
-		pservice.resolveComplaint(id);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
-	}
+	// ==================================================================================================================================
 
 }
