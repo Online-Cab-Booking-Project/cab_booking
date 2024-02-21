@@ -1,0 +1,79 @@
+{
+  "firstName": "Mahesh",
+  "lastName": "Kadam",
+  "email": "mahesh@gmail.com",
+  "mobileNo": "9876543210",
+  "password": "Maheshpass@123",
+  "address": "Near Colony Nursing Home",
+  "gender": "M",
+  "dob": "1987-07-22",
+  "vehname": "WagonR",
+  "vehtype": "Hathback",
+  "vehcolor": "Silver",
+  "availability": "A",
+  "vehno": "MH14AJ6287"
+}
+
+update driver set x_coordinates = 78, y_coordinates = 266 where id = 1;
+
+====================================================================================================
+
+{
+  "firstName": "Viraj",
+  "lastName": "Jagtap",
+  "email": "viraj@gmail.com",
+  "mobileNo": "9936753210",
+  "password": "Virajpass@123",
+  "address": "Near LaxmiNarayan Theatre",
+  "gender": "M",
+  "dob": "1982-04-17",
+  "vehname": "Swift-DZ",
+  "vehtype": "Sedan",
+  "vehcolor": "White",
+  "availability": "A",
+  "vehno": "MH12FT7359"
+}
+
+update driver set x_coordinates = 888, y_coordinates = 666 where id = 2;
+
+===================================================================================================
+
+{
+  "firstName": "Priti",
+  "lastName": "Pawar",
+  "email": "priti@gmail.com",
+  "mobileNo": "9936279273",
+  "password": "Pritipass@123",
+  "address": "Near Chajed Hospital",
+  "gender": "F",
+  "dob": "1989-11-13",
+  "vehname": "Etios-Liva",
+  "vehtype": "Hathback",
+  "vehcolor": "White",
+  "availability": "A",
+  "vehno": "MH12YL1974"
+}
+
+update driver set x_coordinates = 1052, y_coordinates = 206 where id = 3;
+
+===================================================================================================
+
+{
+  "firstName": "Nikhil",
+  "lastName": "Belgaokar",
+  "email": "nikhil@gmail.com",
+  "mobileNo": "9547979273",
+  "password": "Nikhilpass@123",
+  "address": "Near SP College",
+  "gender": "M",
+  "dob": "1992-08-02",
+  "vehname": "Innova",
+  "vehtype": "SUV",
+  "vehcolor": "Black",
+  "availability": "A",
+  "vehno": "MH12BP5731"
+}
+
+update driver set x_coordinates = 456, y_coordinates = 49 where id = 5;
+
+===================================================================================================

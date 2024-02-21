@@ -10,12 +10,17 @@ const sourceDestSlice = createSlice({
             "sourceY": "",
             "destX": "",
             "destY": ""
-        }
+        },
+        fare: ''
     },
 
     reducers: {
         addsourceDest(state, action) {
             state.coordinates = action.payload;
+        }
+        ,
+        updateFare(state, action) {
+            state.fare = action.payload;
         }
     }
 

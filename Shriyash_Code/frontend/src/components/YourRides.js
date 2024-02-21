@@ -15,6 +15,18 @@ function YourRides() {
     const history = useHistory();
 
 
+    var parseStatus = (status) => {
+        debugger;
+        if (status == "D")
+            return "Completed"
+        else if (status == 'P')
+            return "Pending"
+        else if (status == 'O')
+            return "Ongoing"
+        else
+            return "Cancelled"
+
+    }
 
     var getRides = () => {
         let passengerOrDriver = isDriver ? "driver" : "passenger";
@@ -28,9 +40,8 @@ function YourRides() {
             })
             .then((res) => {
                 toast.success("Ride details fetched")
-                res.data.forEach(ride => {
-                    dispatch(ridesActions.addRides(ride));
-                });
+                dispatch(ridesActions.addRides(res.data));
+
             })
             .catch((err) => {
                 console.log(err);
@@ -67,26 +78,29 @@ function YourRides() {
                 <h1>Past</h1>
             </div>
 
-            {rides.map((ride) => {
-                <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px', 'marginRight': '0px' }}>
-                    <div className="col-md-12 col-lg-12 col-xl-12">
-                        <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
-                            <div className="card-body p-4" key={ride.id}>
-                                <h4 className="card-title">{ride.bookingDate} {ride.bookingTime}&nbsp;</h4>
-                                <p className="card-text">Pickup: {ride.pickupAddress}<br />Drop-off: {ride.dropoffAddress}</p>
-                                <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
-                                    <span style={{ 'color': 'rgb(255, 255, 255)' }}>Rebook</span></a>
-                                <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
-                                    <span style={{ 'color': 'rgb(255, 255, 255)' }}>Details Fare: {ride.fare} Status : {ride.status} </span></a>
-                                <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
-                                    <span style={{ 'color': 'rgb(255, 255, 255)' }}>Report an Issue</span></a>
+            {
+                rides.map((ride) => {
+
+                    return (
+                        <div className="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style={{ 'marginTop': '0px', 'marginRight': '0px', 'background': 'rgb(255, 255, 255)' }}>
+                            <div className="col-md-12 col-lg-12 col-xl-12">
+                                <div className="card" style={{ '--bs-body-bg': '#8c8a8a' }}>
+                                    <div className="card-body p-4" key={ride.id}>
+                                        <h4 className="card-title">{ride.bookingDate} {ride.bookingTime}&nbsp;</h4>
+                                        <p className="card-text">Pickup: {ride.pickupAddress}<br />Drop-off: {ride.dropoffAddress}</p>
+                                        <button className="btn  btn-success" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'marginRight': '5px' }}>
+                                            <span style={{ 'color': 'rgb(255, 255, 255)' }}>{parseStatus(ride.status)}</span></button>
+                                        <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
+                                            <span style={{ 'color': 'rgb(255, 255, 255)' }}>{ride.fare} ₹</span></a>
+                                        <a className="btn btn-light" role="button" style={{ 'borderRadius': '100px', '--bs-primary': '#7d838c', '--bs-primary-rgb': '125,131,140', 'background': 'rgb(72,72,72)', 'marginRight': '5px' }}>
+                                            <span style={{ 'color': 'rgb(255, 255, 255)' }}>Report an Issue</span></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    );
 
-            })
-
+                })
 
             }
 

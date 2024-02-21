@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import site.opcab.dto.BookingInputDTO;
+import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
 import site.opcab.dto.PathInputFromGraph;
@@ -41,6 +42,6 @@ public interface PassengerService {
 
 	public PathInputFromGraph computePath(InputCoordinateDto path);
 
-	public void confirmBooking(BookingInputDTO inputDetails, SourceInputDto source);
+	public List<DriverGraphOutputDTO> getDriversList(BookingInputDTO inputDetails, SourceInputDto source);
 
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import site.opcab.service.*;
 import site.opcab.custom_exceptions.ApiException;
+import site.opcab.dto.DriverGraphAPICallDTO;
 import site.opcab.dto.DriverGraphInputDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
@@ -42,14 +43,13 @@ public class GraphController {
 	}
 
 	@PostMapping("/getdrivers")
-	public List<DriverGraphOutputDTO> getDriverDistances(@RequestBody List<DriverGraphInputDTO> driverList,
-			@RequestBody InputCoordinateDto input) {
+	public List<DriverGraphOutputDTO> getDriverDistances(@RequestBody DriverGraphAPICallDTO input) {
 		List<Double> sourceCoordinates = new ArrayList<Double>();
-		sourceCoordinates.add(input.getSourceX());
-		sourceCoordinates.add(input.getSourceY());
+		sourceCoordinates.add(input.getSource().getSourceX());
+		sourceCoordinates.add(input.getSource().getSourceY());
 		Vertex source = graphService.findNearestVertex(sourceCoordinates);
 
-		return graphService.getDriverDistances(source, driverList);
+		return graphService.getDriverDistances(source, input.getDriverList());
 	}
 
 	@GetMapping("/getnamednodes")

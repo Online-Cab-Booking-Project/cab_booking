@@ -5,13 +5,14 @@ import './CanvasComponent.css'; // Import your custom CSS
 import axios from 'axios';
 import url from '../configs/urlConfig';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { sourceDestActions } from '../react-redux-components/sourceDest-slice';
 
 const CanvasComponent = () => {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-  const [scrollToMax, setScrollToMax] = useState(false);
   const coordinates = useSelector(state => state.coordinate.coordinates)
+  const dispath = useDispatch();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,34 +22,25 @@ const CanvasComponent = () => {
     img.src = process.env.PUBLIC_URL + 'map.png';
     img.onload = () => {
       // Set canvas dimensions based on the original image size
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.height = 758;
+      canvas.width = 1190;
 
       // Draw the image on the canvas
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-
-      // Define your line coordinates (replace with your data)
-      // const lineCoordinates = [
-      //   { x: 153, y: 247 },
-      //   { x: 165, y: 363 },
-      //   { x: 258, y: 362 },
-      //   { x: 392, y: 423 },
-      //   { x: 491, y: 492 },
-      //   // Add more points as needed
-      // ];
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
 
       console.log(coordinates);
-      axios.post(url + "/passenger/bookRide",
+      axios.post(url + "/passenger/bookride",
         coordinates
         ,
         {
           headers: {
-            "Authorization": "Bearer" + window.sessionStorage.getItem("JWT_TOKEN")
+            "Authorization": "Bearer " + window.sessionStorage.getItem("JWT_TOKEN")
           }
         })
         .then((res) => {
           toast.success("Coordinates fetched");
 
+          dispath(sourceDestActions.updateFare(res.data.cost));
           const lineCoordinates = res.data.path;
           // Draw the line passing through the points with shadow
           ctx.beginPath();
@@ -65,18 +57,16 @@ const CanvasComponent = () => {
           ctx.stroke();
 
           // Scroll to maximize visibility of the drawn line
-          if (scrollToMax) {
-            const lineBoundingBox = getLineBoundingBox(lineCoordinates);
-            containerRef.current.scrollTo(lineBoundingBox.x - 50, lineBoundingBox.y - 50);
-            setScrollToMax(false);
-          }
-          window.scrollTo(0, 0);
+          const lineBoundingBox = getLineBoundingBox(lineCoordinates);
+          containerRef.current.scrollTo(lineBoundingBox.x - 50, lineBoundingBox.y - 50);
+
+          // window.scrollTo(0, 0);
         })
         .catch((err) => {
           toast.error("Error fetching coordinates");
         })
     };
-  }, [scrollToMax, coordinates]);
+  }, [coordinates]);
 
   const getLineBoundingBox = (lineCoordinates) => {
     let minX = Infinity;
@@ -94,24 +84,17 @@ const CanvasComponent = () => {
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
   };
 
-  const handleAutoScroll = () => {
-    setScrollToMax(true);
-  };
-
   return (
-    <Container fluid>
-      <Row className="justify-content-center">
-        <Col xs={12} sm={12} md={10} lg={10}>
-          <div
-            ref={containerRef}
-            className="scrollable-container scrollable-container-xs-sm" // Add a custom class for xs and sm devices
-          >
-            <canvas ref={canvasRef} style={{ display: 'block', margin: '0 auto' }} />
-          </div>
-          <Button onClick={handleAutoScroll}>Auto Scroll</Button>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <div style={{ "margin-top": "22px" }}></div>
+      <div
+        ref={containerRef}
+        className="scrollable-container scrollable-container-xs-sm" // Add a custom class for xs and sm devices
+      >
+        <canvas ref={canvasRef} style={{ display: 'block', margin: '0 auto', "height": "675px" }} />
+      </div>
+    </>
+
   );
 };
 
