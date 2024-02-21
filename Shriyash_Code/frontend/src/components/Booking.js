@@ -12,12 +12,11 @@ import { ridesActions } from '../react-redux-components/rides-slice';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import url from '../configs/urlConfig';
 import { bookingActions } from '../react-redux-components/booking-slice';
-// import ConfirmBooking from './ConfirmBooking';
-// import ConfirmBookingPopup from './ConfirmBookingPopup';
+import { ConfirmBooking ,getCurrentTime } from './ConfirmBooking';
+import ConfirmBookingPopup from './ConfirmBookingPopup';
 
 
 function Booking() {
-
 
     const [namedNodes, setNamedNodes] = useState([]);
     const fare = useSelector(state => state.coordinate.fare)
@@ -28,206 +27,12 @@ function Booking() {
     const [onClose, setOnClose] = useState(true);
     const rideDetails = useSelector(state => state.booking.rideDetails);
     const bookingDetails = useSelector(state => state.booking.bookingDetails);
+
     const [pickupAddress, setPickupAddress] = useState();
     const [dropoffAddress, setDropoffAddress] = useState();
     const dispatch = useDispatch();
 
     const coordinates = useSelector(state => state.coordinate.coordinates)
-
-    const getCurrentTime = () => {
-        const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-
-        return `${hours}:${minutes}:${seconds}`;
-    }
-
-    const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
-    const CallDriver =  (driverId, bookingId) => {
-        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.post(url + "/passenger/bookride/addcall",
-            {
-                "bookingId": bookingId,
-                "driverId": driverId
-            },
-            {
-                headers:
-                {
-                    'Authorization': "Bearer " + tokenToBeSent
-                }
-            })
-            .then((res) => {
-                console.log("response sent to driver " + driverId + " for booking id " + bookingId);
-                return true;
-            })
-            .catch((err) => {
-                console.log("Unable to call the driver with id " + driverId + " for booking id " + bookingId);
-                return false;
-            }
-            )
-
-        return false;
-    }
-
-    const CheckStatusFor10sec = async (bookingId, driverId) => {
-        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.get(url + `/passenger/bookride/getanswer/?bookingId=${bookingId}&driverId=${driverId}`,
-            {
-                headers:
-                {
-                    'Authorization': "Bearer " + tokenToBeSent
-                }
-            })
-            .then((res) => {
-                let driverAnswer = res.data.driverAnswer;
-
-                return driverAnswer;
-            })
-            .then((err) => {
-                console.log("unable to get the status of booking call ");
-                return "R";
-            })
-    }
-
-    const requestToSetCallStatus = (bookingId, driverId, driverAnswer) => {
-        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        axios.post(url + "/passenger/bookride/updatecallstatus",
-            {
-                "bookingId": driverId,
-                "driverId": bookingId,
-                "driverAnswer": driverAnswer
-            },
-            {
-                headers:
-                {
-                    'Authorization': "Bearer " + tokenToBeSent
-                }
-            })
-            .then((res) => {
-                console.log("changed call status driver " + driverId + " for booking id " + bookingId + " status " + driverAnswer);
-                return true;
-            })
-            .catch((err) => {
-                console.log("unable to change status driver " + driverId + " for booking id " + bookingId + " status " + driverAnswer);
-                return false;
-            }
-            )
-
-    }
-
-    const CheckStatus = async (bookingId, driverId) => {
-
-
-        for (let i = 0; i < 10; i++) {
-            let statusAnswer = await CheckStatusFor10sec(bookingId, driverId);
-
-            if (statusAnswer == 'R') {
-                return 'R';
-            }
-            else if (statusAnswer == 'A') {
-                return 'A';
-            }
-
-            await sleepNow(1000);
-        }
-
-        return 'N'
-    }
-
-    const ConfirmBooking = () => {
-
-
-        //set ride details for getting booking details and driver list
-        dispatch(bookingActions.addRideDetails({
-            "inputDetails": {
-                "bookingDate": (new Date()).getDate(),
-                // "bookingTime": {
-                //     "hour": (new Date).getHours(),
-                //     "minute": (new Date).getMinutes(),
-                //     "second": (new Date).getMinutes(),
-                //     "nano": (new Date).getMilliseconds()
-                // },
-                "bookingTime": getCurrentTime(),
-                "pickupAddress": pickupAddress,
-                "dropoffAddress": dropoffAddress,
-                "fare": fare,
-            },
-            "source": {
-                "sourceX": coordinates.sourceX,
-                "sourceY": coordinates.sourceY
-            }
-        }));
-
-        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        // call to get list of driver id , distance and booking id
-        axios.post(url + "/passenger/bookride/confirm",
-            rideDetails,
-            {
-                headers:
-                {
-                    'Authorization': "Bearer " + tokenToBeSent
-                }
-            })
-            .then(async (res) => {
-
-                // successfull getting booking Id, driver list and distance
-                // o/p is booking details
-                // setBookingDetails(res.data);
-                dispatch(bookingActions.addBookingDetails(res.data));
-
-                let driversList = bookingDetails.driverList;
-
-                //sort driver acc to the min dist.
-                // driversList.sort((d1, d2) => {
-                //     return d1.distance < d2.distance;
-                // })
-
-                console.log(driversList);
-
-                // now give calls to each driver.
-                for (let i = 0; i < driversList.length; i++) {
-
-                    // call to driver which is next in the list
-                    let driverCall = CallDriver(driversList[i].id, bookingDetails.id);
-
-                    // sleepNow(10000);
-                    // if driver call success
-                    if (driverCall) {
-                        console.log("inside driver call")
-                        // now after every 10 sec check for status resolve..
-                        let bookingStatus = await CheckStatus(bookingDetails.id, driversList[i].id);
-
-                        // call accepted
-                        if (bookingStatus == 'A') {
-                            requestToSetCallStatus(bookingDetails.id, driversList[i].id, "A");
-                        }
-                        // call unanswered or rejected
-                        else {
-                            // call server for status set = rejected or unanswered
-                            if (bookingStatus == 'R') {
-                                requestToSetCallStatus(bookingDetails.id, driversList[i].id, "R");
-                            }
-                            else {
-                                requestToSetCallStatus(bookingDetails.id, driversList[i].id, "N");
-                            }
-                        }
-                    }
-                    else {
-                        console.log("unable to call driver");
-                    }
-
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Unable to fetch Driver List")
-            })
-
-
-    }
-
 
     var getNamedCoordinate = () => {
 
@@ -256,7 +61,7 @@ function Booking() {
         let source = {};
         let dest = {};
 
-        debugger;
+
         namedNodes.forEach(node => {
             if (node.id == cords.source) {
                 setPickupAddress(node.name);
@@ -279,6 +84,7 @@ function Booking() {
             destX: dest.X,
             destY: dest.Y
         }))
+        console.log(coordinates);
 
         // if user is not logged in passenger then prompt him to login
         if (!isPassenger) {
@@ -288,10 +94,25 @@ function Booking() {
         }
     }
 
-    var ConfirmRide = () => {
-        debugger;
-        // setOnClose(false);
-        ConfirmBooking();
+    var ConfirmRide = async () => {
+        //set ride details for getting booking details and driver list
+
+        const paramsRideDetails = {
+            "inputDetails": {
+                "bookingDate": (new Date()).getDate(),
+                "bookingTime": getCurrentTime(),
+                "pickupAddress": pickupAddress,
+                "dropoffAddress": dropoffAddress,
+                "fare": fare,
+            },
+            "source": {
+                "sourceX": coordinates.sourceX,
+                "sourceY": coordinates.sourceY
+            }
+        }
+        setOnClose(false);
+        await ConfirmBooking({ ...paramsRideDetails });
+        setOnClose(true);
     }
 
     var hidden = () => {
@@ -301,13 +122,14 @@ function Booking() {
     }
 
     useEffect(() => {
+
         getNamedCoordinate();
     }, [fare, hiddenState])
 
 
     return (
         <div>
-            {/* <ConfirmBookingPopup onClose={onClose} />; */}
+            <ConfirmBookingPopup onClose={onClose} />;
             <section class="justify-content-center py-4 py-xl-5">
                 <div class="container">
                     <div class="text-center text-white bg-dark border rounded border-0 border-light d-flex flex-column flex-fill justify-content-center align-items-center flex-lg-row p-4 p-lg-5" style={{ "height": "213px" }}>

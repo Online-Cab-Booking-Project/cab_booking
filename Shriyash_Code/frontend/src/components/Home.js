@@ -17,14 +17,13 @@ function Home() {
 
     useEffect(() => {
 
-        // dispatch(credentialsActions.setPassengerStatus(true));
-    }, [isPassenger, isDriver])
+    }, [])
 
     return (
         <>
             <Booking />
-            <MyCarousel />
 
+            {!isPassenger  && <MyCarousel />}
             {isPassenger && <PassengerHome />}
             {isDriver && <DriverHome />}
         </>

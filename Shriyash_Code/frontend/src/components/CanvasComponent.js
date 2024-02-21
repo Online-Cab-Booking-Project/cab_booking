@@ -20,7 +20,7 @@ const CanvasComponent = () => {
 
     const img = new Image();
     img.src = process.env.PUBLIC_URL + 'map.png';
-    img.onload = () => {
+    img.onload = async () => {
       // Set canvas dimensions based on the original image size
       canvas.height = 758;
       canvas.width = 1190;
@@ -29,7 +29,7 @@ const CanvasComponent = () => {
       ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
 
       console.log(coordinates);
-      axios.post(url + "/passenger/bookride",
+      await axios.post(url + "/passenger/bookride",
         coordinates
         ,
         {

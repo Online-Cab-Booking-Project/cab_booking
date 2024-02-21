@@ -6,10 +6,10 @@ const sourceDestSlice = createSlice({
     initialState:
     {
         coordinates: {
-            "sourceX": "",
-            "sourceY": "",
-            "destX": "",
-            "destY": ""
+            "sourceX": 170,
+            "sourceY": 362,
+            "destX": 170,
+            "destY": 362
         },
         cords: {
             "source": '',
