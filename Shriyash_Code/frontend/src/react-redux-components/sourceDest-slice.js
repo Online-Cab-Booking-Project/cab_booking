@@ -11,6 +11,10 @@ const sourceDestSlice = createSlice({
             "destX": "",
             "destY": ""
         },
+        cords: {
+            "source": '',
+            "destination": ''
+        },
         fare: ''
     },
 
@@ -21,6 +25,9 @@ const sourceDestSlice = createSlice({
         ,
         updateFare(state, action) {
             state.fare = action.payload;
+        },
+        updateCords(state, action) {
+            state.cords = action.payload;
         }
     }
 
