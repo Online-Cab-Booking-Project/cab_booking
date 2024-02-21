@@ -1,4 +1,5 @@
 import axios from "axios";
+import React, { Component } from 'react';
 import url from "../configs/urlConfig";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -6,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { bookingActions } from "../react-redux-components/booking-slice";
 
 
-const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+export const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-const CallDriver = async (driverId, bookingId) => {
+export const CallDriver = async (driverId, bookingId) => {
     let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
     axios.post(url + "/passenger/bookride/addcall",
         {
@@ -35,7 +36,7 @@ const CallDriver = async (driverId, bookingId) => {
 }
 
 
-const CheckStatusFor10sec = async (bookingId, driverId) => {
+export const CheckStatusFor10sec = async (bookingId, driverId) => {
     let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
     axios.get(url + `/passenger/bookride/getanswer/${bookingId}/${driverId}`,
         {
@@ -55,7 +56,7 @@ const CheckStatusFor10sec = async (bookingId, driverId) => {
         })
 }
 
-const requestToSetCallStatus = (bookingId, driverId, driverAnswer) => {
+export const requestToSetCallStatus = (bookingId, driverId, driverAnswer) => {
     let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
     axios.post(url + "/passenger/bookride/updatecallstatus",
         {
@@ -81,7 +82,7 @@ const requestToSetCallStatus = (bookingId, driverId, driverAnswer) => {
 
 }
 
-const CheckStatus = async (bookingId, driverId) => {
+export const CheckStatus = async (bookingId, driverId) => {
 
 
     for (let i = 0; i < 10; i++) {
@@ -94,49 +95,14 @@ const CheckStatus = async (bookingId, driverId) => {
             return 'A';
         }
 
-        await sleepNow(1000);
+        await sleepNow(10000);
     }
 
     return 'N'
 }
 
+async function ConfirmBooking() {
 
-function ConfirmBooking() {
-
-    // const [rideDetails, setRideDetils] = useState({
-    //     "inputDetails": {
-    //         "bookingDate": '',
-    //         "bookingTime": {
-    //             "hour": 0,
-    //             "minute": 0,
-    //             "second": 0,
-    //             "nano": 0
-    //         },
-    //         "pickupAddress": "123 Main St",
-    //         "dropoffAddress": "456 Oak St",
-    //         "fare": 0,
-    //     },
-    //     "source": {
-    //         "sourceX": 0,
-    //         "sourceY": 0
-    //     }
-    // })
-
-    // const [bookingDetails, setBookingDetails] = useState({
-    //     "id": "",
-    //     "bookingDate": '',
-    //     "bookingTime": '',
-    //     "pickupAddress": "123 Main St",
-    //     "dropoffAddress": "456 Oak St",
-    //     "status": "",
-    //     "fare": '',
-    //     "driverList": [{
-    //         "id": "",
-    //         "distance": ""
-    //     }]
-    // });
-
-    debugger;
     const rideDetails = useSelector(state => state.booking.rideDetails);
     const bookingDetails = useSelector(state => state.booking.bookingDetails);
     const dispatch = useDispatch();
@@ -172,6 +138,7 @@ function ConfirmBooking() {
             }
         })
         .then(async (res) => {
+
             // successfull getting booking Id, driver list and distance
             // o/p is booking details
             // setBookingDetails(res.data);
@@ -220,6 +187,12 @@ function ConfirmBooking() {
             console.log(err);
             toast.error("Unable to fetch Driver List")
         })
+
+
+        return <>
+        
+        <h1>Hello</h1>
+        </>
 
 
 }

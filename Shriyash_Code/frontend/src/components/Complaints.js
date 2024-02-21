@@ -4,9 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { complaintsActions } from '../react-redux-components/complaints-slice';
+import url from '../configs/urlConfig';
 
 function Complaints() {
-    const url = "";
     const complaints = useSelector((state) => state.complaint.complaints);
 
     const dispatch = useDispatch();
@@ -33,7 +33,7 @@ function Complaints() {
     var getComplaints = () => {
 
         // get complaints
-        axios.get(url).then((response) => {
+        axios.get(url + "/").then((response) => {
             let replyReceived = response.data;
 
             for (let index = 0; index < replyReceived.length; index++) {
@@ -81,7 +81,7 @@ function Complaints() {
             {
                 complaints.map(
                     (c) => {
-                      
+
                         return (
                             <>
                                 <Link to={`/Complaints/${c.complaint_id}`}>
