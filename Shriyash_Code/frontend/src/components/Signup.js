@@ -62,6 +62,35 @@ function Signup() {
     }
 
     var validation = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(credentials.email)) {
+            toast.error('Please enter a valid email address.');
+            return false;
+        }
+
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+        if (!passwordRegex.test(credentials.password)) {
+            toast.password ('Password must be at least 8 characters long and contain at least one digit, one uppercase letter, one lowercase letter, and one special character.');
+            return false;
+        }
+
+        const mobileRegex = /^\d{10}$/;
+        if (!mobileRegex.test(credentials.mobileNo)) {
+            toast.error('Please enter a valid 10-digit mobile number.');
+            return false;
+        }
+
+        // const currentDate = new Date();
+        // const year = currentDate.getFullYear();
+        // let month = currentDate.getMonth() + 1;
+        // let day = currentDate.getDate();
+        // var dob = year + month + day;
+        // let parseddob=dob.split('-');
+        // console.log(parseddob);
+        // if (dob <= currentDate) {
+        //     toast.error('Please enter a valid date of birth.');
+        //     return false;
+        // }
 
         return true;
     }
