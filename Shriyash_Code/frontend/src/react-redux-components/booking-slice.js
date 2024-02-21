@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const ridesSlice = createSlice({
+const BookingSlice = createSlice({
     name: "booking",
     initialState:
     {
-        rides: [],
         rideDetails: {
             "inputDetails": {
                 "bookingDate": '',
@@ -24,34 +23,33 @@ const ridesSlice = createSlice({
                 "sourceY": 0
             }
         },
-        onGoingRide: {}
+        bookingDetails: {
+            "id": "",
+            "bookingDate": '',
+            "bookingTime": '',
+            "pickupAddress": "123 Main St",
+            "dropoffAddress": "456 Oak St",
+            "status": "",
+            "fare": '',
+            "driverList": [{
+                "id": "",
+                "distance": ""
+            }]
+        }
     },
 
     reducers: {
-        addRides(state, action) {
-            state.rides = action.payload;
+        addRideDetails(state, action) {
+            state.rideDetails = action.payload;
         },
 
-        removeRide(state, action) {
-            state.rides = state.rides.filter((r) => {
-                return r.id !== action.payload.id;
-            })
-        },
-
-        addOnGoingRide(state, action) {
-            state.onGoingRide = action.payload;
-        },
-
-        getRideById(state, action) {
-            state.ride = state.rides.filter((r) => {
-                return r.id === action.payload.id;
-            })
+        addBookingDetails(state, action) {
+            state.bookingDetails = action.payload;
         }
-
     }
 
 })
 
-export const ridesActions = ridesSlice.actions;
+export const bookingActions = BookingSlice.actions;
 
-export default ridesSlice;
+export default BookingSlice;

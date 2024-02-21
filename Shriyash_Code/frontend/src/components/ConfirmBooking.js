@@ -2,6 +2,8 @@ import axios from "axios";
 import url from "../configs/urlConfig";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { bookingActions } from "../react-redux-components/booking-slice";
 
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
@@ -101,26 +103,46 @@ const CheckStatus = async (bookingId, driverId) => {
 
 function ConfirmBooking() {
 
-    const [rideDetails, setRideDetils] = useState({
-        "inputDetails": {
-            "bookingDate": '',
-            "bookingTime": {
-                "hour": 0,
-                "minute": 0,
-                "second": 0,
-                "nano": 0
-            },
-            "pickupAddress": "123 Main St",
-            "dropoffAddress": "456 Oak St",
-            "fare": 0,
-        },
-        "source": {
-            "sourceX": 0,
-            "sourceY": 0
-        }
-    })
+    // const [rideDetails, setRideDetils] = useState({
+    //     "inputDetails": {
+    //         "bookingDate": '',
+    //         "bookingTime": {
+    //             "hour": 0,
+    //             "minute": 0,
+    //             "second": 0,
+    //             "nano": 0
+    //         },
+    //         "pickupAddress": "123 Main St",
+    //         "dropoffAddress": "456 Oak St",
+    //         "fare": 0,
+    //     },
+    //     "source": {
+    //         "sourceX": 0,
+    //         "sourceY": 0
+    //     }
+    // })
 
-    const [bookingDetails, setBookingDetails] = useState({
+    // const [bookingDetails, setBookingDetails] = useState({
+    //     "id": "",
+    //     "bookingDate": '',
+    //     "bookingTime": '',
+    //     "pickupAddress": "123 Main St",
+    //     "dropoffAddress": "456 Oak St",
+    //     "status": "",
+    //     "fare": '',
+    //     "driverList": [{
+    //         "id": "",
+    //         "distance": ""
+    //     }]
+    // });
+
+    debugger;
+    const rideDetails = useSelector(state => state.booking.rideDetails);
+    const bookingDetails = useSelector(state => state.booking.bookingDetails);
+    const dispatch = useDispatch();
+
+    //set ride details for getting booking details and driver list
+    dispatch(bookingActions.addRideDetails({
         "inputDetails": {
             "bookingDate": (new Date()).getDate(),
             "bookingTime": {
@@ -137,33 +159,12 @@ function ConfirmBooking() {
             "sourceX": 0,
             "sourceY": 0
         }
-    });
-
-
-    // //set ride details for getting booking details and driver list
-    // setRideDetils({
-    //     "inputDetails": {
-    //         "bookingDate": (new Date()).getDate(),
-    //         "bookingTime": {
-    //             "hour": (new Date).getHours(),
-    //             "minute": (new Date).getMinutes(),
-    //             "second": (new Date).getMinutes(),
-    //             "nano": (new Date).getMilliseconds()
-    //         },
-    //         "pickupAddress": "123 Main St",
-    //         "dropoffAddress": "456 Oak St",
-    //         "fare": 0,
-    //     },
-    //     "source": {
-    //         "sourceX": 0,
-    //         "sourceY": 0
-    //     }
-    // })
+    }));
 
     let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
     // call to get list of driver id , distance and booking id
     axios.post(url + "/passenger/bookride/confirm",
-
+        rideDetails,
         {
             headers:
             {
@@ -173,8 +174,8 @@ function ConfirmBooking() {
         .then(async (res) => {
             // successfull getting booking Id, driver list and distance
             // o/p is booking details
-            debugger;
-            setBookingDetails(res.data);
+            // setBookingDetails(res.data);
+            dispatch(bookingActions.addBookingDetails(res.data));
 
             let driversList = bookingDetails.driverList;
 
