@@ -2,6 +2,8 @@
   "firstName": "Kshitij",
   "lastName": "Vanarase",
   "email": "ktest@test",
+  "address": "Dattawadi, Pune",
+  "dob": "1995-06-12",
   "mobileNo": "9564875698",
   "password": "Kpass@123",
   "gender":"M"

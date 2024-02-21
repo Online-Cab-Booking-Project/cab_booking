@@ -14,8 +14,6 @@
   "vehno": "MH14AJ6287"
 }
 
-update driver set x_coordinates = 78, y_coordinates = 266 where id = 1;
-
 ====================================================================================================
 
 {
@@ -33,8 +31,6 @@ update driver set x_coordinates = 78, y_coordinates = 266 where id = 1;
   "availability": "A",
   "vehno": "MH12FT7359"
 }
-
-update driver set x_coordinates = 888, y_coordinates = 666 where id = 2;
 
 ===================================================================================================
 
@@ -54,8 +50,6 @@ update driver set x_coordinates = 888, y_coordinates = 666 where id = 2;
   "vehno": "MH12YL1974"
 }
 
-update driver set x_coordinates = 1052, y_coordinates = 206 where id = 3;
-
 ===================================================================================================
 
 {
@@ -74,6 +68,9 @@ update driver set x_coordinates = 1052, y_coordinates = 206 where id = 3;
   "vehno": "MH12BP5731"
 }
 
-update driver set x_coordinates = 456, y_coordinates = 49 where id = 5;
-
 ===================================================================================================
+
+update driver set x_coordinates = 78, y_coordinates = 266 where id = 1;
+update driver set x_coordinates = 888, y_coordinates = 666 where id = 2;
+update driver set x_coordinates = 1052, y_coordinates = 206 where id = 3;
+update driver set x_coordinates = 456, y_coordinates = 49 where id = 4;

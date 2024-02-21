@@ -1,0 +1,9 @@
+insert into booking_details values (default, '2024-01-15', '15:35:05', null, 'Apollo Spectre Hospital', 150.0, null, 'Bhide Hospital', 'D', 2, 1);
+insert into booking_details values (default, '2024-02-01', '08:17:26', null, 'Swargate', 80.0, null, 'Harijivan Hospital', 'D', 1, 1);
+insert into booking_details values (default, '2024-02-20', '20:24:35', null, 'Colony Nursing Home', 54.0, null, 'Bhide Hospital', 'D', 1, 1);
+
+
+insert into booking_calls values(1, 1, 'N');
+insert into booking_calls values(1, 2, 'A');
+insert into booking_calls values(2, 1, 'A');
+insert into booking_calls values(3, 1, 'A');

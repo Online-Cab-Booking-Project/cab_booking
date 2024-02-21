@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import site.opcab.entities.PassengerWallet;
 
 public class PassengerDTO {
+	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
 	private String firstName;
 	private String lastName;
