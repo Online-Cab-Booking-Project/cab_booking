@@ -12,7 +12,7 @@ import { ridesActions } from '../react-redux-components/rides-slice';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import url from '../configs/urlConfig';
 import { bookingActions } from '../react-redux-components/booking-slice';
-import { ConfirmBooking ,getCurrentTime } from './ConfirmBooking';
+import { ConfirmBooking, getCurrentTime } from './ConfirmBooking';
 import ConfirmBookingPopup from './ConfirmBookingPopup';
 
 
@@ -94,12 +94,26 @@ function Booking() {
         }
     }
 
+    const CurrentDateFormat = () => {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Extract year, month, and day
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so we add 1
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        // Format the date in YYYY-MM-DD
+        const formattedDate = `${year}-${month}-${day}`;
+
+        return formattedDate;
+    }
     var ConfirmRide = async () => {
         //set ride details for getting booking details and driver list
 
         const paramsRideDetails = {
             "inputDetails": {
-                "bookingDate": (new Date()).getDate(),
+                "bookingDate": CurrentDateFormat(),
                 "bookingTime": getCurrentTime(),
                 "pickupAddress": pickupAddress,
                 "dropoffAddress": dropoffAddress,
@@ -113,6 +127,8 @@ function Booking() {
         setOnClose(false);
         await ConfirmBooking({ ...paramsRideDetails });
         setOnClose(true);
+        dispatch(ridesActions.resetRideCredentials());
+        hidden();
     }
 
     var hidden = () => {

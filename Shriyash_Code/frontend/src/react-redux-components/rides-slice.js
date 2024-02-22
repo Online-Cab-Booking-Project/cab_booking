@@ -9,7 +9,7 @@ const ridesSlice = createSlice({
         ride: {
 
             "id": 1,
-            "driver": '',
+            "driver": {},
             "passenger": '',
             "pickupAddress": "123 Main St",
             "dropoffAddress": "456 Oak St",
@@ -36,12 +36,22 @@ const ridesSlice = createSlice({
             state.onGoingRide = action.payload;
         },
 
+        updateOnGoingRideStatus(state, action) {
+            state.onGoingRide.status = action.payload;
+        },
+
         getRideById(state, action) {
             state.ride = state.rides.filter((r) => {
                 return r.id === action.payload.id;
             })
+        },
+        resetRideCredentials(state, action) {
+            state.ride = {};
         }
-
+        ,
+        resetOnGoingRide(state, action) {
+            state.onGoingRide = {};
+        }
     }
 
 })

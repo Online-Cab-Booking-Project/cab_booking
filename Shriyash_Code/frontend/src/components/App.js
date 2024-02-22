@@ -33,19 +33,19 @@ function App() {
 
             <Route path='/register' exact component={Signup} />
 
-            <Contact path='/Contact' exact component={Contact} />
+            <Contact path='/contact' exact component={Contact} />
 
-            <About path='/About' exact component={About} />
+            <About path='/about' exact component={About} />
 
-            <UserProtectedRoutes path="/Account" exact component={Account} />
+            <UserProtectedRoutes path="/account" exact component={Account} />
 
-            <UserProtectedRoutes path="/YourRides" exact component={YourRides} />
+            <UserProtectedRoutes path="/yourrides" exact component={YourRides} />
 
-            <UserProtectedRoutes path="/Complaints" exact component={Complaints} />
+            <UserProtectedRoutes path="/complaints" exact component={Complaints} />
 
-            <UserProtectedRoutes path='/Complaints/:id' exact component={Complaint} />
+            <UserProtectedRoutes path='/complaints/:id' exact component={Complaint} />
 
-            <UserProtectedRoutes path='/Dashboard' exact component={DashBoard} />
+            <UserProtectedRoutes path='/dashboard' exact component={DashBoard} />
 
         </Switch>
 
