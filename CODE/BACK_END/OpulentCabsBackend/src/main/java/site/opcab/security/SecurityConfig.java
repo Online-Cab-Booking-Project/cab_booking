@@ -34,7 +34,8 @@ public class SecurityConfig {
 		// disable CSRF token generation n verification
 				csrf().disable().cors().and().authorizeRequests()
 				.antMatchers("/passenger/register", "/passenger/login", "/driver/register", "/driver/login",
-						"/passenger/bookride", "/passenger/bookride/getanswer")
+						"/passenger/bookride", "/passenger/bookride/getanswer",
+						"/passenger/bookride/updatebookingstatus")
 				.permitAll().antMatchers("/passenger").hasRole("P").antMatchers("/driver").hasRole("D").anyRequest()
 				.authenticated().and().httpBasic().and()
 

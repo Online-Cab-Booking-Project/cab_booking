@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import site.opcab.dto.BookingCallsDTO;
 import site.opcab.dto.DriverDTO;
 import site.opcab.dto.DriverWalletDTO;
 import site.opcab.dto.RideDTO;
+import site.opcab.entities.BookingCalls;
 import site.opcab.entities.Complaint;
 
 public interface DriverService {
@@ -34,5 +36,9 @@ public interface DriverService {
 	public void addComplaint(Integer booking_id, Complaint complaint);
 
 	public void resolveComplaint(Integer id);
+
+	public List<BookingCalls> checkForCalls(String email);
+
+	public BookingCallsDTO updateBookingCallStatus(BookingCallsDTO call);
 
 }

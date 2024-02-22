@@ -78,7 +78,11 @@ public class PassengerController {
 		Authentication verifiedAuth = mgr
 				.authenticate(new UsernamePasswordAuthenticationToken(reqDTO.getEmail(), reqDTO.getPassword()));
 		System.out.println(verifiedAuth.getClass());// Custom user details
+		System.out.println("Passenger Verified Authorities :: " + verifiedAuth.getAuthorities());
 		// => auth success
+		if (verifiedAuth.getAuthorities().iterator().next().getAuthority() != "P") {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 
 		return ResponseEntity
 				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
@@ -92,6 +96,7 @@ public class PassengerController {
 	@GetMapping("/yourRides")
 	public ResponseEntity<?> getPreviousRideDetails() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(pservice.getPreviousRideDetails(authentication.getPrincipal().toString()));
 	}

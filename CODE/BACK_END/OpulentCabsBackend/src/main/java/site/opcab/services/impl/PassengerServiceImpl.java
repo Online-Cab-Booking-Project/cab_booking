@@ -292,7 +292,7 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Override
 	public boolean updateBookingStatus(BookingDetailDTO detail) {
-		System.out.println("Updating booking status to : " + detail.getStatus().toString());
+//		System.out.println("Updating booking status to : " + detail.getStatus().toString());
 		BookingDetails bookingDetails = bddao.findById(detail.getBookingId())
 				.orElseThrow(() -> new EntityNotFoundException());
 		bookingDetails.setStatus(detail.getStatus());

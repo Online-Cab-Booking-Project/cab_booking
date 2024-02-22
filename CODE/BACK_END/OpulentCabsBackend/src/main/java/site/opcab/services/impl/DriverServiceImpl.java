@@ -13,14 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.opcab.daos.BookingCallsDao;
 import site.opcab.daos.BookingDetailsDao;
 import site.opcab.daos.ComplaintDao;
 import site.opcab.daos.DriverDao;
 import site.opcab.daos.DriverWalletDao;
 import site.opcab.daos.WalletDao;
+import site.opcab.dto.BookingCallsDTO;
 import site.opcab.dto.DriverDTO;
 import site.opcab.dto.DriverWalletDTO;
 import site.opcab.dto.RideDTO;
+import site.opcab.entities.BookingCalls;
 import site.opcab.entities.BookingDetails;
 import site.opcab.entities.Complaint;
 import site.opcab.entities.Driver;
@@ -48,6 +51,8 @@ public class DriverServiceImpl implements DriverService {
 	private ComplaintDao cdao;
 	@Autowired
 	private WalletDao wdao;
+	@Autowired
+	private BookingCallsDao bcdao;
 
 	@Override
 	public DriverDTO register(DriverDTO driver) {
@@ -141,4 +146,30 @@ public class DriverServiceImpl implements DriverService {
 		complaint.setComplaintStatus(EComplaintStatus.R);
 	}
 
+	@Override
+	public List<BookingCalls> checkForCalls(String email) {
+		List<BookingCalls> calls = bcdao.findByDriverEmailAndDriverAnswerIsNull(email);
+		if (calls != null) {
+			return calls.stream().map((call) -> {
+				call.getBooking().getComplaints().size();
+				return call;
+			}).collect(Collectors.toList());
+		}
+		return null;
+
+	}
+
+	@Override
+	public BookingCallsDTO updateBookingCallStatus(BookingCallsDTO call) {
+		BookingDetails bookingDetails = bddao.getReferenceById(call.getBookingId());
+		Driver driver = ddao.getReferenceById(call.getDriverId());
+
+		BookingCalls persistentCall = bcdao.findByBookingAndDriver(bookingDetails, driver)
+				.orElseThrow(() -> new EntityNotFoundException("BookingCalls not found for Booking ID: "
+						+ call.getBookingId() + " and Driver ID: " + call.getDriverId()));
+
+		persistentCall.setDriverAnswer(call.getDriverAnswer());
+
+		return new BookingCallsDTO(call.getBookingId(), call.getDriverId(), persistentCall.getDriverAnswer());
+	}
 }

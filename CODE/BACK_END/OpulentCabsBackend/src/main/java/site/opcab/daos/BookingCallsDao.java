@@ -1,5 +1,6 @@
 package site.opcab.daos;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,7 @@ public interface BookingCallsDao extends JpaRepository<BookingCalls, Integer> {
 	Optional<BookingCalls> findByBookingIdAndDriverId(BookingDetails referenceById, Driver referenceById2);
 
 	Optional<BookingCalls> findByBookingAndDriver(BookingDetails bookingDetails, Driver driver);
+
+	List<BookingCalls> findByDriverEmailAndDriverAnswerIsNull(String email);
 
 }
