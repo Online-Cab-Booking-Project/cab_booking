@@ -14,6 +14,7 @@ function Home() {
     const dispatch = useDispatch();
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
+    const isAdmin = useSelector((state) => state.credential.isAdmin);
 
     useEffect(() => {
 
@@ -21,11 +22,15 @@ function Home() {
 
     return (
         <>
-            <Booking />
 
-            {!isPassenger  && <MyCarousel />}
+
             {isPassenger && <PassengerHome />}
             {isDriver && <DriverHome />}
+            {!isPassenger && !isDriver &&
+            <>
+                <Booking />
+                <MyCarousel />
+            </>}
         </>
     );
 }

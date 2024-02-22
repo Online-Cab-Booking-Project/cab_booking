@@ -92,7 +92,7 @@ export const requestToSetCallStatus = async (bookingId, driverId, driverAnswer) 
 
 export const CheckStatus = async (bookingId, driverId) => {
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
 
         let statusAnswer = await CheckStatusFor10sec(bookingId, driverId);
 

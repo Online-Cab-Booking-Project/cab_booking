@@ -5,19 +5,21 @@ const credentialsSlice = createSlice({
     initialState:
     {
         credentials: {
-        'firstName': '',
-        'lastName': '',
-        'email': '',
-        'mobileNo': '',
-        'dob': '',
-        'gender': '',
-        'address': '',
-        'wallet': {
-            'walletId': '',
-            "balance": ''
-        }},
+            'firstName': '',
+            'lastName': '',
+            'email': '',
+            'mobileNo': '',
+            'dob': '',
+            'gender': '',
+            'address': '',
+            'wallet': {
+                'walletId': '',
+                "balance": ''
+            }
+        },
         isPassenger: false,
-        isDriver: false
+        isDriver: false,
+        isAdmin: false
     },
 
     reducers: {
@@ -31,6 +33,9 @@ const credentialsSlice = createSlice({
 
         setDriverStatus(state, action) {
             state.isDriver = action.payload;
+        },
+        setAdminStatus(state, action) {
+            state.isAdmin = action.payload;
         }
     }
 })

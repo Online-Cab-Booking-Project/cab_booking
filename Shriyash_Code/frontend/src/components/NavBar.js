@@ -11,6 +11,7 @@ function NavBar() {
 
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
+    const isAdmin = useSelector(state=> state.credential.isAdmin)
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -70,11 +71,11 @@ function NavBar() {
                         </Link>
 
                         {
-                            isPassenger || isDriver ?
+                            isPassenger || isDriver || isAdmin ?
                                 (
                                     <>
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/Complaint">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/complaints">
                                                 <div className='nav-link'>
                                                     Complaints
                                                 </div>
@@ -82,23 +83,23 @@ function NavBar() {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/yourRides">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/yourrides">
                                                 <div className='nav-link'>
                                                     Rides
                                                 </div>
                                             </Link>
                                         </li>
 
-                                        {
+                                        {/* {
                                             isPassenger &&
                                             <li className="nav-item">
-                                                <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookRide">
+                                                <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookride">
                                                     <div className='nav-link'>
                                                         Book Ride
                                                     </div>
                                                 </Link>
                                             </li>
-                                        }
+                                        } */}
 
 
                                         <li className="nav-item">
