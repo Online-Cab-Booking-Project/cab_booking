@@ -11,7 +11,7 @@ function AcceptReject({ onCall, setStatus, setPopupStatus }) {
 
     const handleCallFailure = () => {
         setStatus(3);
-        setPopupStatus(true);
+        setPopupStatus(false);
     }
 
     return (

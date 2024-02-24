@@ -53,7 +53,7 @@ function Complaints() {
                 }))
                 dispatch(complaintsActions.getComplaintById({ "complaint_id": 1 }));
 
-                toast.error("Unable to Fetch complaints" + error);
+                // toast.error("Unable to Fetch complaints" + error);
             })
 
     }

@@ -140,7 +140,7 @@ function Booking() {
     useEffect(() => {
 
         getNamedCoordinate();
-    }, [fare, hiddenState])
+    }, [])
 
 
     return (

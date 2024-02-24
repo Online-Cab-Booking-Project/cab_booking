@@ -26,7 +26,7 @@ function Account() {
             })
             .then((res) => {
                 dispatch(credentialsActions.setCredentials(res.data));
-                toast.success("User details fetched");
+                // toast.success("User details fetched");
             })
             .catch((err) => {
                 console.log(err);

@@ -102,7 +102,7 @@ function PassengerHome() {
     return (
         <div>
             <Booking />
-            
+
             <CanvasComponent />
 
             <div style={{ "margin-top": "22px" }}></div>

@@ -15,8 +15,6 @@ function YourRides() {
     const onGoingRide = useSelector((state) => state.ride.onGoingRide);
     const dispatch = useDispatch();
     const history = useHistory();
-    const [popupStatus, setPopupStatus] = useState(false);
-    const [callAcceptRejectStatus, setCallAcceptRejectStatus] = useState(1);
 
 
     var parseStatus = (status) => {
@@ -42,7 +40,7 @@ function YourRides() {
                 }
             })
             .then((res) => {
-                toast.success("Ride details fetched")
+                // toast.success("Ride details fetched")
                 dispatch(ridesActions.addRides(res.data));
 
                 rides.forEach(ride => {
@@ -66,82 +64,10 @@ function YourRides() {
             })
     }
 
-    const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 
-    const driverAcceptRejectCall = async (bookingId, driverId, stat) => {
-        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-        let result = await axios.post(`${url}/driver/bookride/updatecallstatus`,
-            {
-                "bookingId": bookingId,
-                "driverId": driverId,
-                "driverAnswer": stat
-            },
-            {
-                headers:
-                {
-                    'Authorization': "Bearer " + tokenToBeSent
-                }
-            })
-            .then((res) => {
-                console.log("changed call status driver " + driverId + " for booking id " + bookingId + " status " + stat);
-                return true;
-            })
-            .catch((err) => {
-                console.log("unable to change status driver " + driverId + " for booking id " + bookingId + " status " + stat);
-                return false;
-            }
-            )
-    }
 
     useEffect(() => {
-
-        if (isDriver) {
-            setInterval(() => {
-
-                let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-                axios.get(`${url}/driver/checkforcalls`,
-                    {
-                        headers:
-                        {
-                            'Authorization': "Bearer " + tokenToBeSent
-                        }
-                    }
-                )
-                    .then
-                    (async (res) => {
-                        if (res.data == "No calls" && res.status == 200) {
-
-                        }
-                        //(res.data.bookingId && res.status == 200)
-                        else {
-                            !popupStatus && setPopupStatus(true);
-
-                            let ans = 2;
-                            sleepNow(500);
-
-                            if (ans == 2 || callAcceptRejectStatus == 3) {
-
-                                console.log(callAcceptRejectStatus);
-                                let stat = ans == 2 ? "A" : "R";
-                                const details = res.data;
-                                console.log(details);
-                                console.log(stat);
-
-
-                                // debugger;
-                                // call to update booking status
-                                let result = await driverAcceptRejectCall(details[0].booking.id, details[0].driverId, stat);
-                            }
-
-                        }
-                    })
-                    .catch((err) => {
-                        // console.log("unable to ping server " + err);
-                    })
-
-            }, 2000);
-        }
         getRides();
     }, []);
 
@@ -174,7 +100,7 @@ function YourRides() {
 
 
     return <section>
-        <AcceptReject onCall={popupStatus} setStatus={setCallAcceptRejectStatus} setPopupStatus={setPopupStatus} />
+
 
         <div className="container py-4 py-xl-5">
             <div style={{ 'marginTop': '10px' }}>

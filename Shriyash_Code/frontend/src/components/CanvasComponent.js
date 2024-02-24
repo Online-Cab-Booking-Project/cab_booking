@@ -38,7 +38,7 @@ const CanvasComponent = () => {
           }
         })
         .then((res) => {
-          toast.success("Coordinates fetched");
+          // toast.success("Coordinates fetched");
 
           dispath(sourceDestActions.updateFare(Math.round(res.data.cost)));
           const lineCoordinates = res.data.path;
