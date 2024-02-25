@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import reactRouterDom from 'react-router-dom';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import logo from '../assets/Opulent_Hori.svg'
@@ -7,22 +7,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { credentialsActions } from '../react-redux-components/credentials-slice';
 import { toast } from 'react-toastify';
 
-function NavBar() {
+import { Button, Image } from 'react-bootstrap';
+import play from '../assets/portable-wifi-off.svg';
+import stop from '../assets/hotspot.svg';
 
+function NavBar() {
+    const [isAvailable, setIsAvailable] = useState(false);
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
-    const isAdmin = useSelector(state=> state.credential.isAdmin)
+    const isAdmin = useSelector(state => state.credential.isAdmin)
+    const [hoverText, setHoverText] = useState('Available');
+
     const dispatch = useDispatch();
     const history = useHistory();
 
-    var logout = () => {
+    const logout = () => {
         history.push('/');
         window.sessionStorage.clear();
         dispatch(credentialsActions.setPassengerStatus(false));
         dispatch(credentialsActions.setDriverStatus(false));
+        dispatch(credentialsActions.setAdminStatus(false));
         dispatch(credentialsActions.setCredentials({}));
         toast.success("Logged Out");
     }
+
+    const toggleAvailability = () => {
+        setIsAvailable((prevState) => !prevState);
+    }
+
+    const handleMouseEnter = () => {
+        setHoverText(isAvailable ? 'Click to stop' : 'Click to play');
+    };
+
+    const handleMouseLeave = () => {
+        setHoverText(isAvailable ? 'Available' : 'Available');
+    };
 
 
     return <>
@@ -90,18 +109,6 @@ function NavBar() {
                                             </Link>
                                         </li>
 
-                                        {/* {
-                                            isPassenger &&
-                                            <li className="nav-item">
-                                                <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/bookride">
-                                                    <div className='nav-link'>
-                                                        Book Ride
-                                                    </div>
-                                                </Link>
-                                            </li>
-                                        } */}
-
-
                                         <li className="nav-item">
                                             <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/account">
                                                 <div className='nav-link'>
@@ -131,6 +138,45 @@ function NavBar() {
                         isPassenger || isDriver ?
                             (
                                 <>
+                                    <Button
+                                        variant='light'
+                                        onClick={toggleAvailability}
+                                        className='me-2'
+                                        style={{
+                                            borderRadius: '10px',
+                                            width: '50px',
+                                            height: '45px',
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'flex-end',
+
+                                        }}
+                                        onMouseEnter={handleMouseEnter}
+                                        onMouseLeave={handleMouseLeave}
+                                    >
+                                        <Image
+                                            src={isAvailable ? stop : play}
+                                            alt="Availability"
+                                            fluid
+                                            style={{
+                                                position: 'absolute',
+                                                top: '50%',
+                                                left: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                                width: '80%',
+                                                height: '80%',
+                                            }}
+                                        />
+                                        <span style={{ marginBottom: '10px', textAlign: 'center' }}>
+                                            {/* {isAvailable ? 'Not Available' : 'Available'} */}
+                                            {/* {hoverText} */}
+                                        </span>
+                                    </Button>
+
 
                                     <button type="button" className="btn btn-secondary me-2" onClick={logout}>
                                         {/* <img src={person} className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
