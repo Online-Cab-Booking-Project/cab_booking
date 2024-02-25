@@ -10,13 +10,14 @@ import { toast } from 'react-toastify';
 import { Button, Image } from 'react-bootstrap';
 import play from '../assets/portable-wifi-off.svg';
 import stop from '../assets/hotspot.svg';
+import { driverAvailabilityActions } from '../react-redux-components/driverAvailability-slice';
+import DriverAvailabilityButton from './DriverAvailabilityButton';
 
 function NavBar() {
-    const [isAvailable, setIsAvailable] = useState(false);
+    const isAvailable = useSelector((state) => state.availability.isAvailable);
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
     const isAdmin = useSelector(state => state.credential.isAdmin)
-    const [hoverText, setHoverText] = useState('Available');
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -31,17 +32,7 @@ function NavBar() {
         toast.success("Logged Out");
     }
 
-    const toggleAvailability = () => {
-        setIsAvailable((prevState) => !prevState);
-    }
 
-    const handleMouseEnter = () => {
-        setHoverText(isAvailable ? 'Click to stop' : 'Click to play');
-    };
-
-    const handleMouseLeave = () => {
-        setHoverText(isAvailable ? 'Available' : 'Available');
-    };
 
 
     return <>
@@ -138,44 +129,45 @@ function NavBar() {
                         isPassenger || isDriver ?
                             (
                                 <>
-                                    <Button
-                                        variant='light'
-                                        onClick={toggleAvailability}
-                                        className='me-2'
-                                        style={{
-                                            borderRadius: '10px',
-                                            width: '50px',
-                                            height: '45px',
-                                            fontSize: '14px',
-                                            fontWeight: 'bold',
-                                            position: 'relative',
-                                            overflow: 'hidden',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-end',
+                                    {isDriver &&
+                                        <>
+                                            <DriverAvailabilityButton />
+                                            <Button
+                                                variant='light'
+                                                onClick={() => { dispatch(driverAvailabilityActions.toggleAvailability()) }}
+                                                className='me-2'
+                                                style={{
+                                                    borderRadius: '10px',
+                                                    width: '45px',
+                                                    height: '40px',
+                                                    fontSize: '14px',
+                                                    fontWeight: 'bold',
+                                                    position: 'relative',
+                                                    overflow: 'hidden',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-end',
 
-                                        }}
-                                        onMouseEnter={handleMouseEnter}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        <Image
-                                            src={isAvailable ? stop : play}
-                                            alt="Availability"
-                                            fluid
-                                            style={{
-                                                position: 'absolute',
-                                                top: '50%',
-                                                left: '50%',
-                                                transform: 'translate(-50%, -50%)',
-                                                width: '80%',
-                                                height: '80%',
-                                            }}
-                                        />
-                                        <span style={{ marginBottom: '10px', textAlign: 'center' }}>
-                                            {/* {isAvailable ? 'Not Available' : 'Available'} */}
-                                            {/* {hoverText} */}
-                                        </span>
-                                    </Button>
+                                                }}
+                                            >
+                                                <Image
+                                                    src={isAvailable ? stop : play}
+                                                    alt="Availability"
+                                                    fluid
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '50%',
+                                                        left: '50%',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        width: '80%',
+                                                        height: '80%',
+                                                    }}
+                                                />
+                                                <span style={{ marginBottom: '10px', textAlign: 'center' }}>
+
+                                                </span>
+                                            </Button>
+                                        </>}
 
 
                                     <button type="button" className="btn btn-secondary me-2" onClick={logout}>

@@ -13,7 +13,6 @@ function DriverHome() {
 
     return (
         <>
-        <DriverAvailabilityButton/>
         <YourRides />
         </>
 

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Popup.css';
+import { driverAvailabilityActions } from '../react-redux-components/driverAvailability-slice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function AcceptReject({ onCall, setStatus, setPopupStatus }) {
+    const intervalQueue = useSelector((state) => state.availability.intervalQueue);
+    const dispatch = useDispatch();
 
     const handleCallSuccess = () => {
         setStatus(2);
@@ -13,6 +17,11 @@ function AcceptReject({ onCall, setStatus, setPopupStatus }) {
         setStatus(3);
         setPopupStatus(false);
     }
+
+    useEffect(() => {
+        dispatch(driverAvailabilityActions.toggleAvailability());
+        clearInterval(intervalQueue);
+    }, [])
 
     return (
         <>

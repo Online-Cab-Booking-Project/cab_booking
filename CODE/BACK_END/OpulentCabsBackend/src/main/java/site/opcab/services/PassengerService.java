@@ -34,7 +34,7 @@ public interface PassengerService {
 
 	public PassengerWalletDTO getWalletDetails(Integer id);
 
-	public ResponseEntity<String> updateBalanceDetails(Integer id, double balance);
+	public ResponseEntity<String> updateBalanceDetails(String email, double balance);
 
 	public List<Complaint> getAllComplaints(Integer id);
 

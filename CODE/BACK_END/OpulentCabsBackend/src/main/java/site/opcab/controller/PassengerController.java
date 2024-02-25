@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+
 import site.opcab.dto.ApiResponse;
 import site.opcab.dto.BookingAndSourceDTO;
 import site.opcab.dto.BookingCallsDTO;
@@ -32,6 +34,7 @@ import site.opcab.dto.ConfirmationDTO;
 import site.opcab.dto.DriverGraphOutputDTO;
 import site.opcab.dto.InputCoordinateDto;
 import site.opcab.dto.PassengerDTO;
+import site.opcab.dto.PassengerWalletDTO;
 import site.opcab.dto.SigninRequest;
 import site.opcab.dto.SigninResponse;
 import site.opcab.entities.BookingCalls;
@@ -140,9 +143,12 @@ public class PassengerController {
 		return ResponseEntity.status(HttpStatus.OK).body(pservice.getWalletDetails(id));
 	}
 
-	@PutMapping("/account/wallet/addBalance/{id}")
-	public ResponseEntity<?> updateWalletDetails(@PathVariable Integer id, @RequestBody double balance) {
-		pservice.updateBalanceDetails(id, balance);
+	@PutMapping("/account/wallet/addBalance/")
+	public ResponseEntity<?> updateWalletDetails(@RequestBody PassengerWalletDTO wallet) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		pservice.updateBalanceDetails(authentication.getPrincipal().toString(), wallet.getBalance());
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 

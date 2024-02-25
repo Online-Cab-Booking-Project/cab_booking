@@ -5,6 +5,7 @@ import ridesSlice from "./rides-slice";
 import sourceDest from "./sourceDest-slice";
 import sourceDestSlice from "./sourceDest-slice";
 import BookingSlice from "./booking-slice";
+import driverAvailibilitySlice from "./driverAvailability-slice";
 
 
 const store = configureStore({
@@ -13,7 +14,8 @@ const store = configureStore({
         credential: credentialsSlice.reducer,
         ride: ridesSlice.reducer,
         coordinate: sourceDestSlice.reducer,
-        booking : BookingSlice.reducer
+        booking: BookingSlice.reducer,
+        availability: driverAvailibilitySlice.reducer
     }
 });
 

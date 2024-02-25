@@ -22,7 +22,10 @@ import Signup from './Signup';
 function App() {
 
     return <BrowserRouter>
-        <ToastContainer />
+        <ToastContainer
+            position="top-right"
+            autoClose={1000}
+        />
         <NavBar />
 
         <Switch>

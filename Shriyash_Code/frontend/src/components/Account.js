@@ -12,6 +12,8 @@ function Account() {
     const isPassenger = useSelector((state) => state.credential.isPassenger);
     const isDriver = useSelector((state) => state.credential.isDriver);
     const [disableState, setDisableState] = useState(true);
+    const [disableWalletState, setDisableWalletState] = useState(true);
+    const [balance, setBalance] = useState('');
     const dispatch = useDispatch();
 
     var getAccountDetails = () => {
@@ -37,16 +39,27 @@ function Account() {
     const OnTextChanged = (args) => {
         var copyOfCredentials = { ...credentials };
         copyOfCredentials[args.target.name] = args.target.value;
-        console.log(copyOfCredentials)
         dispatch(credentialsActions.setCredentials(copyOfCredentials));
     }
 
-    var Edit = () => {
-        // toogle disable state
+    const OnBalanceChanged = (args) => {
+        var copyOfBalance = { ...balance };
+        copyOfBalance = args.target.value;
+        setBalance(copyOfBalance);
+    }
+
+    const Edit = () => {
+        // toggle disable state
         setDisableState(!disableState);
     }
 
-    var Update = () => {
+    const EditBalance = () => {
+        // toggle disable wallet state
+        setDisableWalletState(!disableWalletState);
+        setBalance(0.0);
+    }
+
+    const Update = () => {
 
         let passengerOrDriver = isDriver ? "driver" : "passenger";
 
@@ -65,17 +78,44 @@ function Account() {
             .catch((err) => {
                 console.log(err);
                 toast.error("Failed to update user details")
-                getAccountDetails();
             })
             .finally(() => {
                 setDisableState(true);
+                getAccountDetails();
             })
     }
 
+    const UpdateBalance = () => {
+        let passengerOrDriver = isDriver ? "driver" : "passenger";
+
+        const data = parseInt(balance);
+        let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
+        axios.put(url + `/${passengerOrDriver}/account/wallet/addBalance/`,
+            { balance: data },
+            {
+                headers:
+                {
+                    'Authorization': "Bearer " + tokenToBeSent
+                }
+            })
+            .then((res) => {
+                toast.success("Balance updated")
+            })
+            .catch((err) => {
+                console.log(err);
+                toast.error("Failed to update Balance")
+            })
+            .finally(() => {
+                setDisableWalletState(true);
+                setBalance(0.0);
+                getAccountDetails();
+            })
+    }
 
     useEffect(() => {
 
         setDisableState(true);
+        setDisableWalletState(true);
 
         getAccountDetails();
     }, [])
@@ -174,14 +214,19 @@ function Account() {
                 <img src={wallet} className="img-fluid profile-image   my-3"
                     width="200px" alt="profile" />
             </div>
-            <div>
+            <div className='d-lg-flex justify-content-lg-center flex-column align-items-center'>
                 {/* <p className="d-lg-flex justify-content-lg-center">Customer Wallet ID# {credentials.wallet && credentials.wallet["walletId"]}</p> */}
                 <h3 className="d-lg-flex justify-content-lg-center">Your Balance is {credentials.wallet && credentials.wallet["balance"]}₹  &nbsp;</h3>
-                <button className="btn btn-primary" type="button" onClick={Edit} disabled={!disableState} hidden={!disableState}>Edit</button>
-                <button className="btn btn-warning me-2" type="button" onClick={Update} disabled={disableState} hidden={disableState}>Update</button>
-                <button className="btn btn-danger" type="button" onClick={Edit} disabled={disableState} hidden={disableState}>Cancel</button>
+                <div className="mb-3"><input className="form-control" type="number" name="balance" onChange={OnBalanceChanged} value={balance} disabled={disableWalletState} hidden={disableWalletState} /></div>
+
+                <button className="btn btn-primary" type="button" onClick={EditBalance} disabled={!disableWalletState} hidden={!disableWalletState}>Deposit Funds</button>
+                <div>
+                    <button className="btn btn-warning me-2" type="button" onClick={UpdateBalance} disabled={disableWalletState} hidden={disableWalletState}>Confirm</button>
+                    <button className="btn btn-danger" type="button" onClick={EditBalance} disabled={disableWalletState} hidden={disableWalletState}>Cancel</button>
+                </div>
             </div>
         </div>
+        <div style={{ "margin-top": "22px" }}></div>
     </section>
 }
 

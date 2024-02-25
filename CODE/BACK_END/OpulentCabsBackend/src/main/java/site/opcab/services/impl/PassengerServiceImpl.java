@@ -149,9 +149,9 @@ public class PassengerServiceImpl implements PassengerService {
 	}
 
 	@Override
-	public ResponseEntity<String> updateBalanceDetails(Integer id, double balance) {
-		PassengerWallet wallet = pwdao.findByPassengerId(id).orElseThrow(() -> new EntityNotFoundException());
-		wallet.setBalance(balance);
+	public ResponseEntity<String> updateBalanceDetails(String email, double balance) {
+		PassengerWallet wallet = pwdao.findByPassengerEmail(email).orElseThrow(() -> new EntityNotFoundException());
+		wallet.setBalance(wallet.getBalance() + balance);
 		return new ResponseEntity<String>("Balance updated", HttpStatus.OK);
 
 	}

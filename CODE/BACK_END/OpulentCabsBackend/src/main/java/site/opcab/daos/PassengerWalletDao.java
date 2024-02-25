@@ -10,4 +10,6 @@ public interface PassengerWalletDao extends JpaRepository<PassengerWallet, Integ
 
 	Optional<PassengerWallet> findByPassengerId(Integer id);
 
+	Optional<PassengerWallet> findByPassengerEmail(String email);
+
 }

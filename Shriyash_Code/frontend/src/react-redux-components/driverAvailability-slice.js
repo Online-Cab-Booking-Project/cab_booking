@@ -1,30 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const driverAvailibilitySlice = createSlice({
-    name: "availibility",
+const driverAvailabilitySlice = createSlice({
+    name: "availability",
     initialState:
     {
         isAvailable: false,
-        intervalQueue: '',
-        fare: ''
+        intervalQueue: ''
     },
 
     reducers: {
-        addsourceDest(state, action) {
-            state.coordinates = action.payload;
-        }
-        ,
-        updateFare(state, action) {
-            state.fare = action.payload;
+
+        toggleAvailability(state, action) {
+            state.isAvailable = !state.isAvailable;
         },
-        updateCords(state, action) {
-            state.cords = action.payload;
+
+        setIntervalQueue(state, action) {
+            state.intervalQueue = action.payload;
         }
     }
 
 })
 
-export const sourceDestActions = driverAvailibilitySlice.actions;
+export const driverAvailabilityActions = driverAvailabilitySlice.actions;
 
-export default driverAvailibilitySlice;
+export default driverAvailabilitySlice;

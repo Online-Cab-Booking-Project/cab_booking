@@ -14,6 +14,7 @@ function UserProtectedRoutes(props) {
 
     var onClose = () => {
         setTimeout(() => { window.location.replace('/login') }, 5000);
+        return true;
     }
 
 
