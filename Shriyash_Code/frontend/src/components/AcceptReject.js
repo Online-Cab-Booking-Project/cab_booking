@@ -7,16 +7,12 @@ import axios from 'axios';
 import url from '../configs/urlConfig';
 
 function AcceptReject({ onCall, setStatus, setPopupStatus, bookingId, driverId }) {
-    const intervalQueue = useSelector((state) => state.availability.intervalQueue);
-    const dispatch = useDispatch();
 
     const handleCallSuccess = async () => {
         setStatus(2);
         setPopupStatus(false);
         // call to update booking status
         let result = await driverAcceptRejectCall(bookingId, driverId, "A");
-        dispatch(driverAvailabilityActions.toggleAvailability());
-
     }
 
     const handleCallFailure = async () => {
@@ -24,8 +20,6 @@ function AcceptReject({ onCall, setStatus, setPopupStatus, bookingId, driverId }
         setPopupStatus(false);
         // call to update booking status
         let result = await driverAcceptRejectCall(bookingId, driverId, "R");
-        dispatch(driverAvailabilityActions.toggleAvailability());
-
     }
 
     const driverAcceptRejectCall = async (bookingId, driverId, stat) => {

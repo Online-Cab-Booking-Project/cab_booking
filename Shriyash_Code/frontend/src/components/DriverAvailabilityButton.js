@@ -55,6 +55,7 @@ const DriverAvailabilityButton = () => {
             setDriverId(res.data[0].driverId);
 
             !popupStatus && setPopupStatus(true);
+
             // call to update booking status
           }
         })
