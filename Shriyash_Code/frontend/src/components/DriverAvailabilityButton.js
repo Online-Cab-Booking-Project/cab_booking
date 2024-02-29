@@ -13,17 +13,19 @@ const DriverAvailabilityButton = () => {
   const isAvailable = useSelector((state) => state.availability.isAvailable);
   const [popupStatus, setPopupStatus] = useState(false);
   const [callAcceptRejectStatus, setCallAcceptRejectStatus] = useState(1);
+  const [bookingId, setBookingId] = useState();
+  const [driverId, setDriverId] = useState();
   const intervalQueue = useSelector((state) => state.availability.intervalQueue);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    
-    if(isAvailable)
+  useEffect(() => {
+
+    if (isAvailable)
       TurnOnAvailbility();
     else
       TurnOffAvailbility();
 
-  },[isAvailable])
+  }, [isAvailable])
 
   const TurnOffAvailbility = () => {
     clearInterval(intervalQueue)
@@ -49,27 +51,15 @@ const DriverAvailabilityButton = () => {
           }
           //(res.data.bookingId && res.status == 200)
           else {
+            setBookingId(res.data[0].booking.id);
+            setDriverId(res.data[0].driverId);
+
             !popupStatus && setPopupStatus(true);
-            // sleepNow(2000);
-
-            if (callAcceptRejectStatus == 2 || callAcceptRejectStatus == 3) {
-
-              console.log(callAcceptRejectStatus);
-              let stat = callAcceptRejectStatus === 2 ? "A" : "R";
-              const details = res.data;
-              console.log(details);
-              console.log(stat);
-
-
-              // debugger;
-              // call to update booking status
-              let result = await driverAcceptRejectCall(details[0].booking.id, details[0].driverId, stat);
-            }
-
+            // call to update booking status
           }
         })
         .catch((err) => {
-          // console.log("unable to ping server " + err);
+          console.log("unable to ping server " + err);
         })
 
     }, 2000)
@@ -78,34 +68,11 @@ const DriverAvailabilityButton = () => {
   }
 
 
-  const driverAcceptRejectCall = async (bookingId, driverId, stat) => {
-    let tokenToBeSent = window.sessionStorage.getItem("JWT_TOKEN");
-    let result = await axios.post(`${url}/driver/bookride/updatecallstatus`,
-      {
-        "bookingId": bookingId,
-        "driverId": driverId,
-        "driverAnswer": stat
-      },
-      {
-        headers:
-        {
-          'Authorization': "Bearer " + tokenToBeSent
-        }
-      })
-      .then((res) => {
-        console.log("changed call status driver " + driverId + " for booking id " + bookingId + " status " + stat);
-        return true;
-      })
-      .catch((err) => {
-        console.log("unable to change status driver " + driverId + " for booking id " + bookingId + " status " + stat);
-        return false;
-      }
-      )
-  }
+
 
   return (
     <div>
-      <AcceptReject onCall={popupStatus} setStatus={setCallAcceptRejectStatus} setPopupStatus={setPopupStatus} />
+      <AcceptReject onCall={popupStatus} bookingId={bookingId} driverId={driverId} setStatus={setCallAcceptRejectStatus} setPopupStatus={setPopupStatus} />
     </div>
   );
 };

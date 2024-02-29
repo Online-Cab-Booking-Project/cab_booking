@@ -15,8 +15,6 @@ function DriverHome() {
         <>
         <YourRides />
         </>
-
-
     );
 
 
