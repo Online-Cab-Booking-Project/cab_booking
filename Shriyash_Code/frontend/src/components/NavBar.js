@@ -52,7 +52,7 @@ function NavBar() {
                     <ul className="navbar-nav ms-auto">
 
 
-                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/">
+                        <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/">
                             <li className="nav-item">
                                 <div className='nav-link'>
                                     Home
@@ -61,7 +61,7 @@ function NavBar() {
                         </Link>
 
 
-                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/contact">
+                        <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/contact">
                             <li className="nav-item">
                                 <div className='nav-link'>
                                     Contact
@@ -70,7 +70,7 @@ function NavBar() {
                             </li>
                         </Link>
 
-                        <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/about">
+                        <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/about">
                             <li className="nav-item">
 
                                 <div className='nav-link'>
@@ -85,7 +85,7 @@ function NavBar() {
                                 (
                                     <>
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/complaints">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/complaints">
                                                 <div className='nav-link'>
                                                     Complaints
                                                 </div>
@@ -93,7 +93,7 @@ function NavBar() {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/yourrides">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/yourrides">
                                                 <div className='nav-link'>
                                                     Rides
                                                 </div>
@@ -101,7 +101,7 @@ function NavBar() {
                                         </li>
 
                                         <li className="nav-item">
-                                            <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/account">
+                                            <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/account">
                                                 <div className='nav-link'>
                                                     Account
                                                 </div>
@@ -115,7 +115,7 @@ function NavBar() {
                                 )
                                 :
                                 (<li className="nav-item">
-                                    <Link style={{ 'color': 'gray', 'hover': 'purple' }} to="/register">
+                                    <Link style={{ 'color': 'gray', 'hover': 'purple', 'text-decoration': 'none' }} to="/register">
                                         <div className='nav-link'>
                                             Sign up
                                         </div>
