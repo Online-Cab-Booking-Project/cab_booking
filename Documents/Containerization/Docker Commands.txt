@@ -25,12 +25,12 @@ Starting containers on docker:
 sudo docker run -itd -p 3306:3306 -e MYSQL_ROOT_PASSWORD=manager -v opcbackendvolume:/var/lib/mysql mysql:latest
 
 2.Opulent Cabs Backend (Spring Boot Application)
-sudo docker run -itd -p 8080:8080 --name opcabbackend kshitijvanarase/opcabbackend
+sudo docker run -itd -p 8080:8080 --name opcabbackend kshitijvanarase/opcabbackend:1.0
 
 3.Opulent Cabs GraphAPI (Spring Boot Application)
-sudo docker run -itd -p 7070:7070 --name opcabgraph kshitijvanarase/opcabgraph
+sudo docker run -itd -p 7070:7070 --name opcabgraph kshitijvanarase/opcabgraph:1.0
 
 4.Opulent Cabs FrontEnd (React Application)
-sudo docker run -itd -p 80:3000 --name opcabfrontend kshitijvanarase/opcabfrontend
+sudo docker run -itd -p 80:3000 --name opcabfrontend kshitijvanarase/opcabfrontend:2.0
 
 =======================================================================================================================================================
