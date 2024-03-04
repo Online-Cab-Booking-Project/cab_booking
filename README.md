@@ -80,8 +80,8 @@ This project is licensed under the [MIT License](LICENSE).
 For any inquiries or collaboration opportunities, feel free to reach out:
 
 - **Kshitij Vanarase**
-  - GitHub: [Your GitHub Profile](https://github.com/Kshitij-V-80352)
+  - GitHub: [Kshitij Vanarase](https://github.com/Kshitij-V-80352)
   - Email: kvanarase1@gmail.com
-  - LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/kshitij-vanarase-b87bb6166/)
+  - LinkedIn: [Kshitij Vanarase](https://www.linkedin.com/in/kshitij-vanarase-b87bb6166/)
 
 
