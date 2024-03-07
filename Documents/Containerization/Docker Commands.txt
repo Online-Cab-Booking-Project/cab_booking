@@ -1,0 +1,36 @@
+=======================================================================================================================================================
+Installing Docker on EC2:
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+=======================================================================================================================================================
+Starting containers on docker:
+
+1.MySQL
+sudo docker run -itd -p 3306:3306 -e MYSQL_ROOT_PASSWORD=manager -v opcbackendvolume:/var/lib/mysql mysql:latest
+
+2.Opulent Cabs Backend (Spring Boot Application)
+sudo docker run -itd -p 8080:8080 --name opcabbackend kshitijvanarase/opcabbackend:1.0
+
+3.Opulent Cabs GraphAPI (Spring Boot Application)
+sudo docker run -itd -p 7070:7070 --name opcabgraph kshitijvanarase/opcabgraph:1.0
+
+4.Opulent Cabs FrontEnd (React Application)
+sudo docker run -itd -p 80:3000 --name opcabfrontend kshitijvanarase/opcabfrontend:2.0
+
+=======================================================================================================================================================

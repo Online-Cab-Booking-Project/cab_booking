@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +78,8 @@ public class PassengerServiceImpl implements PassengerService {
 	private ComplaintDao cdao;
 	@Autowired
 	private WalletDao wdao;
+	@Value("${GRAPH_URL}")
+	private String graphUrl;
 
 	@Override
 	public PassengerDTO register(PassengerDTO passenger) {
@@ -182,7 +185,7 @@ public class PassengerServiceImpl implements PassengerService {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<InputCoordinateDto> request = new HttpEntity<>(path, headers);
 		PathInputFromGraph response = restTemplate
-				.postForEntity("http://localhost:7070/graph/getpath", request, PathInputFromGraph.class).getBody();
+				.postForEntity(graphUrl + "/graph/getpath", request, PathInputFromGraph.class).getBody();
 
 		return response;
 	}
@@ -206,7 +209,7 @@ public class PassengerServiceImpl implements PassengerService {
 
 		System.out.println("Sending Request for graph API");
 
-		List driverDistances = restTemplate.postForEntity("http://localhost:7070/graph/getdrivers", request, List.class)
+		List driverDistances = restTemplate.postForEntity(graphUrl + "/graph/getdrivers", request, List.class)
 				.getBody();
 
 		System.out.println("API call successful");
@@ -250,9 +253,6 @@ public class PassengerServiceImpl implements PassengerService {
 				.orElseThrow(() -> new EntityNotFoundException());
 
 		Driver driver = ddao.findById(callDetails.getDriverId()).orElseThrow(() -> new EntityNotFoundException());
-
-		// Create composite key for BookingCalls
-		BookingCallsPK compositeKey = new BookingCallsPK(callDetails.getBookingId(), callDetails.getDriverId());
 
 		// Create BookingCalls entity with the composite key and fetched Driver
 		BookingCalls call = new BookingCalls();
